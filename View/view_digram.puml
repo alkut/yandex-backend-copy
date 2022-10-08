@@ -1,0 +1,10 @@
+@startuml
+class ImportBodyItem
+class ImportBodyMessage
+class GetNodesBodyMessage
+
+ImportBodyItem --> ImportBodyMessage:consist vector
+
+GetNodesBodyMessage -> GetNodesBodyMessage:consist vector
+ImportBodyItem -> GetNodesBodyMessage
+@enduml

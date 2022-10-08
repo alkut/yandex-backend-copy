@@ -1,0 +1,23 @@
+@startuml
+class FilesystemTree
+class HttpServer
+class Node
+class HistoryStorage
+
+Node : Node* parent
+Node : set<Node*> childrenFiles
+Node : set<Node*> childrenFolders
+
+FilesystemTree : HistoryStorage history
+FilesystemTree : map<string, Node*> position
+
+FilesystemTree -> HttpServer
+
+HistoryStorage : map<string, ImportBodyItem> idToItem
+HistoryStorage : Add(ImportBodyItem item)
+HistoryStorage : Remove(string id)
+HistoryStorage : RemoveOld(long time)
+
+FilesystemTree o-- Node
+HistoryStorage -> FilesystemTree
+@enduml
