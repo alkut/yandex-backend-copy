@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
 project(yad)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 include(FetchContent)
 
@@ -13,7 +13,7 @@ find_package(PkgConfig REQUIRED)
 pkg_search_module(EVENT REQUIRED libevent)
 
 include_directories(${Boost_INCLUDE_DIRS})
-add_executable(yad main.cpp Configuration.h Configuration.cpp View/ImportBody.h UrlResolvers.h Includes.h Model/HttpServer.h OnRequest.h View/GetNodesBody.h GlobalUtils.h Model/FileSystemTree.h Model/HistoryStorage.cpp GlobalUtils.cpp)
+add_executable(yad main.cpp Configuration.h Configuration.cpp View/ImportBody.h UrlResolvers.h Includes.h Model/HttpServer.h OnRequest.h View/GetNodesBody.h GlobalUtils.h Model/FileSystemTree.h Model/HistoryStorage.cpp GlobalUtils.cpp UrlResolve/UrlParser.cpp UrlResolve/UrlParser.h UrlResolve/UrlParametersContainer.cpp UrlResolve/UrlParametersContainer.h DateExtension.cpp DateExtension.h)
 target_link_libraries(yad ${Boost_LIBRARIES})
 target_include_directories(yad PRIVATE ${EVENT_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} ${SOME_DEP_DIR}/include)
 target_link_libraries(yad PUBLIC ${EVENT_LIBRARIES})
