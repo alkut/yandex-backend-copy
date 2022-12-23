@@ -2,3 +2,5 @@
 Logs/
 cmake-build-debug/
 *.o
+*.log
+*.INFO
