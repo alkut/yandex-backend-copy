@@ -1,5 +1,4 @@
 .idea/
-Logs/
 cmake-build-debug/
 *.o
 *.log

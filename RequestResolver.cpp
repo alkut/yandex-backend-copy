@@ -1,10 +1,7 @@
-//
-// Created by alex on 11.10.22.
-//
-
 #include "RequestResolver.h"
 #include "UrlResolve/UrlParser.h"
 
+/*
 RequestResolver::RequestResolver(evhttp_request *request, HttpServer *server) : _request(request), _server(server)
 {
     _readInput();
@@ -24,4 +21,4 @@ void RequestResolver::_readInput()
         for (int i = 0; i < n; ++i)
             _inputMessage.push_back(buf[i]);
     }
-}
+}*/

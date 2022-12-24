@@ -1,0 +1,22 @@
+pipelines:
+  default:
+    - step:
+        name: build
+        script:
+          - uname -a
+          - gcc --version
+          - apt-get update -qq
+          - apt-get install software-properties-common -y
+          - echo 'deb http://ppa.launchpad.net/george-edison55/cmake-3.x/ubuntu trusty main' | tee -a /etc/apt/sources.list.d/cmake.list
+          - apt-get update -qq
+          - apt-get install cmake -y --force-yes
+          - cmake --version
+          - apt-get install build-essential -y
+          - apt-get install libevent-dev -y
+          - apt-get install libboost-all-dev -y
+          - apt-get install pkg-config -y
+          - apt-get install libgoogle-glog-dev -y
+          - mkdir build
+          - cd build
+          - cmake ..
+          - make
