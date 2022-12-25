@@ -4,4 +4,15 @@ pipelines:
     - step:
         name: build
         script:
+          - mkdir -p build && cd build
+          - cmake ..
+          - make
           - ls
+    - step:
+        name: test
+        script:
+          - cd tests
+          - mkdir -p build && cd build
+          - cmake ..
+          - make
+          - ./runTests
