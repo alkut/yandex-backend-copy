@@ -1,7 +1,7 @@
 #ifndef YAD_REQUESTRESOLVER_H
 #define YAD_REQUESTRESOLVER_H
 
-
+/*
 #include <event2/http_struct.h>
 #include "Model/HttpServer.h"
 
@@ -16,7 +16,7 @@ private:
     const size_t maxMessageLenght = 4096;
     evhttp_request *_request;
     HttpServer *_server;
-};
+};*/
 
 
 #endif //YAD_REQUESTRESOLVER_H

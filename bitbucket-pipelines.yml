@@ -1,0 +1,17 @@
+image: alexxlalex/yashka:latest
+pipelines:
+  default:
+    - step:
+        name: build
+        script:
+          - mkdir -p build && cd build
+          - cmake ..
+          - make
+    - step:
+        name: test
+        script:
+          - cd tests
+          - mkdir -p build && cd build
+          - cmake ..
+          - make
+          - ./runTests
