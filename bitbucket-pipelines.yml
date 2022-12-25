@@ -1,27 +1,7 @@
+image: alexxlalex/yashka:latest
 pipelines:
   default:
     - step:
         name: build
         script:
-          - uname -a
-          - gcc --version
-          - apt-get update -qq
-          - apt-get install build-essential -y
-          - apt-get install cmake -y
-          - apt-get install libevent-dev -y
-          - apt-get install libboost-all-dev -y
-          - apt-get install pkg-config -y
-          - apt-get install libgtest-dev -y
-          - apt-get install git -y
-          - cmake --version
-          - git clone https://github.com/google/glog.git
-          - cd glog
-          - cmake -S . -B build -G "Unix Makefiles"
-          - cmake --build build
-          - cmake --build build --target test
-          - cmake --build build --target install
-          - cd ..
-          - mkdir build
-          - cd build
-          - cmake ..
-          - make
+          - ls

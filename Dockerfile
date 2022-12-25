@@ -1,8 +1,5 @@
 FROM ubuntu
 
-COPY . ./app
-
-WORKDIR ./app
 RUN apt-get update
 RUN apt-get install build-essential -y
 RUN apt-get install cmake -y
@@ -20,9 +17,4 @@ RUN cmake --build build
 RUN cmake --build build --target test
 RUN cmake --build build --target install
 WORKDIR ./..
-
-WORKDIR ./build
-
-RUN cmake ./..
-RUN make
 
