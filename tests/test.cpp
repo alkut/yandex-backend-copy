@@ -5,7 +5,7 @@ TEST(Test, Positive) {
 }
 
 TEST(Test, Negative) {
-    ASSERT_EQ(0.0, 0.0);
+    ASSERT_EQ(1.0, 0.0);
 }
 
 int main(int argc, char **argv) {
