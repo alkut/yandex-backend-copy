@@ -1,0 +1,1 @@
+look for dependencies in the [Dockerfile](https://bitbucket.org/alexeykut/yandex-backend-school-task/src/master/Dockerfile)
