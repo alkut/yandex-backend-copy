@@ -23,8 +23,6 @@ struct ImportBodyMessage
         //Expanded fields
         long long date_ms;
         string date;
-        unsigned long long ShortId;
-        unsigned long long ShortParentId;
         SystemItemType _systemItemType = SystemItemType::FILE;
         void Deserialize(const json& j)
         {
@@ -47,8 +45,6 @@ struct ImportBodyMessage
             Deserialize(j);
             date_ms = j["date_ms"];
             date = j["date"];
-            ShortId = j["ShortId"];
-            ShortParentId = j["ShortParentId"];
             _systemItemType = j["_systemItemType"];
         }
         json SerializeDump() const
@@ -72,8 +68,6 @@ struct ImportBodyMessage
             json j = SerializeDump();
             j["date_ms"] = date_ms;
             j["date"] = date;
-            j["ShortId"] = ShortId;
-            j["ShortParentId"] = ShortParentId;
             j["_systemItemType"] = _systemItemType;
             return j.dump(2);
         }

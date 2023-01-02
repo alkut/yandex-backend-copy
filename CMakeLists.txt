@@ -25,7 +25,7 @@ pkg_search_module(EVENT REQUIRED libevent)
 
 
 include_directories(${Boost_INCLUDE_DIRS})
-add_executable(yad main.cpp Configuration.h Configuration.cpp View/ImportBody.h UrlResolvers.h Includes.h Model/HttpServer.h OnRequest.h View/GetNodesBody.h GlobalUtils.h Model/FileSystemTree.h Model/HistoryStorage.cpp GlobalUtils.cpp UrlResolve/UrlParser.cpp UrlResolve/UrlParser.h UrlResolve/UrlParametersContainer.cpp UrlResolve/UrlParametersContainer.h DateExtension.cpp DateExtension.h View2/Item.cpp View2/Item.h View2/GetNodeResponse.cpp View2/GetNodeResponse.h View2/GetNodeHistoryResponse.h View2/UpdateResponse.cpp View2/UpdateResponse.h RequestResolver.cpp RequestResolver.h)
+add_executable(yad main.cpp Configuration.h Configuration.cpp View/ImportBody.h UrlResolvers.h Includes.h Model/HttpServer.h OnRequest.h View/GetNodesBody.h GlobalUtils.h Model/FileSystemTree.h Model/HistoryStorage.cpp GlobalUtils.cpp UrlResolve/UrlParser.cpp UrlResolve/UrlParser.h UrlResolve/UrlParametersContainer.cpp UrlResolve/UrlParametersContainer.h DateExtension.cpp DateExtension.h View2/Item.cpp View2/Item.h View2/GetNodeResponse.cpp View2/GetNodeResponse.h View2/GetNodeHistoryResponse.h View2/UpdateResponse.cpp View2/UpdateResponse.h RequestResolver.cpp RequestResolver.h Model/FileSystemTree.cpp)
 target_link_libraries(yad ${Boost_LIBRARIES})
 target_include_directories(yad PRIVATE ${EVENT_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} ${SOME_DEP_DIR}/include)
 target_link_libraries(yad PUBLIC ${EVENT_LIBRARIES})

@@ -22,3 +22,10 @@ void HistoryStorage::Remove(const string &id)
 {
     erase(id);
 }
+
+vector<ImportBodyMessage::ImportBodyItem> HistoryStorage::GetAll() const {
+    auto ans = vector<ImportBodyMessage::ImportBodyItem>();
+    for (const auto& [id, item]: *this)
+        ans.push_back(item);
+    return ans;
+}
