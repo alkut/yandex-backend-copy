@@ -62,7 +62,6 @@ void OnRequest(evhttp_request *req, void * _server)
     }
     else if (std::regex_match(Uri, regexes::GetNodes))
     {
-        httpServer->file_system.Print();
         string id;
         regexes::ResolveGetNodes(Uri, id);
         httpServer->GetNodes(id, ResponseCode, ResponseMsg);

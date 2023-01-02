@@ -10,6 +10,7 @@
 class HttpServer
 {
 public:
+    HttpServer() = default;
     void Import(ImportBodyMessage& msg, int& ResponseCode, string& ResponseMsg) {
       ExpandMessageValidateDate(msg, ResponseCode, ResponseMsg);
       if (ResponseCode != HTTP_OK)
@@ -25,11 +26,11 @@ public:
           return;
       }
         LOG(INFO) << "Validation is good";
-      file_system.Add(msg);
+        file_system.Import(msg);
     }
     void Delete(const string& id, const string& date, int& ResponseCode, string& ResponseMsg)
     {
-        const auto& it = file_system.position.find(file_system.IdToShort[id]);
+        const auto& it = file_system.position.find(id);
         if (it == file_system.position.end())
         {
             ResponseCode = HTTP_NOTFOUND;
@@ -46,11 +47,11 @@ public:
             return;
         }
 
-        file_system.DeleteItem(it->second, date, ms);
+        file_system.Delete(it->second, date, ms);
     }
     void GetNodes(const string& id, int& ResponseCode, string& ResponseMsg)
     {
-        const auto& it = file_system.position.find(file_system.IdToShort[id]);
+        const auto& it = file_system.position.find(id);
         if (it == file_system.position.end())
         {
             ResponseCode = HTTP_NOTFOUND;
@@ -82,7 +83,7 @@ public:
             return;
         }
 
-        const auto& it = file_system.position.find(file_system.IdToShort[id]);
+        const auto& it = file_system.position.find(id);
         if (it == file_system.position.end())
         {
             LOG(ERROR) << "Item with id " << id << " not found";
@@ -119,7 +120,7 @@ public:
     FileSystemTree file_system;
 private:
 
-  long long max_date;
+  long long max_date = LLONG_MIN;
 
   void ExpandMessageValidateDate(ImportBodyMessage& msg, int& ResponseCode, string& ResponseMsg)
   {
@@ -128,12 +129,7 @@ private:
       max_date = std::max(max_date, ms);
       if (ResponseCode != HTTP_OK)
           return;
-      for (auto& it : msg.Items)
-      {
-          const auto& f = file_system.IdToShort.find(it.id);
-          it.ShortId = (f != file_system.IdToShort.end()) ? f->second : 0;
-          const auto& f2 = file_system.IdToShort.find(it.parentId);
-          it.ShortParentId = (f2 != file_system.IdToShort.end()) ? f2->second : 0;
+      for (auto& it : msg.Items) {
           it.date = date;
           it.date_ms = ms;
       }
@@ -158,27 +154,20 @@ private:
       Ids.insert(el.id);
       if (!el.parentId.empty())
       {
-        if (el.ShortParentId > 0)
-        {
-          if (file_system.ShortToBody[el.ShortParentId]._systemItemType == SystemItemType::FILE)
-          {
+          const auto& it = file_system.position.find(el.parentId);
+          if (it == file_system.position.end()) {
+              LOG(ERROR) << "No parent for id: " << el.id;
+              ResponseCode = 400;
+              return;
+          }
+          if (it->second->item._systemItemType == SystemItemType::FILE) {
                 LOG(ERROR) << "Parent is file";
                 ResponseCode = 400;
                 return;
           }
-        }
-        else
-        {
-            auto it = IdToItem.find(el.parentId);
-            if (it == IdToItem.end())
-            {
-                LOG(ERROR) << "No parent for id: " << el.id;
-                ResponseCode = 400;
-                return;
-            }
-        }
       }
-      if (el.ShortId > 0 && el._systemItemType != file_system.ShortToBody[el.ShortId]._systemItemType)
+      const auto it = file_system.position.find(el.id);
+      if (it != file_system.position.end() && el._systemItemType != it->second->item._systemItemType)
       {
           LOG(ERROR) << "Change type of existed item";
           ResponseCode = 400;
