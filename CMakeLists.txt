@@ -3,6 +3,17 @@ project(yad)
 set(CMAKE_CXX_STANDARD 20)
 
 include(FetchContent)
+if(APPLE)
+    link_directories(
+            /usr/local/lib
+            /usr/lib
+    )
+    INCLUDE_DIRECTORIES(
+            /usr/local/include/
+            /usr/include
+    )
+endif()
+
 
 FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz)
 FetchContent_MakeAvailable(json)
@@ -11,6 +22,7 @@ find_package(Boost 1.40 REQUIRED)
 find_package (glog 0.6.0 REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_search_module(EVENT REQUIRED libevent)
+
 
 include_directories(${Boost_INCLUDE_DIRS})
 add_executable(yad main.cpp Configuration.h Configuration.cpp View/ImportBody.h UrlResolvers.h Includes.h Model/HttpServer.h OnRequest.h View/GetNodesBody.h GlobalUtils.h Model/FileSystemTree.h Model/HistoryStorage.cpp GlobalUtils.cpp UrlResolve/UrlParser.cpp UrlResolve/UrlParser.h UrlResolve/UrlParametersContainer.cpp UrlResolve/UrlParametersContainer.h DateExtension.cpp DateExtension.h View2/Item.cpp View2/Item.h View2/GetNodeResponse.cpp View2/GetNodeResponse.h View2/GetNodeHistoryResponse.h View2/UpdateResponse.cpp View2/UpdateResponse.h RequestResolver.cpp RequestResolver.h)
