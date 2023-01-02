@@ -22,9 +22,6 @@ find_package(Boost 1.40 REQUIRED)
 find_package (glog 0.6.0 REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_search_module(EVENT REQUIRED libevent)
-message("hello")
-message(${EVENT_INCLUDE_DIRS})
-
 
 
 include_directories(${Boost_INCLUDE_DIRS})
