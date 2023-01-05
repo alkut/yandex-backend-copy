@@ -30,6 +30,9 @@ private:
     static void DecreaseSize(Node *node, int64_t size);
     void UpdateDate(Node *node, const string& date, long long ms);
     void clear(Node *node);
+    static vector<Node*> getParents(Node *root);
+    static vector<Node*> getChildren(Node *root);
+    enum class Colour {GRAY, BLACK};
 };
 
 #endif //SERVER_FILESYSTEMTREE_H
