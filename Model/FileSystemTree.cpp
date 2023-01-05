@@ -21,8 +21,14 @@ GetNodesBodyMessage FileSystemTree::GetNodes(Node *node) const
 }
 
 void FileSystemTree::Delete(Node *node, const string& date, long long ms) {
-    DecreaseSize(node->parent, node->item.size);
-    UpdateDate(node->parent, date, ms);
+    auto parents = getParents(node);
+    for (auto& ptr: parents) {
+        ptr->item.size -= node->item.size;
+        ptr->item.date = date;
+        ptr->item.date_ms = ms;
+        if (ptr->item._systemItemType == SystemItemType::FILE)
+            history.Add(ptr->item);
+    }
 
     if (node->parent != nullptr) {
         if (node->item._systemItemType == SystemItemType::FILE)
@@ -187,17 +193,15 @@ vector<ImportBodyMessage::ImportBodyItem> FileSystemTree::GetNodeHistory(Node *n
 }
 
 void FileSystemTree::clear(Node *node) {
-    for (auto& [id, ptr]: node->childrenFiles)
-        if (ptr != nullptr)
-            clear(ptr);
-    for (auto& [id, ptr]: node->childrenFolders)
-        if (ptr != nullptr)
-            clear(ptr);
-    if (node->item._systemItemType == SystemItemType::FILE){
-        history.Remove(node->item.id);
+    auto children = getChildren(node);
+    children.push_back(node);
+    for (auto& ptr: children) {
+        if (ptr->item._systemItemType == SystemItemType::FILE) {
+            history.Remove(ptr->item.id);
+        }
+        position.erase(ptr->item.id);
+        delete ptr;
     }
-    position.erase(node->item.id);
-    delete node;
 }
 
 FileSystemTree::~FileSystemTree() {
@@ -207,4 +211,44 @@ FileSystemTree::~FileSystemTree() {
             roots.push_back(it.second);
     for (auto& it: roots)
         clear(it);
+}
+
+///get all parents exclude root itself
+vector<FileSystemTree::Node *> FileSystemTree::getParents(FileSystemTree::Node *root) {
+    vector<FileSystemTree::Node *> ans;
+    root = root->parent;
+    while (root) {
+        ans.push_back(root);
+        root = root->parent;
+    }
+    return ans;
+}
+
+///get all children exclude root itself
+vector<FileSystemTree::Node *> FileSystemTree::getChildren(FileSystemTree::Node *root) {
+    vector<FileSystemTree::Node *> ans;
+    vector<FileSystemTree::Node *> stack;
+    unordered_map<FileSystemTree::Node *, Colour> colour;
+    stack.push_back(root);
+    while (!stack.empty()) {
+        auto top = stack.back();
+        const auto it = colour.find(top);
+        if (it != colour.end()) {
+            if (it->second == Colour::GRAY)
+                colour[top] = Colour::BLACK;
+            else
+                stack.pop_back();
+            continue;
+        }
+        colour[top] = Colour::GRAY;
+        for (const auto& [name, ptr]: top->childrenFiles) {
+            ans.push_back(ptr);
+        }
+        for (const auto& [name, ptr]: top->childrenFolders) {
+            ans.push_back(ptr);
+            if (colour.find(ptr) == colour.end())
+                stack.push_back(ptr);
+        }
+    }
+    return ans;
 }
