@@ -13,6 +13,12 @@ TEST(echo_server, start) {
     Application <EchoServer> app;
 }
 
+TEST(echo_server, url)
+{
+    // send url
+    // url == url = true?
+}
+
 int main(int argc, char **argv) {
     InitLogging(argv);
     testing::InitGoogleTest(&argc, argv);

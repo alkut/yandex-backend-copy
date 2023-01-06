@@ -8,14 +8,14 @@ set(CMAKE_CXX_STANDARD 20)
 
 include(FetchContent)
 if(APPLE)
-    link_directories(
-            /usr/local/lib
-            /usr/lib
-    )
-    INCLUDE_DIRECTORIES(
-            /usr/local/include/
-            /usr/include
-    )
+        link_directories(
+                /usr/local/lib
+                /usr/lib
+        )
+        INCLUDE_DIRECTORIES(
+                /usr/local/include/
+                /usr/include
+        )
 endif()
 
 FetchContent_Declare(json DOWNLOAD_EXTRACT_TIMESTAMP URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz)
