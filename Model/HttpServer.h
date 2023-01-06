@@ -34,7 +34,7 @@ public:
         if (it == file_system.position.end())
         {
             ResponseCode = HTTP_NOTFOUND;
-            LOG(ERROR) << "Item with id ", id, " not found";
+            LOG(ERROR) << "Item with id " << id << " not found";
             return;
         }
 
