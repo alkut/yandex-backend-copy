@@ -1,17 +1,13 @@
 #include <gtest/gtest.h>
+#include "../application/Application.hpp"
 
 TEST(Test, Positive) {
     ASSERT_EQ(0, 0);
 }
 
-//TEST(Test, Negative) {
-//    ASSERT_EQ(1.0, 0.0);
-//}
 
-TEST(echo_server, url)
-{
-    // send url
-    // url == url = true?
+TEST(echo_server, start) {
+
 }
 
 int main(int argc, char **argv) {
