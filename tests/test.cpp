@@ -1,22 +1,26 @@
 #include <gtest/gtest.h>
 #include "../application/Application.hpp"
+<<<<<<< HEAD
 #include "EchoServer.hpp"
 #include <curl/curl.h>
 #include "../Configuration.h"
+=======
+>>>>>>> fc06ffd (YAS-12-add-application-template-class)
 
 TEST(Test, Positive) {
     ASSERT_EQ(0, 0);
 }
 
+<<<<<<< HEAD
 
 TEST(echo_server, start) {
     Application <EchoServer> app;
 }
+=======
+>>>>>>> fc06ffd (YAS-12-add-application-template-class)
 
-TEST(echo_server, url)
-{
-    // send url
-    // url == url = true?
+TEST(echo_server, start) {
+
 }
 
 int main(int argc, char **argv) {
