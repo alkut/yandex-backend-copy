@@ -13,4 +13,4 @@ pipelines:
     - step:
         name: test
         script:
-          - build/runTests
+          - build/runTests test
