@@ -10,5 +10,6 @@ pipelines:
     - step:
         name: test
         script:
+          - ls
           - cd build
           - ./runTests test
