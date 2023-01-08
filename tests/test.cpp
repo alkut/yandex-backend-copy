@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "../application/Application.hpp"
 #include "../application/EchoServer.hpp"
+#include <curl/curl.h>
 #include "../Configuration.h"
 
 TEST(Test, Positive) {
@@ -10,6 +11,7 @@ TEST(Test, Positive) {
 
 TEST(echo_server, start) {
     Application <EchoServer> app;
+    // app.run();
 }
 
 int main(int argc, char **argv) {

@@ -25,7 +25,9 @@ find_package(Boost 1.40 REQUIRED)
 find_package (glog 0.6.0 REQUIRED)
 find_package(PkgConfig REQUIRED)
 find_package(GTest REQUIRED)
+find_package(CURL)
 pkg_search_module(EVENT REQUIRED libevent)
+
 
 set(SOURCES Configuration.cpp GlobalUtils.cpp DateExtension.cpp RequestResolver.cpp
         Model/HistoryStorage.cpp
@@ -46,6 +48,7 @@ list(APPEND INCLUDE_DEP ${EVENT_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} ${SOME
 
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${GTEST_INCLUDE_DIRS})
+include_directories(${CURL_INCLUDE_DIR})
 
 add_library(lib ${SOURCES} ${HEADERS})
 
@@ -55,5 +58,5 @@ add_executable(runTests tests/test.cpp)
 target_link_libraries(lib ${LINK_DEP})
 target_include_directories(lib PUBLIC ${INCLUDE_DEP})
 
-target_link_libraries(runTests ${GTEST_LIBRARIES} pthread lib)
+target_link_libraries(runTests ${CURL_LIBRARIES} ${GTEST_LIBRARIES} pthread lib )
 target_link_libraries(main lib)

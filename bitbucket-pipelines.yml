@@ -10,8 +10,5 @@ pipelines:
     - step:
         name: test
         script:
-          - cd tests
-          - mkdir -p build && cd build
-          - cmake ..
-          - make
-          - ./runTests
+          - cd build
+          - ./runTests test
