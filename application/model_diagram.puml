@@ -11,6 +11,9 @@ Application : Responder* responder
 EchoServer : Response(Query query)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ba6314f (YAS-12-add-application-template-class)
 LibeventArgs : QueryResponder responder;
 LibeventArgs : function <void(void)> stop_callback;
 
@@ -23,9 +26,14 @@ QueryResponder : Response(Query query)
 Respond : int code
 Respond : string message
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 EchoServer -> QueryResponder
 =======
 // arrow inheritate
 >>>>>>> fc06ffd (YAS-12-add-application-template-class)
+=======
+
+EchoServer -> QueryResponder
+>>>>>>> ba6314f (YAS-12-add-application-template-class)
 @enduml

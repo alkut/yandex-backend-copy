@@ -4,7 +4,7 @@
 
 class EchoServer:QueryResponder {
     Respond Response(const Query& query) override {
-        return {0, ""};
+        return {0, "hello"};
     }
 };
 #endif //YAD_ECHOSERVER_HPP

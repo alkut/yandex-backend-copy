@@ -1,5 +1,8 @@
 #include "Application.hpp"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ba6314f (YAS-12-add-application-template-class)
 #include <thread>
 
 std::vector<char> ReadBody(struct evhttp_request* remote_rsp) {
@@ -106,6 +109,7 @@ void OnRequest2(evhttp_request * const req, void * args) {
     std::string Uri(req->uri);
 
     if (Uri == "/shutdown") {
+<<<<<<< HEAD
         PrintRespond(req, {HTTP_OK, "stop server\n"});
         reinterpret_cast <LibeventArgs*>(args)->stop_callback();
         return;
@@ -145,12 +149,14 @@ void OnRequest2(evhttp_request * const req, void * args) {
 
     // define SHUTDOWN
     if (Uri == "shutdown") {
+=======
+>>>>>>> ba6314f (YAS-12-add-application-template-class)
         PrintRespond(req, {HTTP_OK, "stop server\n"});
         reinterpret_cast <LibeventArgs*>(args)->stop_callback();
         return;
     }
     Query query;
-    LOG(INFO) << "Got request  " << Uri << " " << body.data();
+    LOG(INFO) << "Got request  " << Uri << " " << (body.empty() ? "" : body.data());
     try {
         query = MakeQuery(Uri, body);
     }
