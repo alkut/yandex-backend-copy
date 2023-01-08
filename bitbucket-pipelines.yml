@@ -7,10 +7,10 @@ pipelines:
           - mkdir -p build && cd build
           - cmake ..
           - make
+        artifacts:
+          - build/main
+          - build/runTests
     - step:
         name: test
         script:
-          - mkdir -p build && cd build
-          - cmake ..
-          - make
-          - ./runTests test
+          - build/runTests
