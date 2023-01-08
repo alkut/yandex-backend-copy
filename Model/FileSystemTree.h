@@ -1,5 +1,5 @@
-#ifndef SERVER_FILESYSTEMTREE_H
-#define SERVER_FILESYSTEMTREE_H
+#ifndef SERVER_FILE_SYSTEM_TREE_H
+#define SERVER_FILE_SYSTEM_TREE_H
 
 #include "Includes.h"
 #include "View/GetNodesBody.h"
@@ -21,7 +21,7 @@ public:
     GetNodesBodyMessage GetNodes(Node *node) const;
     void Delete(Node *node, const string& date, long long ms);
     vector<ImportBodyMessage::ImportBodyItem> Update(long long ms);
-    vector<ImportBodyMessage::ImportBodyItem> GetNodeHistory(Node *node, long long start, long long end) const;
+    static vector<ImportBodyMessage::ImportBodyItem> GetNodeHistory(Node *node, long long start, long long end) ;
     ~FileSystemTree();
 private:
     static void TopologySort(vector<ImportBodyMessage::ImportBodyItem>& items);
@@ -30,6 +30,10 @@ private:
     static void DecreaseSize(Node *node, int64_t size);
     void UpdateDate(Node *node, const string& date, long long ms);
     void clear(Node *node);
+    static vector<Node*> getParents(Node *root);
+    static vector<Node*> getChildren(Node *root);
+    static void UnlinkParent(Node *);
+    enum class Colour {GRAY, BLACK};
 };
 
-#endif //SERVER_FILESYSTEMTREE_H
+#endif //SERVER_FILE_SYSTEM_TREE_H
