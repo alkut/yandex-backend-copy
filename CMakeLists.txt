@@ -41,7 +41,11 @@ set(HEADERS Configuration.h UrlResolvers.h Includes.h OnRequest.h GlobalUtils.h 
         Model/HttpServer.h Model/FileSystemTree.h
         UrlResolve/UrlParser.h UrlResolve/UrlParametersContainer.h
         View2/Item.h View2/GetNodeResponse.h View2/GetNodeHistoryResponse.h View2/UpdateResponse.h
-        application/Respond.hpp application/QueryResponder.hpp application/EchoServer.hpp application/Application.hpp application/LibeventArgs.hpp)
+        application/Respond.hpp application/QueryResponder.hpp application/Application.hpp application/LibeventArgs.hpp)
+
+set(TEST_SOURCES tests/EchoServer.cpp)
+set(TEST_HEADERS tests/EchoServer.hpp)
+
 
 list(APPEND LINK_DEP ${Boost_LIBRARIES} ${EVENT_LIBRARIES} nlohmann_json::nlohmann_json glog::glog)
 list(APPEND INCLUDE_DEP ${EVENT_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} ${SOME_DEP_DIR}/include)
@@ -53,7 +57,7 @@ include_directories(${CURL_INCLUDE_DIR})
 add_library(lib ${SOURCES} ${HEADERS})
 
 add_executable(main main.cpp)
-add_executable(runTests tests/test.cpp)
+add_executable(runTests tests/test.cpp ${TEST_SOURCES} ${TEST_HEADERS})
 
 target_link_libraries(lib ${LINK_DEP})
 target_include_directories(lib PUBLIC ${INCLUDE_DEP})
