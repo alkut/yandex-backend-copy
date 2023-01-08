@@ -13,4 +13,9 @@ pipelines:
     - step:
         name: test
         script:
+<<<<<<< HEAD
           - build/runTests test
+=======
+          - cd build
+          - ./runTests test
+>>>>>>> c126c27 (YAS-12-add-application-template-class)
