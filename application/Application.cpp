@@ -1,4 +1,5 @@
 #include "Application.hpp"
+#include <thread>
 
 std::vector<char> ReadBody(struct evhttp_request* remote_rsp) {
     std::vector<char> v;
@@ -51,14 +52,13 @@ void OnRequest2(evhttp_request * const req, void * args) {
     std::vector<char> body = ReadBody(req);
     std::string Uri(req->uri);
 
-    // define SHUTDOWN
-    if (Uri == "shutdown") {
+    if (Uri == "/shutdown") {
         PrintRespond(req, {HTTP_OK, "stop server\n"});
         reinterpret_cast <LibeventArgs*>(args)->stop_callback();
         return;
     }
     Query query;
-    LOG(INFO) << "Got request  " << Uri << " " << body.data();
+    LOG(INFO) << "Got request  " << Uri << " " << (body.empty() ? "" : body.data());
     try {
         query = MakeQuery(Uri, body);
     }

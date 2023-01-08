@@ -10,6 +10,9 @@ Application : Responder* responder
 
 EchoServer : Response(Query query)
 
+LibeventArgs : QueryResponder responder;
+LibeventArgs : function <void(void)> stop_callback;
+
 Query : string url
 Query : unordered_map <string : string> params
 Query : string body
@@ -18,5 +21,6 @@ QueryResponder : Response(Query query)
 
 Respond : int code
 Respond : string message
-// arrow inheritate
+
+EchoServer -> QueryResponder
 @enduml
