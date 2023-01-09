@@ -4,7 +4,7 @@ pipelines:
     - step:
         name: build
         script:
-          - cmake -DCMAKE_BUILD_TYPE=Debug  -G "Unix Makefiles" -S ./src -B ./src/cmake-build-debug && cmake --build .
+          - cmake -DCMAKE_BUILD_TYPE=Debug  -G "Unix Makefiles" -S ./src -B ./src/cmake-build-debug && cmake ./src && cmake --build .
         artifacts:
           - src/bin/main
           - src/bin/runTests
