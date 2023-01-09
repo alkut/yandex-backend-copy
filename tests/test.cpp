@@ -1,33 +1,12 @@
 #include <gtest/gtest.h>
 #include "../application/Application.hpp"
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 #include "EchoServer.hpp"
 #include <curl/curl.h>
 #include "../Configuration.h"
-=======
->>>>>>> fc06ffd (YAS-12-add-application-template-class)
-=======
-#include "../application/EchoServer.hpp"
-=======
-#include "EchoServer.hpp"
->>>>>>> a94c1c0 (YAS-12-add-application-template-class)
-#include <curl/curl.h>
-#include "../Configuration.h"
->>>>>>> ba6314f (YAS-12-add-application-template-class)
 
 TEST(Test, Positive) {
     ASSERT_EQ(0, 0);
 }
-
-<<<<<<< HEAD
-
-TEST(echo_server, start) {
-    Application <EchoServer> app;
-}
-=======
->>>>>>> fc06ffd (YAS-12-add-application-template-class)
 
 TEST(echo_server, start) {
     Application <EchoServer> app;

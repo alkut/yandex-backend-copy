@@ -22,25 +22,21 @@ FetchContent_Declare(json DOWNLOAD_EXTRACT_TIMESTAMP URL https://github.com/nloh
 FetchContent_MakeAvailable(json)
 
 find_package(Boost 1.40 REQUIRED)
-find_package (glog 0.6.0 REQUIRED)
+find_package(glog 0.6.0 REQUIRED)
 find_package(PkgConfig REQUIRED)
 find_package(GTest REQUIRED)
 find_package(CURL)
 pkg_search_module(EVENT REQUIRED libevent)
 
 
-set(SOURCES Configuration.cpp GlobalUtils.cpp DateExtension.cpp RequestResolver.cpp
+set(SOURCES Configuration.cpp GlobalUtils.cpp
         Model/HistoryStorage.cpp
-        UrlResolve/UrlParser.cpp UrlResolve/UrlParametersContainer.cpp
-        View2/Item.cpp View2/Item.h View2/GetNodeResponse.cpp View2/UpdateResponse.cpp
         Model/FileSystemTree.cpp
         application/Application.cpp)
 
-set(HEADERS Configuration.h UrlResolvers.h Includes.h OnRequest.h GlobalUtils.h DateExtension.h RequestResolver.h
+set(HEADERS Configuration.h UrlResolvers.h Includes.h OnRequest.h GlobalUtils.h
         View/ImportBody.h View/GetNodesBody.h
         Model/HttpServer.h Model/FileSystemTree.h
-        UrlResolve/UrlParser.h UrlResolve/UrlParametersContainer.h
-        View2/Item.h View2/GetNodeResponse.h View2/GetNodeHistoryResponse.h View2/UpdateResponse.h
         application/Respond.hpp application/QueryResponder.hpp application/Application.hpp application/LibeventArgs.hpp)
 
 set(TEST_SOURCES tests/EchoServer.cpp)
