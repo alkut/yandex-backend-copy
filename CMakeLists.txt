@@ -1,9 +1,5 @@
 cmake_minimum_required(VERSION 3.18)
-
-project(main)
-project(runTests)
-project(lib)
-
+project(yad)
 set(CMAKE_CXX_STANDARD 20)
 
 include(FetchContent)
@@ -18,45 +14,20 @@ if(APPLE)
         )
 endif()
 
-FetchContent_Declare(json DOWNLOAD_EXTRACT_TIMESTAMP URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz)
+
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz)
 FetchContent_MakeAvailable(json)
 
 find_package(Boost 1.40 REQUIRED)
-find_package(glog 0.6.0 REQUIRED)
+find_package (glog 0.6.0 REQUIRED)
 find_package(PkgConfig REQUIRED)
-find_package(GTest REQUIRED)
-find_package(CURL)
 pkg_search_module(EVENT REQUIRED libevent)
 
 
-set(SOURCES Configuration.cpp GlobalUtils.cpp
-        Model/HistoryStorage.cpp
-        Model/FileSystemTree.cpp
-        application/Application.cpp)
-
-set(HEADERS Configuration.h UrlResolvers.h Includes.h OnRequest.h GlobalUtils.h
-        View/ImportBody.h View/GetNodesBody.h
-        Model/HttpServer.h Model/FileSystemTree.h
-        application/Respond.hpp application/QueryResponder.hpp application/Application.hpp application/LibeventArgs.hpp)
-
-set(TEST_SOURCES tests/EchoServer.cpp)
-set(TEST_HEADERS tests/EchoServer.hpp)
-
-
-list(APPEND LINK_DEP ${Boost_LIBRARIES} ${EVENT_LIBRARIES} nlohmann_json::nlohmann_json glog::glog)
-list(APPEND INCLUDE_DEP ${EVENT_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} ${SOME_DEP_DIR}/include)
-
 include_directories(${Boost_INCLUDE_DIRS})
-include_directories(${GTEST_INCLUDE_DIRS})
-include_directories(${CURL_INCLUDE_DIR})
-
-add_library(lib ${SOURCES} ${HEADERS})
-
-add_executable(main main.cpp)
-add_executable(runTests tests/test.cpp ${TEST_SOURCES} ${TEST_HEADERS})
-
-target_link_libraries(lib ${LINK_DEP})
-target_include_directories(lib PUBLIC ${INCLUDE_DEP})
-
-target_link_libraries(runTests ${CURL_LIBRARIES} ${GTEST_LIBRARIES} pthread lib )
-target_link_libraries(main lib)
+add_executable(yad main.cpp Configuration.h Configuration.cpp View/ImportBody.h UrlResolvers.h Includes.h Model/HttpServer.h OnRequest.h View/GetNodesBody.h GlobalUtils.h Model/FileSystemTree.h Model/HistoryStorage.cpp GlobalUtils.cpp Model/FileSystemTree.cpp)
+target_link_libraries(yad ${Boost_LIBRARIES})
+target_include_directories(yad PRIVATE ${EVENT_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} ${SOME_DEP_DIR}/include)
+target_link_libraries(yad PUBLIC ${EVENT_LIBRARIES})
+target_link_libraries(yad PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries (yad PRIVATE glog::glog)
