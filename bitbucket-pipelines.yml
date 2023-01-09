@@ -4,6 +4,7 @@ pipelines:
     - step:
         name: build
         script:
+          - cd src
           - mkdir -p build && cd build
           - cmake ..
           - make
