@@ -29,15 +29,14 @@ find_package(CURL)
 pkg_search_module(EVENT REQUIRED libevent)
 
 
-set(SOURCES Configuration.cpp GlobalUtils.cpp
-        Model/HistoryStorage.cpp
-        Model/FileSystemTree.cpp
-        application/Application.cpp)
+set(SOURCES src/Configuration.cpp src/GlobalUtils.cpp
+        src/Model/HistoryStorage.cpp src/Model/FileSystemTree.cpp
+        src/application/Application.cpp)
 
-set(HEADERS Configuration.h UrlResolvers.h Includes.h OnRequest.h GlobalUtils.h
-        View/ImportBody.h View/GetNodesBody.h
-        Model/HttpServer.h Model/FileSystemTree.h
-        application/Respond.hpp application/QueryResponder.hpp application/Application.hpp application/LibeventArgs.hpp)
+set(HEADERS src/Configuration.h src/UrlResolvers.h src/Includes.h src/OnRequest.h src/GlobalUtils.h
+        src/View/ImportBody.h src/View/GetNodesBody.h
+        src/Model/HttpServer.h src/Model/FileSystemTree.h
+        src/application/Respond.hpp src/application/QueryResponder.hpp src/application/Application.hpp src/application/LibeventArgs.hpp)
 
 set(TEST_SOURCES tests/EchoServer.cpp)
 set(TEST_HEADERS tests/EchoServer.hpp)

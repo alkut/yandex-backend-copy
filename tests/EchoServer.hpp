@@ -1,6 +1,6 @@
 #ifndef YAD_ECHOSERVER_HPP
 #define YAD_ECHOSERVER_HPP
-#include "../application/QueryResponder.hpp"
+#include "../src/application/QueryResponder.hpp"
 
 class EchoServer:QueryResponder {
     Respond Response(const Query& query) override;

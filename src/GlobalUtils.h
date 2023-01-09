@@ -2,7 +2,7 @@
 #define SERVER_GLOBALUTILS_H
 
 #include "Includes.h"
-#include "Configuration.h"
+#include "src/Configuration.h"
 #include "View/ImportBody.h"
 
 const string val_message = "Validation Failed";

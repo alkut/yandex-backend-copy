@@ -1,4 +1,4 @@
-#include "Model/HistoryStorage.h"
+#include "HistoryStorage.h"
 
 void HistoryStorage::Add(const ImportBodyMessage::ImportBodyItem& item)
 {

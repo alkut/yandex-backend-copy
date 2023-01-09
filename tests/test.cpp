@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
-#include "../application/Application.hpp"
+#include "../src/application/Application.hpp"
 #include "EchoServer.hpp"
 #include <curl/curl.h>
-#include "../Configuration.h"
+#include "src/Configuration.h"
 
 TEST(Test, Positive) {
     ASSERT_EQ(0, 0);

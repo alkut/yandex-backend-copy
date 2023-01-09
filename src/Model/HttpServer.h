@@ -1,11 +1,11 @@
 #ifndef SERVER_HTTPSERVER_H
 #define SERVER_HTTPSERVER_H
 
-#include "Includes.h"
-#include "View/ImportBody.h"
-#include "Configuration.h"
-#include "GlobalUtils.h"
-#include "Model/FileSystemTree.h"
+#include "src/Includes.h"
+#include "src/View/ImportBody.h"
+#include "src/Configuration.h"
+#include "src/GlobalUtils.h"
+#include "FileSystemTree.h"
 
 class HttpServer
 {

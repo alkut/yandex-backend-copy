@@ -8,7 +8,7 @@
 #include <evhttp.h>
 #include <vector>
 #include <string>
-#include <nlohmann/json.hpp>
+#include "cmake-build-debug/_deps/json-src/include/nlohmann/json.hpp"
 #include <unordered_set>
 #include <regex>
 #include <cstdint> 

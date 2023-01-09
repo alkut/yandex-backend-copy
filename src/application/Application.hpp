@@ -3,7 +3,7 @@
 
 #include <event2/buffer.h>
 #include "QueryResponder.hpp"
-#include "Configuration.h"
+#include "src/Configuration.h"
 #include <vector>
 #include <boost/algorithm/string/split.hpp>
 #include <event2/event_compat.h>

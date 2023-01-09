@@ -1,11 +1,11 @@
 #ifndef SERVER_OnRequestUEST_H
 #define SERVER_OnRequestUEST_H
 
-#include "Includes.h"
+#include "src/Includes.h"
 #include "Model/HttpServer.h"
 #include "UrlResolvers.h"
 #include "View/ImportBody.h"
-#include "GlobalUtils.h"
+#include "src/GlobalUtils.h"
 
 void ReadChunkCallback(struct evhttp_request* remote_rsp, std::vector<char>& v)
 {

@@ -1,5 +1,5 @@
-#include "Configuration.h"
-#include "OnRequest.h"
+#include "src/Configuration.h"
+#include "src/OnRequest.h"
 
 int main(int argc, char **argv)
 {

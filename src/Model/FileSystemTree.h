@@ -1,9 +1,9 @@
 #ifndef SERVER_FILE_SYSTEM_TREE_H
 #define SERVER_FILE_SYSTEM_TREE_H
 
-#include "Includes.h"
-#include "View/GetNodesBody.h"
-#include "Model/HistoryStorage.h"
+#include "src/Includes.h"
+#include "src/View/GetNodesBody.h"
+#include "HistoryStorage.h"
 
 struct FileSystemTree {
     struct Node {
