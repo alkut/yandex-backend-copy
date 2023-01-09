@@ -29,9 +29,9 @@ find_package(CURL)
 pkg_search_module(EVENT REQUIRED libevent)
 
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${dir}/bin")
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${dir}/bin")
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${dir}/bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${dir}/build/bin")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${dir}/build/bin")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${dir}/build/bin")
 
 
 set(SOURCES Configuration.cpp GlobalUtils.cpp
