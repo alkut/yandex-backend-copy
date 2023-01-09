@@ -5,6 +5,7 @@ pipelines:
         name: build
         script:
           - cmake ./src
+          - ls
           - cmake --build .
         artifacts:
           - build/main
