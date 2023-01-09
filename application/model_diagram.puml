@@ -1,0 +1,26 @@
+@startuml
+class Application
+class EchoServer
+class Query
+class QueryResponder
+class Respond
+
+Application : void run()
+Application : Responder* responder
+
+EchoServer : Response(Query query)
+
+LibeventArgs : QueryResponder responder;
+LibeventArgs : function <void(void)> stop_callback;
+
+Query : string url
+Query : unordered_map <string : string> params
+Query : string body
+
+QueryResponder : Response(Query query)
+
+Respond : int code
+Respond : string message
+
+EchoServer -> QueryResponder
+@enduml
