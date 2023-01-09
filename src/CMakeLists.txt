@@ -29,21 +29,21 @@ find_package(CURL)
 pkg_search_module(EVENT REQUIRED libevent)
 
 
-set(SOURCES src/Configuration.cpp src/GlobalUtils.cpp
-        src/Model/HistoryStorage.cpp src/Model/FileSystemTree.cpp
-        src/application/Application.cpp)
+set(SOURCES Configuration.cpp GlobalUtils.cpp
+        Model/HistoryStorage.cpp Model/FileSystemTree.cpp
+        application/Application.cpp)
 
-set(HEADERS src/Configuration.h src/UrlResolvers.h src/Includes.h src/OnRequest.h src/GlobalUtils.h
-        src/View/ImportBody.h src/View/GetNodesBody.h
-        src/Model/HttpServer.h src/Model/FileSystemTree.h
-        src/application/Respond.hpp src/application/QueryResponder.hpp src/application/Application.hpp src/application/LibeventArgs.hpp)
+set(HEADERS Configuration.h UrlResolvers.h Includes.h OnRequest.h GlobalUtils.h
+        View/ImportBody.h View/GetNodesBody.h
+        Model/HttpServer.h Model/FileSystemTree.h
+        application/Respond.hpp application/QueryResponder.hpp application/Application.hpp application/LibeventArgs.hpp)
 
-set(TEST_SOURCES tests/EchoServer.cpp)
-set(TEST_HEADERS tests/EchoServer.hpp)
+set(TEST_SOURCES ../tests/EchoServer.cpp)
+set(TEST_HEADERS ../tests/EchoServer.hpp)
 
 
 list(APPEND LINK_DEP ${Boost_LIBRARIES} ${EVENT_LIBRARIES} nlohmann_json::nlohmann_json glog::glog)
-list(APPEND INCLUDE_DEP ${EVENT_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} ${SOME_DEP_DIR}/include)
+list(APPEND INCLUDE_DEP ${EVENT_INCLUDE_DIRS} .. ${SOME_DEP_DIR}/include)
 
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${GTEST_INCLUDE_DIRS})
@@ -52,7 +52,7 @@ include_directories(${CURL_INCLUDE_DIR})
 add_library(lib ${SOURCES} ${HEADERS})
 
 add_executable(main main.cpp)
-add_executable(runTests tests/test.cpp ${TEST_SOURCES} ${TEST_HEADERS})
+add_executable(runTests ../tests/test.cpp ${TEST_SOURCES} ${TEST_HEADERS})
 
 target_link_libraries(lib ${LINK_DEP})
 target_include_directories(lib PUBLIC ${INCLUDE_DEP})
