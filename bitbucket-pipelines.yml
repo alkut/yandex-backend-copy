@@ -8,9 +8,9 @@ pipelines:
           - ls
           - cmake --build .
         artifacts:
-          - build/main
-          - build/runTests
+          - bin/main
+          - bin/runTests
     - step:
         name: test
         script:
-          - build/runTests test
+          - bin/runTests test

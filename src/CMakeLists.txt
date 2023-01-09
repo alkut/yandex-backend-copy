@@ -28,6 +28,11 @@ find_package(GTest REQUIRED)
 find_package(CURL)
 pkg_search_module(EVENT REQUIRED libevent)
 
+set(dir ${CMAKE_CURRENT_SOURCE_DIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${dir}/bin")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${dir}/bin")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${dir}/bin")
+
 
 set(SOURCES Configuration.cpp GlobalUtils.cpp
         Model/HistoryStorage.cpp Model/FileSystemTree.cpp
