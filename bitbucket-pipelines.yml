@@ -5,14 +5,12 @@ pipelines:
         name: build
         script:
           - cd src
-          - mkdir -p build && cd build
-          - cmake ..
-          - make
+          - cmake .
+          - cmake --build .
         artifacts:
           - build/main
           - build/runTests
     - step:
         name: test
         script:
-          - cd src
           - build/runTests test
