@@ -14,4 +14,5 @@ pipelines:
     - step:
         name: test
         script:
+          - cd src
           - build/runTests test
