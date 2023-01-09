@@ -4,8 +4,7 @@ pipelines:
     - step:
         name: build
         script:
-          - cd src
-          - cmake .
+          - cmake ./src
           - cmake --build .
         artifacts:
           - build/main
