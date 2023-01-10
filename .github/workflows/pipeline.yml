@@ -6,6 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     container: alexxlalex/yashka:latest
     steps:
+      - run: ls
       - run: cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S ./src -B ./src/cmake-build-debug
       - run: cmake ./src
       - run: cmake --build .
