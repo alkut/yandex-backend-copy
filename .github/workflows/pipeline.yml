@@ -5,8 +5,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: alexxlalex/yashka:latest
-    run:
-      - cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S ./src -B ./src/cmake-build-debug
-      - cmake ./src
-      - cmake --build .
-      - src/bin/runTests test
+    steps:
+      name: build & test
+      run:
+        - cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S ./src -B ./src/cmake-build-debug
+        - cmake ./src
+        - cmake --build .
+        - src/bin/runTests test
