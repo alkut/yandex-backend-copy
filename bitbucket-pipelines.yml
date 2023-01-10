@@ -11,4 +11,4 @@ pipelines:
     - step:
         name: test
         script:
-          - src/bin/runTests test
+          - valgrind --leak-check=full -s  src/bin/runTests
