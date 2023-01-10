@@ -7,8 +7,7 @@ jobs:
     container: alexxlalex/yashka:latest
     steps:
       name: build & test
-      run:
-        - cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S ./src -B ./src/cmake-build-debug
-        - cmake ./src
-        - cmake --build .
-        - src/bin/runTests test
+        - run: cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S ./src -B ./src/cmake-build-debug
+        - run: cmake ./src
+        - run: cmake --build .
+        - run: src/bin/runTests test
