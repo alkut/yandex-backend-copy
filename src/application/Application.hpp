@@ -46,6 +46,10 @@ public:
         }
     }
 
+    ~Application() {
+        delete responder;
+    }
+
 private:
     Responder* responder = new Responder();
 };
