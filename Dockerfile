@@ -10,7 +10,8 @@ RUN \
         pkg-config \
         libgtest-dev \
         libcurl4-gnutls-dev \
-        git
+        git \
+        valgrind
 
 RUN git clone https://github.com/google/glog.git
 WORKDIR glog
