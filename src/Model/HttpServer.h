@@ -6,11 +6,14 @@
 #include "src/Configuration.h"
 #include "src/GlobalUtils.h"
 #include "FileSystemTree.h"
+#include "src/validation/Validator.hpp"
+#include "src/application/QueryResponder.hpp"
 
-class HttpServer
+class HttpServer : QueryResponder
 {
 public:
     HttpServer() = default;
+    Respond Response(const Query& query) override;
     void Import(ImportBodyMessage& msg, int& ResponseCode, string& ResponseMsg) {
       ExpandMessageValidateDate(msg, ResponseCode, ResponseMsg);
       if (ResponseCode != HTTP_OK)
@@ -119,8 +122,8 @@ public:
     }
     FileSystemTree file_system;
 private:
-
-  long long max_date = LLONG_MIN;
+    long long max_date = LLONG_MIN;
+    Validator validator;
 
   void ExpandMessageValidateDate(ImportBodyMessage& msg, int& ResponseCode, string& ResponseMsg)
   {
