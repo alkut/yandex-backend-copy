@@ -36,12 +36,14 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${dir}/bin")
 
 set(SOURCES Configuration.cpp GlobalUtils.cpp
         Model/HistoryStorage.cpp Model/FileSystemTree.cpp
-        application/Application.cpp)
+        application/Application.cpp
+        validation/QueryExt.cpp validation/Validator.cpp)
 
 set(HEADERS Configuration.h UrlResolvers.h Includes.h OnRequest.h GlobalUtils.h
         View/ImportBody.h View/GetNodesBody.h
         Model/HttpServer.h Model/FileSystemTree.h
-        application/Respond.hpp application/QueryResponder.hpp application/Application.hpp application/LibeventArgs.hpp)
+        application/Respond.hpp application/QueryResponder.hpp application/Application.hpp application/LibeventArgs.hpp
+        validation/QueryExt.hpp validation/Validator.hpp)
 
 set(TEST_SOURCES ../tests/EchoServer.cpp)
 set(TEST_HEADERS ../tests/EchoServer.hpp)

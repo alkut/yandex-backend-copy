@@ -1,0 +1,16 @@
+#ifndef LIB_QUERYEXT_HPP
+#define LIB_QUERYEXT_HPP
+
+#include <vector>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string.hpp>
+
+#include "src/application/Query.hpp"
+
+struct QueryExt : Query {
+    std::vector<std::string> parsed_url;
+    long long date_ms = 0ll;
+    explicit QueryExt(const Query& query);
+};
+
+#endif //LIB_QUERYEXT_HPP
