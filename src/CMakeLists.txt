@@ -43,7 +43,7 @@ set(HEADERS Configuration.h UrlResolvers.h Includes.h OnRequest.h GlobalUtils.h
         View/ImportBody.h View/GetNodesBody.h
         Model/HttpServer.h Model/FileSystemTree.h
         application/Respond.hpp application/QueryResponder.hpp application/Application.hpp application/LibeventArgs.hpp
-        validation/QueryExt.hpp validation/Validator.hpp)
+        validation/QueryExt.hpp validation/Validator.hpp validation/DeleteItem.hpp)
 
 set(TEST_SOURCES ../tests/EchoServer.cpp)
 set(TEST_HEADERS ../tests/EchoServer.hpp)

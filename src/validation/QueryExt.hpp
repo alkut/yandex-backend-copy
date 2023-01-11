@@ -9,7 +9,6 @@
 
 struct QueryExt : Query {
     std::vector<std::string> parsed_url;
-    long long date_ms = 0ll;
     explicit QueryExt(const Query& query);
 };
 

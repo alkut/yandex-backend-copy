@@ -1,11 +1,11 @@
 #include "Validator.hpp"
 
-Validator::QueryTypes Validator::GetType(const QueryExt &query) {
+Validator::QueryTypes Validator::GetType(const QueryExt &query) const {
     return types.at(query.parsed_url[0]);
 }
 
-void Validator::Validate(QueryExt &query, const Validator::QueryTypes type) {
-    for (const auto& constraint: constraints[type])
+void Validator::Validate(QueryExt &query, const Validator::QueryTypes type) const {
+    for (const auto& constraint: constraints.at(type))
         constraint(query);
 }
 
@@ -25,4 +25,22 @@ void Validator::check_count_sub_url(const QueryExt &query, const size_t count) {
         LOG(ERROR) << "wrong count of sub url: " << query.parsed_url.size()
                    << "instead of " << count;
     }
+}
+
+ImportBodyMessage Validator::GetImport(const QueryExt &query) {
+    auto body = ImportBodyMessage();
+    body.Deserialize(nlohmann::json::parse(query.body));
+    return body;
+}
+
+DeleteItem Validator::GetDelete(const QueryExt &query) {
+    return {query.parsed_url[1], query.params.at("date")};
+}
+
+string Validator::GetNodes(const QueryExt &query) {
+    return query.parsed_url[1];
+}
+
+string Validator::GetUpdate(const QueryExt &query) {
+    return query.params.at("date");
 }
