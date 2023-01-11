@@ -13,6 +13,11 @@ struct FileSystemTree {
         ImportBodyMessage::ImportBodyItem item;
         unordered_map<string , Node*> childrenFiles, childrenFolders;
         explicit Node(const ImportBodyMessage::ImportBodyItem& item);
+        string& id();
+        string& date();
+        long long& date_ms();
+        int64_t& size();
+        const SystemItemType& type() const;
     };
 
 private:
