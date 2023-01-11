@@ -1,3 +1,4 @@
+#include <queue>
 #include "FileSystemTree.h"
 
 void FileSystemTree::Import(ImportBodyMessage& msg) {
@@ -21,15 +22,8 @@ GetNodesBodyMessage FileSystemTree::GetNodes(Node *node) const
 }
 
 void FileSystemTree::Delete(Node *node, const string& date, long long ms) {
-    auto parents = getParents(node);
-    for (auto& ptr: parents) {
-        ptr->item.size -= node->item.size;
-        ptr->item.date = date;
-        ptr->item.date_ms = ms;
-        history.Add(ptr->item);
-    }
-    UnlinkParent(node);
-    clear(node);
+    UnlinkNode(node, date, ms);
+    DestroyNode(node);
 }
 
 vector<ImportBodyMessage::ImportBodyItem> FileSystemTree::Update(long long ms) {
@@ -83,7 +77,6 @@ void FileSystemTree::TopologySort(vector<ImportBodyMessage::ImportBodyItem>& ite
         items[i] = CopyItems[ParentInsideQuery[i]];
 }
 
-//TODO refactor this shit
 void FileSystemTree::AddItem(ImportBodyMessage::ImportBodyItem& item) {
     if (position.find(item.id) != position.end()) {
         Override(item);
@@ -91,86 +84,21 @@ void FileSystemTree::AddItem(ImportBodyMessage::ImportBodyItem& item) {
         return;
     }
     history.Add(item);
-    Node *NewNode = new Node;
+    Node *NewNode = new Node(item);
     position[item.id] = NewNode;
-
-    if (item.parentId.empty())
-    {
-        NewNode->parent = nullptr;
-        LOG(INFO) << "Item added with id: " << item.id;
-        return;
-    }
-
-    auto parentNode = position[item.parentId];
-    NewNode->parent = parentNode;
-    UpdateDate(parentNode, item.date, item.date_ms);
-
-    DecreaseSize(parentNode, -item.size);
-
-    switch (item._systemItemType) {
-        case SystemItemType::FOLDER:
-            parentNode->childrenFolders[item.id] = NewNode;
-            break;
-        case SystemItemType::FILE:
-            parentNode->childrenFiles[item.id] = NewNode;
-            break;
-    }
+    auto parentNode = item.parentId.empty() ? nullptr:
+            position[item.parentId];
+    LinkNode(NewNode, parentNode);
     LOG(INFO) << "Item added with id: " << item.id;
 }
 
-//TODO refactor this shit too
 void FileSystemTree::Override(const ImportBodyMessage::ImportBodyItem& item) {
     history.Add(item);
     Node *Node = position[item.id];
-    auto OldParentNode = Node->parent;
-    if (OldParentNode != nullptr)
-        DecreaseSize(OldParentNode, item.size);
-    auto NewParentNode = position[item.parentId];
-    if (NewParentNode != nullptr)
-        DecreaseSize(NewParentNode, -item.size);
-
-    UpdateDate(OldParentNode, item.date, item.date_ms);
-    UpdateDate(NewParentNode, item.date, item.date_ms);
-
-    if (OldParentNode == NewParentNode) {
-        return;
-    }
-    switch(item._systemItemType)
-    {
-        case SystemItemType::FOLDER:
-            if (OldParentNode != nullptr)
-                OldParentNode->childrenFolders.erase(item.id);
-            if (NewParentNode != nullptr)
-                NewParentNode->childrenFolders[item.id] = Node;
-            break;
-        case SystemItemType::FILE:
-            if (OldParentNode != nullptr)
-                OldParentNode->childrenFiles.erase(item.id);
-            if (NewParentNode != nullptr)
-                NewParentNode->childrenFolders[item.id] = Node;
-            break;
-    }
-}
-
-void FileSystemTree::DecreaseSize(Node *node, int64_t size)
-{
-    while (node != nullptr)
-    {
-        node->item.size -= size;
-        node = node->parent;
-    }
-}
-
-void FileSystemTree::UpdateDate(Node *node, const string& date, long long ms)
-{
-    while (node != nullptr)
-    {
-        auto& it = node->item;
-        it.date = date;
-        it.date_ms = ms;
-        node = node->parent;
-        history.Add(it);
-    }
+    auto it = position.find(item.id);
+    auto parentNode = (it != position.end()) ? it->second : nullptr;
+    UnlinkNode(Node);
+    LinkNode(Node, parentNode);
 }
 
 vector<ImportBodyMessage::ImportBodyItem> FileSystemTree::GetNodeHistory(Node *node, long long start, long long end) {
@@ -182,23 +110,13 @@ vector<ImportBodyMessage::ImportBodyItem> FileSystemTree::GetNodeHistory(Node *n
     return Response;
 }
 
-void FileSystemTree::clear(Node *node) {
-    auto children = getChildren(node);
-    children.push_back(node);
-    for (auto& ptr: children) {
-        history.Remove(ptr->item);
-        position.erase(ptr->item.id);
-        delete ptr;
-    }
-}
-
 FileSystemTree::~FileSystemTree() {
     vector<Node*> roots;
     for (const auto& it : position)
         if (it.second->parent == nullptr)
             roots.push_back(it.second);
     for (auto& it: roots)
-        clear(it);
+        DestroyNode(it);
 }
 
 ///get all parents exclude root itself
@@ -212,40 +130,79 @@ vector<FileSystemTree::Node *> FileSystemTree::getParents(FileSystemTree::Node *
     return ans;
 }
 
-///get all children exclude root itself
+///get all children include root itself
 vector<FileSystemTree::Node *> FileSystemTree::getChildren(FileSystemTree::Node *root) {
     vector<FileSystemTree::Node *> ans;
-    vector<FileSystemTree::Node *> stack;
-    unordered_map<FileSystemTree::Node *, Colour> colour;
-    stack.push_back(root);
-    while (!stack.empty()) {
-        auto top = stack.back();
-        const auto it = colour.find(top);
-        if (it != colour.end()) {
-            if (it->second == Colour::GRAY)
-                colour[top] = Colour::BLACK;
-            else
-                stack.pop_back();
-            continue;
-        }
-        colour[top] = Colour::GRAY;
+    std::queue<FileSystemTree::Node *> queue;
+    queue.push(root);
+    ans.push_back(root);
+    while (!queue.empty()) {
+        auto top = queue.back();
         for (const auto& [name, ptr]: top->childrenFiles) {
             ans.push_back(ptr);
         }
         for (const auto& [name, ptr]: top->childrenFolders) {
             ans.push_back(ptr);
-            if (colour.find(ptr) == colour.end())
-                stack.push_back(ptr);
+            queue.push(ptr);
         }
+        queue.pop();
     }
     return ans;
 }
 
-void FileSystemTree::UnlinkParent(FileSystemTree::Node *root) {
+void FileSystemTree::DestroyNode(Node *node) {
+    auto children = getChildren(node);
+    for (auto& ptr: children) {
+        history.Remove(ptr->item);
+        position.erase(ptr->item.id);
+        delete ptr;
+    }
+}
+
+void FileSystemTree::UnlinkNode(FileSystemTree::Node *root, const string& date, long long ms) {
     if (root == nullptr)
         return;
+    auto parents = getParents(root);
+    for (auto& ptr: parents) {
+        ptr->item.size -= root->item.size;
+        ptr->item.date = date;
+        ptr->item.date_ms = ms;
+        history.Add(ptr->item);
+    }
     if (root->item._systemItemType == SystemItemType::FILE)
         root->parent->childrenFiles.erase(root->item.id);
     else
         root->parent->childrenFolders.erase(root->item.id);
 }
+
+void FileSystemTree::UnlinkNode(FileSystemTree::Node *root) {
+    if (root == nullptr)
+        return;
+    UnlinkNode(root, root->item.date, root->item.date_ms);
+}
+
+void FileSystemTree::LinkNode(FileSystemTree::Node *root, FileSystemTree::Node *parent, const string &date,
+                              long long ms) {
+    if (root == nullptr || parent == nullptr)
+        return;
+    root->parent = parent;
+    if (root->item._systemItemType == SystemItemType::FILE)
+        parent->childrenFiles[root->item.id] = root;
+    else
+        parent->childrenFolders[root->item.id] = root;
+
+    auto parents = getParents(root);
+    for (auto& ptr: parents) {
+        ptr->item.date = date;
+        ptr->item.date_ms = ms;
+        ptr->item.size += root->item.size;
+    }
+}
+
+void FileSystemTree::LinkNode(FileSystemTree::Node *root, FileSystemTree::Node *parent) {
+    if (root == nullptr || parent == nullptr)
+        return;
+    LinkNode(root, parent, root->item.date, root->item.date_ms);
+}
+
+FileSystemTree::Node::Node(const ImportBodyMessage::ImportBodyItem &item) : item(item) {}
