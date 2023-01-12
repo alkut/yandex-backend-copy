@@ -1,7 +1,7 @@
 #include "Validator.hpp"
 
 Validator::QueryTypes Validator::GetType(const QueryExt &query) const {
-    return types.at(query.parsed_url[0]);
+    return types.at(query.parsed_url[1]);
 }
 
 void Validator::Validate(QueryExt &query, const Validator::QueryTypes type) const {
