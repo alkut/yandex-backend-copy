@@ -2,18 +2,20 @@
 #define YAD_APPLICATION_HPP
 
 #include <event2/buffer.h>
-#include "QueryResponder.hpp"
-#include "src/Configuration.h"
 #include <vector>
 #include <boost/algorithm/string/split.hpp>
 #include <event2/event_compat.h>
+
+#include "QueryResponder.hpp"
 #include "LibeventArgs.hpp"
+#include "src/logging/init.h"
+#include "src/Includes.h"
 
 std::vector<char> ReadBody(struct evhttp_request* remote_rsp);
 
 Query MakeQuery(const std::string& Uri, const std::vector<char>& body);
 
-void OnRequest2(evhttp_request * const req, void * _server);
+void OnRequest2(evhttp_request * req, void * _server);
 
 void PrintRespond(struct evhttp_request* req, const Respond& respond);
 
@@ -52,6 +54,8 @@ public:
 
 private:
     Responder* responder = new Responder();
+    const std::uint16_t SrvPort = 8080;
+    const char SrvAddress[] = "127.0.0.1";
 };
 
 #endif //YAD_APPLICATION_HPP

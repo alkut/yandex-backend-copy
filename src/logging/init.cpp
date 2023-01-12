@@ -1,4 +1,4 @@
-#include "Configuration.h"
+#include "init.h"
 
 void InitLogging(char **argv)
 {
