@@ -1,4 +1,4 @@
-#include "HttpServer.h"
+#include "HttpServer.hpp"
 
 Respond HttpServer::Response(const Query &query) {
     auto queryExt = QueryExt(query);

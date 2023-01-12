@@ -1,4 +1,4 @@
-#include "FileSystemTree.h"
+#include "FileSystemTree.hpp"
 
 void FileSystemTree::Import(ImportBodyMessage& msg) {
     vector<ImportBodyMessage::ImportBodyItem>& items = msg.Items;

@@ -2,7 +2,7 @@
 #include "../src/application/Application.hpp"
 #include "EchoServer.hpp"
 #include <curl/curl.h>
-#include "src/Configuration.h"
+#include "src/logging/init.hpp"
 
 TEST(Test, Positive) {
     ASSERT_EQ(0, 0);

@@ -6,8 +6,8 @@
 
 #include "src/Includes.h"
 #include "src/View/GetNodesBody.h"
-#include "src/logging/init.h"
-#include "HistoryStorage.h"
+#include "src/logging/init.hpp"
+#include "HistoryStorage.hpp"
 
 struct FileSystemTree {
     struct Node {
