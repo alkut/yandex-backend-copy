@@ -1,8 +1,18 @@
 #ifndef SERVER_MIN_MAP_H
 #define SERVER_MIN_MAP_H
 
-#include "src/Includes.h"
+#include <unordered_set>
+#include <unordered_map>
+#include <vector>
+
 #include "src/View/ImportBody.h"
+
+template<class T>
+using vector = std::vector<T>;
+template<class T>
+using unordered_set = std::unordered_set<T>;
+template<class T, class V>
+using unordered_map = std::unordered_map<T,V>;
 
 struct HistoryStorage : unordered_map<string, ImportBodyMessage::ImportBodyItem>
 {

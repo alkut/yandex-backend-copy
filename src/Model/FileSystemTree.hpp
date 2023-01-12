@@ -3,11 +3,23 @@
 
 #include <utility>
 #include <queue>
+#include <boost/graph/topological_sort.hpp>
+#include <boost/graph/graph_traits.hpp>
+#include <boost/graph/adjacency_list.hpp>
 
-#include "src/Includes.h"
 #include "src/View/GetNodesBody.h"
 #include "src/logging/init.hpp"
 #include "HistoryStorage.hpp"
+
+template<class T>
+using vector = std::vector<T>;
+template<class T>
+using unordered_set = std::unordered_set<T>;
+template<class T, class V>
+using unordered_map = std::unordered_map<T,V>;
+typedef boost::adjacency_list<> Graph;
+typedef boost::graph_traits<Graph>::vertex_descriptor Vertex;
+typedef std::vector< Vertex > container;
 
 struct FileSystemTree {
     struct Node {

@@ -1,7 +1,15 @@
 #ifndef SERVER_IMPORTBODY_H
 #define SERVER_IMPORTBODY_H
 
-#include "src/Includes.h"
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
+using string = std::string;
+
+enum class SystemItemType {FILE, FOLDER};
+
+const json NullJson;
+const json EmptyJson(json::value_t::array);
 
 struct ImportBodyMessage
 {
@@ -10,7 +18,7 @@ struct ImportBodyMessage
     struct ImportBodyItem
     {
         ImportBodyItem() = default;
-        ImportBodyItem(const json& j)
+        explicit ImportBodyItem(const json& j)
         {
             DeserializeExpanded(j);
         }
@@ -21,7 +29,7 @@ struct ImportBodyMessage
         string type;
         int64_t size = 0;
         //Expanded fields
-        long long date_ms;
+        long long date_ms = 0ll;
         string date;
         SystemItemType _systemItemType = SystemItemType::FILE;
         void Deserialize(const json& j)
@@ -47,7 +55,7 @@ struct ImportBodyMessage
             date = j["date"];
             _systemItemType = j["_systemItemType"];
         }
-        json SerializeDump() const
+        [[nodiscard]] json SerializeDump() const
         {
             json j;
             AddAttribute(j, "id", id);
@@ -58,12 +66,12 @@ struct ImportBodyMessage
             j["date"] = date;
             return j;
         }
-        string Serialize() const
+        [[nodiscard]] string Serialize() const
         {
             return SerializeDump().dump(2);
         }
 
-        string SerializeExpanded() const
+        [[nodiscard]] string SerializeExpanded() const
         {
             json j = SerializeDump();
             j["date_ms"] = date_ms;

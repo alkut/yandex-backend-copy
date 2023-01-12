@@ -37,8 +37,8 @@ Respond HttpServer::Response(const Query &query) {
                 validator.Validate(queryExt, Validator::QueryTypes::GET_NODES);
                 auto nodes_msg = Validator::GetNodes(queryExt);
                 auto ptr = ValidateGetNodes(nodes_msg);
-                file_system.GetNodes(ptr);
-                return OK;
+                auto result = file_system.GetNodes(ptr);
+                return {HTTP_OK, result.Serialize()};
             }
             catch (NotFoundException &ex) {
                 return NotFound;
