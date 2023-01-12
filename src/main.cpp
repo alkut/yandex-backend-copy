@@ -1,5 +1,5 @@
 #include "src/application/Application.hpp"
-#include "src/Model/HttpServer.hpp"
+#include "src/model/HttpServer.hpp"
 
 int main(int argc, char **argv) {
     InitLogging(argv);

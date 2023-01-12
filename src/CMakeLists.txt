@@ -35,14 +35,14 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${dir}/bin")
 
 
 set(SOURCES
-        Model/HistoryStorage.cpp Model/FileSystemTree.cpp Model/HttpServer.cpp
+        model/HistoryStorage.cpp model/FileSystemTree.cpp model/HttpServer.cpp
         application/Application.cpp
         validation/QueryExt.cpp validation/Validator.cpp
         logging/init.cpp)
 
 set(HEADERS
-        View/ImportBody.h View/GetNodesBody.h
-        Model/HttpServer.hpp Model/FileSystemTree.hpp
+        view/ImportBody.h view/GetNodesBody.h
+        model/HttpServer.hpp model/FileSystemTree.hpp
         application/Respond.hpp application/QueryResponder.hpp application/Application.hpp application/LibeventArgs.hpp
         validation/QueryExt.hpp validation/Validator.hpp validation/DeleteItem.hpp
         logging/init.hpp)

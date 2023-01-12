@@ -5,7 +5,7 @@
 
 #include "QueryExt.hpp"
 #include "DeleteItem.hpp"
-#include "src/View/ImportBody.h"
+#include "src/view/ImportBody.h"
 #include "src/logging/init.hpp"
 
 const boost::posix_time::ptime origin = boost::posix_time::time_from_string("2000-01-01 00:00:00.000");
