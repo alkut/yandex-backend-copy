@@ -38,10 +38,10 @@ set(SOURCES
         src/model/HistoryStorage.cpp src/model/FileSystemTree.cpp src/model/HttpServer.cpp
         src/application/Application.cpp
         src/validation/QueryExt.cpp src/validation/Validator.cpp
-        src/logging/init.cpp src/view/GetNodesBody.cpp)
+        src/logging/init.cpp src/view/GetNodesBody.cpp src/view/ImportBody.cpp)
 
 set(HEADERS
-        src/view/ImportBody.h src/view/GetNodesBody.h
+        src/view/ImportBody.hpp src/view/GetNodesBody.h
         src/model/HttpServer.hpp src/model/FileSystemTree.hpp
         src/application/Respond.hpp src/application/QueryResponder.hpp src/application/Application.hpp src/application/LibeventArgs.hpp
         src/validation/QueryExt.hpp src/validation/Validator.hpp src/validation/DeleteItem.hpp
