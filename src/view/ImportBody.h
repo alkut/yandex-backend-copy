@@ -11,8 +11,7 @@ enum class SystemItemType {FILE, FOLDER};
 const json NullJson;
 const json EmptyJson(json::value_t::array);
 
-struct ImportBodyMessage
-{
+struct ImportBodyMessage {
     ImportBodyMessage() = default;
 
     struct ImportBodyItem
@@ -32,24 +31,20 @@ struct ImportBodyMessage
         long long date_ms = 0ll;
         string date;
         SystemItemType _systemItemType = SystemItemType::FILE;
-        void Deserialize(const json& j)
-        {
+        void Deserialize(const json& j) {
             GetAttribute(j, "id", id);
             GetAttribute(j, "url", url);
             GetAttribute(j, "parentId", parentId);
             GetAttribute(j, "type", type);
             GetAttribute(j, "size",  size);
-            if (type == "FILE")
-            {
+            if (type == "FILE") {
                 _systemItemType = SystemItemType::FILE;
             }
-            if (type == "FOLDER")
-            {
+            if (type == "FOLDER") {
                 _systemItemType = SystemItemType::FOLDER;
             }
         }
-        void DeserializeExpanded(const json& j)
-        {
+        void DeserializeExpanded(const json& j) {
             Deserialize(j);
             date_ms = j["date_ms"];
             date = j["date"];
@@ -66,13 +61,11 @@ struct ImportBodyMessage
             j["date"] = date;
             return j;
         }
-        [[nodiscard]] string Serialize() const
-        {
+        [[nodiscard]] string Serialize() const {
             return SerializeDump().dump(2);
         }
 
-        [[nodiscard]] string SerializeExpanded() const
-        {
+        [[nodiscard]] string SerializeExpanded() const {
             json j = SerializeDump();
             j["date_ms"] = date_ms;
             j["date"] = date;

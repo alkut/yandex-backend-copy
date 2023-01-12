@@ -38,7 +38,7 @@ set(SOURCES
         model/HistoryStorage.cpp model/FileSystemTree.cpp model/HttpServer.cpp
         application/Application.cpp
         validation/QueryExt.cpp validation/Validator.cpp
-        logging/init.cpp)
+        logging/init.cpp view/GetNodesBody.cpp)
 
 set(HEADERS
         view/ImportBody.h view/GetNodesBody.h
