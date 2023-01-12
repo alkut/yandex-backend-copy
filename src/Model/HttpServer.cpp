@@ -21,7 +21,8 @@ Respond HttpServer::Response(const Query &query) {
             try {
                 validator.Validate(queryExt, Validator::QueryTypes::DELETE);
                 auto delete_msg = Validator::GetDelete(queryExt);
-                //file_system.Delete(delete_msg);
+                auto ptr = ValidateDelete(delete_msg.id);
+                file_system.Delete(ptr, delete_msg.date, Validator::check_datetime(delete_msg.date));
                 return {HTTP_OK, ""};
             }
             catch (std::exception &ex) {
@@ -43,12 +44,17 @@ Respond HttpServer::Response(const Query &query) {
             try {
                 validator.Validate(queryExt, Validator::QueryTypes::UPDATE);
                 auto update_msg = Validator::GetUpdate(queryExt);
-                //file_system.Update(update_msg);
-                return {HTTP_OK, ""};
+                auto date_ms = ValidateUpdate(update_msg);
+                file_system.Update(date_ms);
+                return {HTTP_OK, GetUpdateResponse(file_system.Update(date_ms))};
             }
             catch (std::exception &ex) {
                 LOG(ERROR) << ex.what();
                 return {HTTP_BADREQUEST, "validation failed"};
             }
     }
+}
+
+long long HttpServer::ValidateUpdate(const string &date) {
+    return Validator::check_datetime(date);
 }

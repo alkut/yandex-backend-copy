@@ -16,15 +16,16 @@ public:
     static DeleteItem GetDelete(const QueryExt& query);
     static string GetNodes(const QueryExt& query);
     static string GetUpdate(const QueryExt& query);
+    static long long check_datetime(const string& date);
 private:
-    std::unordered_map<std::string, QueryTypes> types =
+    const std::unordered_map<std::string, QueryTypes> types =
             {
                     {"imports", QueryTypes::IMPORT},
                     {"delete", QueryTypes::DELETE},
                     {"nodes", QueryTypes::GET_NODES},
                     {"updates", QueryTypes::UPDATE}
             };
-    std::unordered_map<QueryTypes, std::vector<std::function<void(QueryExt&)>>> constraints =
+    const std::unordered_map<QueryTypes, std::vector<std::function<void(QueryExt&)>>> constraints =
             {
                     {
                         QueryTypes::IMPORT, {
@@ -50,8 +51,6 @@ private:
                         }
                     }
             };
-
-    static long long check_datetime(const string& date);
     static void check_count_sub_url(const QueryExt& query, size_t count);
 };
 #endif //LIB_VALIDATOR_HPP

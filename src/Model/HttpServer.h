@@ -183,19 +183,11 @@ private:
         ResponseCode = 400;
     }
   }
-  int _validateDelete()
+  FileSystemTree::Node *ValidateDelete(const string& id)
   {
-    return HTTP_OK;
+    return file_system.position.at(id);
   }
-
-  int _validateGetNodesHistory()
-  {
-    return HTTP_OK;
-  }
-  int _validateUpdate()
-  {
-    return HTTP_OK;
-  }
+  long long ValidateUpdate(const std::string& date);
 };
 
 #endif //SERVER_HTTPSERVER_H
