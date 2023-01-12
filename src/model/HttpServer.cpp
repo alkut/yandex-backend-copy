@@ -2,7 +2,14 @@
 
 Respond HttpServer::Response(const Query &query) {
     auto queryExt = QueryExt(query);
-    auto type = validator.GetType(queryExt);
+    Validator::QueryTypes type;
+    try {
+        type = validator.GetType(queryExt);
+    }
+    catch (std::exception &ex) {
+        LOG(ERROR) << ex.what();
+        return BadRequest;
+    }
     switch (type) {
         case Validator::QueryTypes::IMPORT:
             try {
