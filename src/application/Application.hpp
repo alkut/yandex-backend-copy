@@ -1,25 +1,30 @@
 #ifndef YAD_APPLICATION_HPP
 #define YAD_APPLICATION_HPP
 
+#include <evhttp.h>
 #include <event2/buffer.h>
-#include "QueryResponder.hpp"
-#include "src/Configuration.h"
-#include <vector>
-#include <boost/algorithm/string/split.hpp>
 #include <event2/event_compat.h>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
+#include <vector>
+
+#include "QueryResponder.hpp"
 #include "LibeventArgs.hpp"
+#include "src/logging/init.hpp"
 
 std::vector<char> ReadBody(struct evhttp_request* remote_rsp);
 
 Query MakeQuery(const std::string& Uri, const std::vector<char>& body);
 
-void OnRequest2(evhttp_request * const req, void * _server);
+void OnRequest2(evhttp_request * req, void * _server);
 
 void PrintRespond(struct evhttp_request* req, const Respond& respond);
 
+const char SrvAddress[] = "127.0.0.1";
+
 ///@params Responder: Responder class inherits from QueryResponder class.
 ///Responder class defines the query logic: Responder = {EchoServer, ApplicationServer}
-///Application class abstracts libenevt usage from rest of the code
+///Application class abstracts libevent usage from rest of the code
 template <class Responder>
 class Application {
 public:
@@ -52,6 +57,7 @@ public:
 
 private:
     Responder* responder = new Responder();
+    const std::uint16_t SrvPort = 8080;
 };
 
 #endif //YAD_APPLICATION_HPP

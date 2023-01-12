@@ -1,37 +1,9 @@
-#include "src/Configuration.h"
-#include "src/OnRequest.h"
+#include "src/application/Application.hpp"
+#include "src/model/HttpServer.hpp"
 
-int main(int argc, char **argv)
-{
-    if (!event_init())
-    {
-        std::cerr << "Failed to init http server." << std::endl;
-        return -1;
-    }
-
+int main(int argc, char **argv) {
     InitLogging(argv);
-
-	// A(const 1, const 2);
-	// auto app = Applicaton <echo_server>();
-	// app.run();
-	// libevent
-
-    std::unique_ptr<evhttp, decltype(&evhttp_free)> Server(evhttp_start(SrvAddress, SrvPort), &evhttp_free);
-    if (!Server)
-    {
-        std::cerr << "Failed to init http server." << std::endl;
-        return -1;
-    }
-
-    LOG(INFO) << "Server started";
-    auto server = new HttpServer;
-    evhttp_set_gencb(Server.get(), OnRequest, server);
-    if (event_dispatch() == -1)
-    {
-        std::cerr << "Failed to run message loop." << std::endl;
-        delete server;
-        return -1;
-    }
-    delete server;
+    Application<HttpServer> app;
+    app.run();
     return 0;
 }
