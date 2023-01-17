@@ -3,9 +3,6 @@
 
 #include <utility>
 #include <queue>
-#include <boost/graph/topological_sort.hpp>
-#include <boost/graph/graph_traits.hpp>
-#include <boost/graph/adjacency_list.hpp>
 
 #include "src/view/GetNodesBody.h"
 #include "src/logging/init.hpp"
@@ -17,9 +14,6 @@ template<class T>
 using unordered_set = std::unordered_set<T>;
 template<class T, class V>
 using unordered_map = std::unordered_map<T,V>;
-typedef boost::adjacency_list<> Graph;
-typedef boost::graph_traits<Graph>::vertex_descriptor Vertex;
-typedef std::vector< Vertex > container;
 
 struct FileSystemTree {
     struct Node {
@@ -44,11 +38,9 @@ public:
     GetNodesBodyMessage GetNodes(Node *node) const;
     void Delete(Node *node, const string& date, long long ms);
     vector<ImportBodyMessage::ImportBodyItem> Update(long long ms);
-    static vector<ImportBodyMessage::ImportBodyItem> GetNodeHistory(Node *node, long long start, long long end) ;
     ~FileSystemTree();
 private:
-    static void TopologySort(vector<ImportBodyMessage::ImportBodyItem>& items);
-    void AddItem(ImportBodyMessage::ImportBodyItem& item);
+    void AddItem(const ImportBodyMessage::ImportBodyItem& item);
     void Override(const ImportBodyMessage::ImportBodyItem& item);
     static vector<Node*> getParents(Node *root);
     static vector<Node*> getChildren(Node *root);
@@ -57,6 +49,7 @@ private:
     void UnlinkNode(Node *root);
     static void LinkNode(Node *root, Node *parent, const string& date, long long ms);
     static void LinkNode(Node *root, Node *parent);
+    bool IsParent(const string &node, const string &parent) const;
 };
 
 #endif //SERVER_FILE_SYSTEM_TREE_H

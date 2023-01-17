@@ -84,28 +84,105 @@ FileSystemTree::Node *HttpServer::ValidateGetNodes(const string &id) const {
     return ValidateDelete(id);
 }
 
-void HttpServer::ValidateImport(ImportBodyMessage &msg) const {
-    std::unordered_set<std::string> ids_from_query;
+void HttpServer::ValidateImport(ImportBodyMessage &msg) {
+    auto date_ms = Validator::check_datetime(msg.updateDate);
+    if (date_ms < max_date) {
+        throw std::invalid_argument("incorrect date");
+    }
+    max_date = date_ms;
+    for (auto& item: msg.Items) {
+        item.date = msg.updateDate;
+        item.date_ms = date_ms;
+    }
+    std::unordered_map<std::string, ImportBodyMessage::ImportBodyItem> items_from_query;
     for (const auto& item: msg.Items)
-        ids_from_query.insert(item.id);
-    if (ids_from_query.size() < msg.Items.size()) {
+        items_from_query[item.id] = item;
+    if (items_from_query.size() < msg.Items.size()) {
         throw std::invalid_argument("ids are not unique");
     }
 
     for (auto& item : msg.Items)
-        ValidateImportItem(item, ids_from_query);
+        ValidateImportItem(item, items_from_query);
+    TopologySort(msg.Items);
 }
 
-void HttpServer::ValidateImportItem(ImportBodyMessage::ImportBodyItem &item, const std::unordered_set<std::string> &ids) const {
+void HttpServer::ValidateImportItem(ImportBodyMessage::ImportBodyItem &item, const std::unordered_map<std::string, ImportBodyMessage::ImportBodyItem> &ids) const {
     auto id = item.id;
     auto parent = item.parentId;
     if (id == parent) {
-        throw std::invalid_argument("");
+        throw std::invalid_argument("self loop");
     }
-    if (!parent.empty() && file_system.position.find(parent) == file_system.position.end() && ids.find(parent) == ids.end()) {
-        throw std::invalid_argument("");
+    if (!parent.empty()) {
+        if (file_system.position.find(parent) == file_system.position.end()) {
+            // parent inside query
+            if (ids.find(parent) == ids.end())
+                throw std::invalid_argument("no parent found");
+            if (ids.find(parent)->second._systemItemType == SystemItemType::FILE)
+                throw std::invalid_argument("parent is file");
+        }
+        else {
+            // parent inside filesystem
+            const auto &pos = file_system.position;
+            if (pos.find(parent) == pos.end())
+                throw std::invalid_argument("no parent found");
+            if (pos.find(parent)->second->item._systemItemType == SystemItemType::FILE)
+                throw std::invalid_argument("parent is file");
+        }
+    }
+    if (file_system.position.find(id) != file_system.position.end())
+        ValidateExistingItem(item);
+}
+
+void HttpServer::ValidateExistingItem(ImportBodyMessage::ImportBodyItem &item) const {
+    if (item._systemItemType != file_system.position.find(item.id)->second->item._systemItemType)
+        throw std::invalid_argument("try to change type of element");
+    if (file_system.IsParent(item.parentId, item.id))
+        throw std::invalid_argument("try to make a loop");
+}
+
+void HttpServer::TopologySort(vector<ImportBodyMessage::ImportBodyItem> &items) {
+    Graph G;
+    auto CopyItems = items;
+    std::unordered_map<string, int> IdToIndex;
+    for (int i = 0; i < items.size(); ++i)
+    {
+        IdToIndex[items[i].id] = i;
     }
 
+    unordered_set<int> Outside;
+    for (int i = 0; i < items.size(); ++i)
+        Outside.insert(i);
+
+    for (int i = 0; i < items.size(); ++i)
+    {
+        auto it = IdToIndex.find(items[i].parentId);
+        if (it != IdToIndex.end()) {
+            add_edge(i, it->second, G);
+            Outside.erase(i);
+            Outside.erase(it->second);
+        }
+    }
+
+    container c;
+    topological_sort(G, std::back_inserter(c));
+
+    vector<int> ParentInsideQuery;
+
+    for (const auto& ii: c)
+        ParentInsideQuery.push_back(static_cast<int>(ii));
+
+    if (Outside.empty()) {
+        for (int i = 0; i < items.size(); ++i)
+            items[i] = CopyItems[ParentInsideQuery[i]];
+        return;
+    }
+
+    vector<int> ParentOutsideQuery(Outside.begin(), Outside.end());
+
+    for (int i = 0; i < ParentOutsideQuery.size(); ++i)
+        items[i] = CopyItems[ParentOutsideQuery[i]];
+    for (size_t i = ParentOutsideQuery.size(); i < items.size(); ++i)
+        items[i] = CopyItems[ParentInsideQuery[i]];
 }
 
 NotFoundException::NotFoundException(const string &msg) {
