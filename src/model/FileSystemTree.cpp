@@ -1,9 +1,7 @@
 #include "FileSystemTree.hpp"
 
 void FileSystemTree::Import(ImportBodyMessage& msg) {
-    vector<ImportBodyMessage::ImportBodyItem>& items = msg.Items;
-    TopologySort(items);
-    for (auto& item : items)
+    for (const auto& item : msg.Items)
         AddItem(item);
 }
 
@@ -30,53 +28,7 @@ vector<ImportBodyMessage::ImportBodyItem> FileSystemTree::Update(long long ms) {
     return history.GetAll();
 }
 
-void FileSystemTree::TopologySort(vector<ImportBodyMessage::ImportBodyItem>& items)
-{
-    Graph G;
-    auto CopyItems = items;
-    std::unordered_map<string, int> IdToIndex;
-    for (int i = 0; i < items.size(); ++i)
-    {
-        IdToIndex[items[i].id] = i;
-    }
-
-    unordered_set<int> Outside;
-    for (int i = 0; i < items.size(); ++i)
-        Outside.insert(i);
-
-    for (int i = 0; i < items.size(); ++i)
-    {
-        auto it = IdToIndex.find(items[i].parentId);
-        if (it != IdToIndex.end()) {
-            add_edge(i, it->second, G);
-            Outside.erase(i);
-            Outside.erase(it->second);
-        }
-    }
-
-    container c;
-    topological_sort(G, std::back_inserter(c));
-
-    vector<int> ParentInsideQuery;
-
-    for (const auto& ii: c)
-        ParentInsideQuery.push_back(static_cast<int>(ii));
-
-    if (Outside.empty()) {
-        for (int i = 0; i < items.size(); ++i)
-            items[i] = CopyItems[ParentInsideQuery[i]];
-        return;
-    }
-
-    vector<int> ParentOutsideQuery(Outside.begin(), Outside.end());
-
-    for (int i = 0; i < ParentOutsideQuery.size(); ++i)
-        items[i] = CopyItems[ParentOutsideQuery[i]];
-    for (size_t i = ParentOutsideQuery.size(); i < items.size(); ++i)
-        items[i] = CopyItems[ParentInsideQuery[i]];
-}
-
-void FileSystemTree::AddItem(ImportBodyMessage::ImportBodyItem& item) {
+void FileSystemTree::AddItem(const ImportBodyMessage::ImportBodyItem& item) {
     if (position.find(item.id) != position.end()) {
         Override(item);
         LOG(INFO) << "Item added with id: " << item.id;
@@ -98,15 +50,6 @@ void FileSystemTree::Override(const ImportBodyMessage::ImportBodyItem& item) {
     auto parentNode = (it != position.end()) ? it->second : nullptr;
     UnlinkNode(Node);
     LinkNode(Node, parentNode);
-}
-
-vector<ImportBodyMessage::ImportBodyItem> FileSystemTree::GetNodeHistory(Node *node, long long start, long long end) {
-    if (node == nullptr || end < start) {
-        return {};
-    }
-    vector<ImportBodyMessage::ImportBodyItem> Response;
-    //TODO
-    return Response;
 }
 
 FileSystemTree::~FileSystemTree() {
@@ -202,6 +145,19 @@ void FileSystemTree::LinkNode(FileSystemTree::Node *root, FileSystemTree::Node *
     if (root == nullptr || parent == nullptr)
         return;
     LinkNode(root, parent, root->date(), root->date_ms());
+}
+
+bool FileSystemTree::IsParent(const string &node_id, const string &parent_id) const {
+    if (position.find(node_id) == position.end() || position.find(parent_id) == position.end())
+        return false;
+    auto node = position.find(node_id)->second;
+    auto parent = position.find(parent_id)->second;
+    while (node != nullptr) {
+        if (node == parent)
+            return true;
+        node = node->parent;
+    }
+    return false;
 }
 
 FileSystemTree::Node::Node(const ImportBodyMessage::ImportBodyItem &item) : item(item) {}
