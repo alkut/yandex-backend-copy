@@ -48,6 +48,8 @@ void FileSystemTree::Override(const ImportBodyMessage::ImportBodyItem& item) {
     Node *Node = position[item.id];
     auto it = position.find(item.id);
     auto parentNode = (it != position.end()) ? it->second : nullptr;
+    if (parentNode != nullptr)
+        parentNode = parentNode->parent;
     UnlinkNode(Node);
     LinkNode(Node, parentNode);
 }
@@ -111,6 +113,8 @@ void FileSystemTree::UnlinkNode(FileSystemTree::Node *root, const string& date, 
         ptr->date_ms() = ms;
         history.Add(ptr->item);
     }
+    if (root->parent == nullptr)
+        return;
     if (root->type() == SystemItemType::FILE)
         root->parent->childrenFiles.erase(root->id());
     else
