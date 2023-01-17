@@ -51,6 +51,7 @@ void FileSystemTree::Override(const ImportBodyMessage::ImportBodyItem& item) {
     if (parentNode != nullptr)
         parentNode = parentNode->parent;
     UnlinkNode(Node);
+    Node->item = item;
     LinkNode(Node, parentNode);
 }
 
