@@ -5,4 +5,5 @@ int main(int argc, char **argv) {
     InitLogging(argv);
     Application<HttpServer> app;
     app.run();
+    return 0;
 }
