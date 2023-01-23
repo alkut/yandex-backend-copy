@@ -1,7 +1,7 @@
 #ifndef SERVER_GET_NODES_BODY_H
 #define SERVER_GET_NODES_BODY_H
 
-#include "ImportBody.h"
+#include "ImportBody.hpp"
 
 template<class T>
 using vector = std::vector<T>;

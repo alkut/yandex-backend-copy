@@ -1,7 +1,7 @@
 #ifndef SERVER_HTTPSERVER_H
 #define SERVER_HTTPSERVER_H
 
-#include "src/view/ImportBody.h"
+#include "src/view/ImportBody.hpp"
 #include "FileSystemTree.hpp"
 #include "src/validation/Validator.hpp"
 #include "src/application/QueryResponder.hpp"
