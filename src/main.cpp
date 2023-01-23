@@ -3,6 +3,6 @@
 
 int main(int argc, char **argv) {
     InitLogging(argv);
-	Application<HttpServer> app;
+    Application<HttpServer> app;
     app.run();
 }

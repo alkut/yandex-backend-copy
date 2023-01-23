@@ -2,7 +2,6 @@
 #define SERVER_MIN_MAP_H
 
 #include "src/Includes.h"
-#include "src/GlobalUtils.h"
 #include "src/View/ImportBody.h"
 
 struct HistoryStorage : unordered_map<string, ImportBodyMessage::ImportBodyItem>

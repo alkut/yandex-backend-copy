@@ -2,9 +2,11 @@
 #define SERVER_FILE_SYSTEM_TREE_H
 
 #include <utility>
+#include <queue>
 
 #include "src/Includes.h"
 #include "src/View/GetNodesBody.h"
+#include "src/logging/init.h"
 #include "HistoryStorage.h"
 
 struct FileSystemTree {

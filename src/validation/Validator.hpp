@@ -2,9 +2,11 @@
 #define LIB_VALIDATOR_HPP
 
 #include <boost/date_time/posix_time/posix_time.hpp>
+
 #include "QueryExt.hpp"
-#include "src/GlobalUtils.h"
 #include "DeleteItem.hpp"
+#include "src/View/ImportBody.h"
+#include "src/logging/init.h"
 
 class Validator {
 public:
@@ -52,5 +54,7 @@ private:
                     }
             };
     static void check_count_sub_url(const QueryExt& query, size_t count);
+    static std::string date_origin = "2000-01-01 00:00:00.000";
+    static boost::posix_time::ptime origin = boost::posix_time::time_from_string(date_origin);
 };
 #endif //LIB_VALIDATOR_HPP
