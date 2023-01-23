@@ -21,7 +21,7 @@ public:
 
 class HttpServer: QueryResponder {
 public:
-    Respond Response(const Query& query) override;
+    Respond Response(const query::Query& query) override;
     HttpServer() = default;
     HttpServer(const HttpServer&) = delete;
     HttpServer& operator = (const HttpServer&) = delete;

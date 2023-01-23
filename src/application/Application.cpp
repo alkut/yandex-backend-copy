@@ -13,7 +13,7 @@ std::vector<char> ReadBody(struct evhttp_request* remote_rsp) {
     return v;
 }
 
-Query MakeQuery(const std::string& Uri, const std::vector<char>& body) {
+query::Query MakeQuery(const std::string& Uri, const std::vector<char>& body) {
     std::vector<std::string> splittedUri;
     boost::split(splittedUri, Uri, boost::is_any_of("?"));
     if (splittedUri.size() == 1) {
@@ -49,6 +49,7 @@ void PrintRespond(struct evhttp_request * const req, const Respond& respond) {
 }
 
 void OnRequest2(evhttp_request * const req, void * args) {
+
     std::vector<char> body = ReadBody(req);
     std::string Uri(req->uri);
 
@@ -57,7 +58,7 @@ void OnRequest2(evhttp_request * const req, void * args) {
         reinterpret_cast <LibeventArgs*>(args)->stop_callback();
         return;
     }
-    Query query;
+    query::Query query;
     LOG(INFO) << "Got request  " << Uri << " " << (body.empty() ? "" : body.data());
     try {
         query = MakeQuery(Uri, body);

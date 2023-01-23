@@ -5,7 +5,7 @@
 
 class QueryResponder {
 public:
-    virtual Respond Response(const Query& query) = 0;
+    virtual Respond Response(const query::Query& query) = 0;
 };
 
 #endif //YAD_QUERYRESPONDER_HPP

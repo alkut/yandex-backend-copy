@@ -14,7 +14,7 @@
 
 std::vector<char> ReadBody(struct evhttp_request* remote_rsp);
 
-Query MakeQuery(const std::string& Uri, const std::vector<char>& body);
+query::Query MakeQuery(const std::string& Uri, const std::vector<char>& body);
 
 void OnRequest2(evhttp_request * req, void * _server);
 
@@ -29,7 +29,7 @@ template <class Responder>
 class Application {
 public:
     evhttp *http_server = nullptr;
-    void run() {
+    void run(const std::function <void(void)> & f = [](){}) {
         if (!event_init()) {
             LOG(ERROR) << "Failed to init http server.";
             throw std::system_error(std::error_code(), "Failed to init http server.");
@@ -46,18 +46,16 @@ public:
         };
         LibeventArgs libevent_args = {reinterpret_cast<QueryResponder*>(responder), stop_callback};
         evhttp_set_gencb(http_server, OnRequest2, &libevent_args);
+        f();
         if (event_dispatch() == -1) {
             // std::cerr << "Failed to run message loop." << std::endl;
         }
     }
-
     ~Application() {
         delete responder;
     }
-
 private:
     Responder* responder = new Responder();
     const std::uint16_t SrvPort = 8080;
 };
-
 #endif //YAD_APPLICATION_HPP
