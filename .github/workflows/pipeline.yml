@@ -9,6 +9,6 @@ jobs:
       - name: clone
         uses: actions/checkout@v1
       - name: build
-        run: cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S ./src -B ./src/cmake-build-debug && cmake ./src && cmake --build .
+        run: cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S . -B ./cmake-build-debug && cmake . && cmake --build .
       - name: test
         run: valgrind --leak-check=full -s src/bin/runTests test
