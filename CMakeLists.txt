@@ -49,8 +49,8 @@ set(HEADERS
         src/validation/QueryExt.hpp src/validation/Validator.hpp src/validation/DeleteItem.hpp
         src/logging/init.hpp)
 
-set(TEST_SOURCES ../tests/EchoServer.cpp ../tests/ExecuteCurl.cpp)
-set(TEST_HEADERS ../tests/EchoServer.hpp ../tests/ExecuteCurl.hpp)
+set(TEST_SOURCES tests/EchoServer.cpp tests/ExecuteCurl.cpp)
+set(TEST_HEADERS tests/EchoServer.hpp tests/ExecuteCurl.hpp)
 
 list(APPEND LINK_DEP ${Boost_LIBRARIES} ${EVENT_LIBRARIES} nlohmann_json::nlohmann_json glog::glog)
 list(APPEND INCLUDE_DEP ${EVENT_INCLUDE_DIRS} . ${SOME_DEP_DIR}/include)
