@@ -8,7 +8,7 @@
 
 #include "QueryResponder.hpp"
 #include "LibeventArgs.hpp"
-#include "src/logging/init.h"
+#include "src/logging/init.hpp"
 #include "src/Includes.h"
 
 std::vector<char> ReadBody(struct evhttp_request* remote_rsp);
@@ -19,9 +19,11 @@ void OnRequest2(evhttp_request * req, void * _server);
 
 void PrintRespond(struct evhttp_request* req, const Respond& respond);
 
+const char SrvAddress[] = "127.0.0.1";
+
 ///@params Responder: Responder class inherits from QueryResponder class.
 ///Responder class defines the query logic: Responder = {EchoServer, ApplicationServer}
-///Application class abstracts libenevt usage from rest of the code
+///Application class abstracts libevent usage from rest of the code
 template <class Responder>
 class Application {
 public:
@@ -54,6 +56,5 @@ public:
 private:
     Responder* responder = new Responder();
     const std::uint16_t SrvPort = 8080;
-    const char SrvAddress[] = "127.0.0.1";
 };
 #endif //YAD_APPLICATION_HPP

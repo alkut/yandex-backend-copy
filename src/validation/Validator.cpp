@@ -21,9 +21,9 @@ long long Validator::check_datetime(const string &date) {
 
 void Validator::check_count_sub_url(const QueryExt &query, const size_t count) {
     if (query.parsed_url.size() != count) {
-        throw std::invalid_argument("wrong count of sub url");
         LOG(ERROR) << "wrong count of sub url: " << query.parsed_url.size()
                    << "instead of " << count;
+        throw std::invalid_argument("wrong count of sub url");
     }
 }
 

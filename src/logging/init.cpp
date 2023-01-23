@@ -1,4 +1,4 @@
-#include "init.h"
+#include "init.hpp"
 
 void InitLogging(char **argv)
 {
