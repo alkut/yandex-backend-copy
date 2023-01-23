@@ -1,13 +1,14 @@
-#ifndef SERVER_GETNODESBODY_H
-#define SERVER_GETNODESBODY_H
+#ifndef SERVER_GET_NODES_BODY_H
+#define SERVER_GET_NODES_BODY_H
 
 #include "ImportBody.h"
-#include "src/Includes.h"
+
+template<class T>
+using vector = std::vector<T>;
 
 struct GetNodesBodyMessage
 {
-    json SerializeDump() const
-    {
+    [[nodiscard]] json SerializeDump() const {
         json j = body.SerializeDump();
         if (!children.empty())
         {
@@ -21,15 +22,12 @@ struct GetNodesBodyMessage
 
         return j;
     }
-
-    string Serialize() const
-    {
+    [[nodiscard]] string Serialize() const {
         return SerializeDump().dump(2);
     }
 
     ImportBodyMessage::ImportBodyItem body;
-
     vector<GetNodesBodyMessage> children;
 };
 
-#endif //SERVER_GETNODESBODY_H
+#endif //SERVER_GET_NODES_BODY_H

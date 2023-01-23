@@ -1,15 +1,16 @@
 #ifndef YAD_APPLICATION_HPP
 #define YAD_APPLICATION_HPP
 
+#include <evhttp.h>
 #include <event2/buffer.h>
-#include <vector>
-#include <boost/algorithm/string/split.hpp>
 #include <event2/event_compat.h>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
+#include <vector>
 
 #include "QueryResponder.hpp"
 #include "LibeventArgs.hpp"
 #include "src/logging/init.hpp"
-#include "src/Includes.h"
 
 std::vector<char> ReadBody(struct evhttp_request* remote_rsp);
 
