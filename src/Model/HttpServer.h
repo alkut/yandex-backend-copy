@@ -9,117 +9,16 @@
 #include "src/validation/Validator.hpp"
 #include "src/application/QueryResponder.hpp"
 
+class NotFoundException: std::exception {
+public:
+    explicit NotFoundException(const string& msg);
+};
+
 class HttpServer : QueryResponder
 {
 public:
     HttpServer() = default;
     Respond Response(const Query& query) override;
-    void Import(ImportBodyMessage& msg, int& ResponseCode, string& ResponseMsg) {
-      ExpandMessageValidateDate(msg, ResponseCode, ResponseMsg);
-      if (ResponseCode != HTTP_OK)
-      {
-          LOG(ERROR) << "Expand Message DateValidation failed";
-          return;
-      }
-
-      _validateImport(msg, ResponseCode, ResponseMsg);
-      if (ResponseCode != HTTP_OK)
-      {
-          LOG(ERROR) << "Validation Import failed";
-          return;
-      }
-        LOG(INFO) << "Validation is good";
-        file_system.Import(msg);
-    }
-    void Delete(const string& id, const string& date, int& ResponseCode, string& ResponseMsg)
-    {
-        const auto& it = file_system.position.find(id);
-        if (it == file_system.position.end())
-        {
-            ResponseCode = HTTP_NOTFOUND;
-            LOG(ERROR) << "Item with id " << id << " not found";
-            return;
-        }
-
-        long long ms = ValidateDate(date, ResponseCode, ResponseMsg);
-        if (ResponseCode != HTTP_OK || ms < max_date)
-        {
-            if (ms < max_date)
-                LOG(ERROR) << "Date " << date << "is less than before";
-            ResponseCode = HTTP_BADREQUEST;
-            return;
-        }
-
-        file_system.Delete(it->second, date, ms);
-    }
-    void GetNodes(const string& id, int& ResponseCode, string& ResponseMsg)
-    {
-        const auto& it = file_system.position.find(id);
-        if (it == file_system.position.end())
-        {
-            ResponseCode = HTTP_NOTFOUND;
-            LOG(ERROR) << "Item with id " << id << " is not found";
-            return;
-        }
-        try {
-            auto tmp = file_system.GetNodes(it->second);
-            ResponseMsg = file_system.GetNodes(it->second).Serialize();
-        }
-        catch(const std::exception& ex)
-        {
-            LOG(ERROR) << "Oops! Something go wrong\n" << ex.what();
-        }
-    }
-    void GetNodesHistory(const string& id, const string& DateStart, const string& DateEnd, int& ResponseCode, string& ResponseMsg)
-    {
-        long long start = ValidateDate(DateStart, ResponseCode, ResponseMsg);
-        if (ResponseCode != HTTP_OK || start > max_date)
-        {
-            ResponseCode = HTTP_BADREQUEST;
-            return;
-        }
-
-        long long end = ValidateDate(DateEnd, ResponseCode, ResponseMsg);
-        if (ResponseCode != HTTP_OK || end > max_date || end <= start)
-        {
-            ResponseCode = HTTP_BADREQUEST;
-            return;
-        }
-
-        const auto& it = file_system.position.find(id);
-        if (it == file_system.position.end())
-        {
-            LOG(ERROR) << "Item with id " << id << " not found";
-            ResponseCode = HTTP_NOTFOUND;
-            return;
-        }
-        try
-        {
-            ResponseMsg = GetNodeHistoryResponse(file_system.GetNodeHistory(it->second, start, end));
-        }
-        catch(const std::exception& ex)
-        {
-            LOG(ERROR) << "Oops! Something go wrong" << ex.what();
-        }
-    }
-    void Update(const string& date, int& ResponseCode, string& ResponseMsg)
-    {
-        long long ms = ValidateDate(date, ResponseCode, ResponseMsg);
-        if (ResponseCode != HTTP_OK || ms < max_date)
-        {
-            ResponseCode = HTTP_BADREQUEST;
-            return;
-        }
-        try
-        {
-            ResponseMsg = GetUpdateResponse(file_system.Update(ms));
-            LOG(INFO) << "Update return :" << ResponseMsg;
-        }
-        catch(const std::exception& ex)
-        {
-            LOG(ERROR) << "Oops! Something go wrong\n" << ex.what();
-        }
-    }
     FileSystemTree file_system;
 private:
     long long max_date = LLONG_MIN;
@@ -183,11 +82,14 @@ private:
         ResponseCode = 400;
     }
   }
-  FileSystemTree::Node *ValidateDelete(const string& id)
-  {
-    return file_system.position.at(id);
-  }
-  long long ValidateUpdate(const std::string& date);
+    void ValidateImport(ImportBodyMessage &msg) const;
+    FileSystemTree::Node *ValidateDelete(const string& id) const;
+    FileSystemTree::Node *ValidateGetNodes(const string& id) const;
+    static long long ValidateUpdate(const std::string& date);
+    const Respond OK = {HTTP_OK, ""};
+    const Respond NotFound = {HTTP_NOTFOUND, "item not found"};
+    const Respond BadRequest = {HTTP_BADREQUEST, "validation failed"};
+    void ValidateImportItem(ImportBodyMessage::ImportBodyItem &item, const std::unordered_set<std::string> &ids) const;
 };
 
 #endif //SERVER_HTTPSERVER_H

@@ -3,18 +3,18 @@
 Respond HttpServer::Response(const Query &query) {
     auto queryExt = QueryExt(query);
     auto type = validator.GetType(queryExt);
-    auto respond = Respond();
     switch (type) {
         case Validator::QueryTypes::IMPORT:
             try {
                 validator.Validate(queryExt, Validator::QueryTypes::IMPORT);
                 auto import_msg = Validator::GetImport(queryExt);
+                ValidateImport(import_msg);
                 file_system.Import(import_msg);
-                return {HTTP_OK, ""};
+                return OK;
             }
             catch (std::exception &ex) {
                 LOG(ERROR) << ex.what();
-                return {HTTP_BADREQUEST, "validation failed"};
+                return BadRequest;
             }
 
         case Validator::QueryTypes::DELETE:
@@ -23,22 +23,29 @@ Respond HttpServer::Response(const Query &query) {
                 auto delete_msg = Validator::GetDelete(queryExt);
                 auto ptr = ValidateDelete(delete_msg.id);
                 file_system.Delete(ptr, delete_msg.date, Validator::check_datetime(delete_msg.date));
-                return {HTTP_OK, ""};
+                return OK;
+            }
+            catch (NotFoundException &ex) {
+                return NotFound;
             }
             catch (std::exception &ex) {
                 LOG(ERROR) << ex.what();
-                return {HTTP_BADREQUEST, "validation failed"};
+                return BadRequest;
             }
         case Validator::QueryTypes::GET_NODES:
             try {
                 validator.Validate(queryExt, Validator::QueryTypes::GET_NODES);
                 auto nodes_msg = Validator::GetNodes(queryExt);
-                //file_system.GetNodes(nodes_msg);
-                return {HTTP_OK, ""};
+                auto ptr = ValidateGetNodes(nodes_msg);
+                file_system.GetNodes(ptr);
+                return OK;
+            }
+            catch (NotFoundException &ex) {
+                return NotFound;
             }
             catch (std::exception &ex) {
                 LOG(ERROR) << ex.what();
-                return {HTTP_BADREQUEST, "validation failed"};
+                return BadRequest;
             }
         case Validator::QueryTypes::UPDATE:
             try {
@@ -46,15 +53,54 @@ Respond HttpServer::Response(const Query &query) {
                 auto update_msg = Validator::GetUpdate(queryExt);
                 auto date_ms = ValidateUpdate(update_msg);
                 file_system.Update(date_ms);
-                return {HTTP_OK, GetUpdateResponse(file_system.Update(date_ms))};
+                return OK;
             }
             catch (std::exception &ex) {
                 LOG(ERROR) << ex.what();
-                return {HTTP_BADREQUEST, "validation failed"};
+                return BadRequest;
             }
     }
+    return BadRequest;
 }
 
 long long HttpServer::ValidateUpdate(const string &date) {
     return Validator::check_datetime(date);
+}
+
+FileSystemTree::Node *HttpServer::ValidateDelete(const string &id) const {
+    if (file_system.position.find(id) == file_system.position.end())
+        throw NotFoundException("try to delete failed.\nitem with id : " + id + "not found");
+    return file_system.position.at(id);
+}
+
+FileSystemTree::Node *HttpServer::ValidateGetNodes(const string &id) const {
+    return ValidateDelete(id);
+}
+
+void HttpServer::ValidateImport(ImportBodyMessage &msg) const {
+    std::unordered_set<std::string> ids_from_query;
+    for (const auto& item: msg.Items)
+        ids_from_query.insert(item.id);
+    if (ids_from_query.size() < msg.Items.size()) {
+        throw std::invalid_argument("ids are not unique");
+    }
+
+    for (auto& item : msg.Items)
+        ValidateImportItem(item, ids_from_query);
+}
+
+void HttpServer::ValidateImportItem(ImportBodyMessage::ImportBodyItem &item, const std::unordered_set<std::string> &ids) const {
+    auto id = item.id;
+    auto parent = item.parentId;
+    if (id == parent) {
+        throw std::invalid_argument("");
+    }
+    if (!parent.empty() && file_system.position.find(parent) == file_system.position.end() && ids.find(parent) == ids.end()) {
+        throw std::invalid_argument("");
+    }
+
+}
+
+NotFoundException::NotFoundException(const string &msg) {
+    LOG(ERROR) << msg;
 }
