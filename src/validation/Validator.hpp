@@ -33,24 +33,24 @@ private:
             {
                     {
                         QueryTypes::IMPORT, {
-                            [](QueryExt &query) { check_count_sub_url(query, 1); }
+                            [](QueryExt &query) { check_count_sub_url(query, 2); }
                         }
                     },
                     {
                         QueryTypes::DELETE, {
-                            [](QueryExt &query) { check_count_sub_url(query, 2); },
+                            [](QueryExt &query) { check_count_sub_url(query, 3); },
                             [](QueryExt &query) { check_datetime(query.params.at("date")); }
 
                         }
                     },
                     {
                         QueryTypes::GET_NODES, {
-                            [](QueryExt &query) { check_count_sub_url(query, 2); }
+                            [](QueryExt &query) { check_count_sub_url(query, 3); }
                         }
                     },
                     {
                         QueryTypes::UPDATE, {
-                            [](QueryExt &query) { check_count_sub_url(query, 1); },
+                            [](QueryExt &query) { check_count_sub_url(query, 2); },
                             [](QueryExt &query) { check_datetime(query.params.at("date")); }
                         }
                     }

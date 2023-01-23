@@ -7,6 +7,7 @@ project(lib)
 set(CMAKE_CXX_STANDARD 20)
 
 include(FetchContent)
+
 if(APPLE)
         link_directories(
                 /usr/local/lib
@@ -38,7 +39,8 @@ set(SOURCES
         src/model/HistoryStorage.cpp src/model/FileSystemTree.cpp src/model/HttpServer.cpp
         src/application/Application.cpp
         src/validation/QueryExt.cpp src/validation/Validator.cpp
-        src/logging/init.cpp src/view/GetNodesBody.cpp src/view/ImportBody.cpp)
+        src/logging/init.cpp
+        src/view/GetNodesBody.cpp src/view/ImportBody.cpp)
 
 set(HEADERS
         src/view/ImportBody.hpp src/view/GetNodesBody.h
@@ -50,13 +52,8 @@ set(HEADERS
 set(TEST_SOURCES tests/EchoServer.cpp)
 set(TEST_HEADERS tests/EchoServer.hpp)
 
-
 list(APPEND LINK_DEP ${Boost_LIBRARIES} ${EVENT_LIBRARIES} nlohmann_json::nlohmann_json glog::glog)
 list(APPEND INCLUDE_DEP ${EVENT_INCLUDE_DIRS} . ${SOME_DEP_DIR}/include)
-
-include_directories(${Boost_INCLUDE_DIRS})
-include_directories(${GTEST_INCLUDE_DIRS})
-include_directories(${CURL_INCLUDE_DIR})
 
 add_library(lib ${SOURCES} ${HEADERS})
 
