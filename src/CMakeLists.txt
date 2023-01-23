@@ -36,15 +36,15 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${dir}/bin")
 
 set(SOURCES Configuration.cpp GlobalUtils.cpp
         Model/HistoryStorage.cpp Model/FileSystemTree.cpp
-        application/Application.cpp)
+        application/Application.cpp application/Query.cpp)
 
 set(HEADERS Configuration.h UrlResolvers.h Includes.h OnRequest.h GlobalUtils.h
         View/ImportBody.h View/GetNodesBody.h
         Model/HttpServer.h Model/FileSystemTree.h
-        application/Respond.hpp application/QueryResponder.hpp application/Application.hpp application/LibeventArgs.hpp)
+        application/Respond.hpp application/QueryResponder.hpp application/Application.hpp application/LibeventArgs.hpp application/Query.hpp)
 
-set(TEST_SOURCES ../tests/EchoServer.cpp)
-set(TEST_HEADERS ../tests/EchoServer.hpp)
+set(TEST_SOURCES ../tests/EchoServer.cpp ../tests/ExecuteCurl.cpp)
+set(TEST_HEADERS ../tests/EchoServer.hpp ../tests/ExecuteCurl.hpp)
 
 
 list(APPEND LINK_DEP ${Boost_LIBRARIES} ${EVENT_LIBRARIES} nlohmann_json::nlohmann_json glog::glog)

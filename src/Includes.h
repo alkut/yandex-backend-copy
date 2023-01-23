@@ -25,7 +25,9 @@
 #include <fstream>
 #include <algorithm>
 #include <filesystem>
-
+#include "application/Query.hpp"
+#include <thread>
+using Query = query::Query;
 using json = nlohmann::json;
 using string = std::string;
 using regex = std::regex;

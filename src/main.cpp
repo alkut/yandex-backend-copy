@@ -10,12 +10,6 @@ int main(int argc, char **argv)
     }
 
     InitLogging(argv);
-
-	// A(const 1, const 2);
-	// auto app = Applicaton <echo_server>();
-	// app.run();
-	// libevent
-
     std::unique_ptr<evhttp, decltype(&evhttp_free)> Server(evhttp_start(SrvAddress, SrvPort), &evhttp_free);
     if (!Server)
     {
