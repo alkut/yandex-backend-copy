@@ -14,7 +14,7 @@
 
 std::vector<char> ReadBody(struct evhttp_request* remote_rsp);
 
-Query MakeQuery(const std::string& Uri, const std::vector<char>& body);
+query::Query MakeQuery(const std::string& Uri, const std::vector<char>& body);
 
 void OnRequest2(evhttp_request * req, void * _server);
 

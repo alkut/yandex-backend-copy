@@ -7,7 +7,7 @@
 
 #include "src/application/Query.hpp"
 
-struct QueryExt : Query {
+struct QueryExt : query::Query {
     std::vector<std::string> parsed_url;
     explicit QueryExt(const Query& query);
 };
