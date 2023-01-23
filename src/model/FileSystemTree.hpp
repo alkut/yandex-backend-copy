@@ -7,7 +7,7 @@
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/adjacency_list.hpp>
 
-#include "src/View/GetNodesBody.h"
+#include "src/view/GetNodesBody.h"
 #include "src/logging/init.hpp"
 #include "HistoryStorage.hpp"
 
