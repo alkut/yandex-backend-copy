@@ -2,7 +2,7 @@
 cd app/
 mkdir -p build
 cd build
-cmake ../src
+cmake ../
 make
-valgrind --xml=yes --xml-file=XMLFile.log > Textlog.log 2>&1 --leak-check=full -s ../src/bin/runTests test
+valgrind --xml=yes --xml-file=XMLFile.log > Textlog.log 2>&1 --leak-check=full -s src/bin/runTests test
 echo "finish"
