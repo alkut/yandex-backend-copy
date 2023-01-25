@@ -13,4 +13,4 @@ jobs:
       - name: test
         run: valgrind --leak-check=full -s src/bin/runTests test
       - name: run lint
-        run: cpplint --recursive --exclude=cmake-build-debug/* --exclude=src/cmake-build-debug/* --output=emacs .
+        run: cpplint --recursive --exclude=cmake-build-debug/* --exclude=src/cmake-build-debug/* --exclude=_deps/* --output=emacs .
