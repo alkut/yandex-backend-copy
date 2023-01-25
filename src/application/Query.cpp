@@ -1,4 +1,5 @@
-#include "Query.hpp"
+// Copyright 2023 Alexsey Kutasov
+#include "src/application/Query.hpp"
 namespace query {
     [[maybe_unused]] void to_json(json &j, const query::Query &query) {
         j = json{{"url",    query.url},
@@ -11,4 +12,4 @@ namespace query {
         j.at("params").get_to(query.params);
         j.at("body").get_to(query.body);
     }
-}
+}  // namespace query

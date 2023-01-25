@@ -1,6 +1,5 @@
 #include "Application.hpp"
 
-
 std::vector<char> ReadBody(struct evhttp_request* remote_rsp) {
     std::vector<char> v;
     char buf[4096];
@@ -26,14 +25,13 @@ query::Query MakeQuery(const std::string& Uri, const std::vector<char>& body) {
     std::unordered_map<std::string, std::string> params_um;
     std::vector<std::string> params_vector;
     boost::split(params_vector, splittedUri[1], boost::is_any_of("&"));
-    for (const auto &params: params_vector) {
+    for (const auto &params : params_vector) {
         std::vector<std::string> key_value;
         boost::split(key_value, params, boost::is_any_of("="));
-        if (key_value.size() != 2)
-        {
+        if (key_value.size() != 2) {
             LOG(ERROR) << "invalid pair of parameters in query: " << params;
-            throw std::invalid_argument( "invalid pair of parameters in query.");
-
+            throw std::invalid_argument(
+                    "invalid pair of parameters in query.");
         }
         params_um[key_value[0]] = key_value[1];
     }
@@ -49,7 +47,6 @@ void PrintRespond(struct evhttp_request * const req, const Respond& respond) {
 }
 
 void OnRequest2(evhttp_request * const req, void * args) {
-
     std::vector<char> body = ReadBody(req);
     std::string Uri(req->uri);
 
@@ -59,7 +56,8 @@ void OnRequest2(evhttp_request * const req, void * args) {
         return;
     }
     query::Query query;
-    LOG(INFO) << "Got request  " << Uri << " " << (body.empty() ? "" : body.data());
+    LOG(INFO) <<
+    "Got request  " << Uri << " " << (body.empty() ? "" : body.data());
     try {
         query = MakeQuery(Uri, body);
     }
@@ -67,6 +65,7 @@ void OnRequest2(evhttp_request * const req, void * args) {
         PrintRespond(req, {HTTP_BADREQUEST, "Bad request\n"});
     }
     auto server = reinterpret_cast <LibeventArgs*>(args)->responder;
-    Respond respond = reinterpret_cast <QueryResponder*>(server)->Response(query);
+    Respond respond =
+            reinterpret_cast <QueryResponder*>(server)->Response(query);
     PrintRespond(req, respond);
 }

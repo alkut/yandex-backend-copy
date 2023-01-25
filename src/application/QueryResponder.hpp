@@ -1,11 +1,12 @@
-#ifndef YAD_QUERYRESPONDER_HPP
-#define YAD_QUERYRESPONDER_HPP
-#include "Respond.hpp"
-#include "Query.hpp"
+// Copyright 2023 Alexsey Kutasov
+#ifndef SRC_APPLICATION_QUERYRESPONDER_HPP_
+#define SRC_APPLICATION_QUERYRESPONDER_HPP_
+#include "src/application/Respond.hpp"
+#include "src/application/Query.hpp"
 
 class QueryResponder {
-public:
+ public:
     virtual Respond Response(const query::Query& query) = 0;
 };
 
-#endif //YAD_QUERYRESPONDER_HPP
+#endif  // SRC_APPLICATION_QUERYRESPONDER_HPP_

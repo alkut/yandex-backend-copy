@@ -1,16 +1,19 @@
-#ifndef YAD_APPLICATION_HPP
-#define YAD_APPLICATION_HPP
+// Copyright 2023 Alexsey Kutasov
+#ifndef SRC_APPLICATION_APPLICATION_HPP_
+#define SRC_APPLICATION_APPLICATION_HPP_
+#include "src/application/QueryResponder.hpp"
+#include "src/application/LibeventArgs.hpp"
+#include "src/logging/init.hpp"
 
+#include <vector>
+#include <unordered_map>
+#include <string>
+
+#include <boost/algorithm/string/classification.hpp>
+#include <boost/algorithm/string/split.hpp>
 #include <evhttp.h>
 #include <event2/buffer.h>
 #include <event2/event_compat.h>
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/classification.hpp>
-#include <vector>
-
-#include "QueryResponder.hpp"
-#include "LibeventArgs.hpp"
-#include "src/logging/init.hpp"
 
 std::vector<char> ReadBody(struct evhttp_request* remote_rsp);
 
@@ -22,29 +25,33 @@ void PrintRespond(struct evhttp_request* req, const Respond& respond);
 
 const char SrvAddress[] = "127.0.0.1";
 
-///@params Responder: Responder class inherits from QueryResponder class.
-///Responder class defines the query logic: Responder = {EchoServer, ApplicationServer}
-///Application class abstracts libevent usage from rest of the code
+/// @params Responder: Responder class inherits from QueryResponder class.
+/// Responder class defines the query logic:
+/// Responder = {EchoServer, ApplicationServer}
+/// Application class abstracts libevent usage from rest of the code
 template <class Responder>
 class Application {
-public:
+ public:
     evhttp *http_server = nullptr;
     void run(const std::function <void(void)> & f = [](){}) {
         if (!event_init()) {
             LOG(ERROR) << "Failed to init http server.";
-            throw std::system_error(std::error_code(), "Failed to init http server.");
+            throw std::system_error(std::error_code(),
+                                    "Failed to init http server.");
         }
         http_server = evhttp_start(SrvAddress, SrvPort);
         if (http_server == nullptr) {
             LOG(ERROR) << "Failed to init http server.";
-            throw std::system_error(std::error_code(), "Failed to init http server.");
+            throw std::system_error(std::error_code(),
+                                    "Failed to init http server.");
         }
         LOG(INFO) << "Server started";
         evhttp* http_server_local = http_server;
         auto stop_callback = [http_server_local]() {
             evhttp_free(http_server_local);
         };
-        LibeventArgs libevent_args = {reinterpret_cast<QueryResponder*>(responder), stop_callback};
+        LibeventArgs libevent_args =
+                {reinterpret_cast<QueryResponder*>(responder), stop_callback};
         evhttp_set_gencb(http_server, OnRequest2, &libevent_args);
         f();
         if (event_dispatch() == -1) {
@@ -54,8 +61,9 @@ public:
     ~Application() {
         delete responder;
     }
-private:
+
+ private:
     Responder* responder = new Responder();
     const std::uint16_t SrvPort = 8080;
 };
-#endif //YAD_APPLICATION_HPP
+#endif  // SRC_APPLICATION_APPLICATION_HPP_

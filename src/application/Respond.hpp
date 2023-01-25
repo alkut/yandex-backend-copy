@@ -1,10 +1,12 @@
-#ifndef YAD_RESPOND_HPP
-#define YAD_RESPOND_HPP
-#include <string>
+// Copyright 2023 Alexsey Kutasov
+#ifndef SRC_APPLICATION_RESPOND_HPP_
+#define SRC_APPLICATION_RESPOND_HPP_
 #include <event2/http.h>
+#include <string>
 
 struct Respond {
     int code = HTTP_OK;
     std::string message;
 };
-#endif //YAD_RESPOND_HPP
+#endif  // SRC_APPLICATION_RESPOND_HPP_
+

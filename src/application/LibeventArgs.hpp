@@ -1,9 +1,10 @@
-#ifndef YAD_LIBEVENTARGS_HPP
-#define YAD_LIBEVENTARGS_HPP
-#include "QueryResponder.hpp"
+// Copyright 2023 Alexsey Kutasov
+#ifndef SRC_APPLICATION_LIBEVENTARGS_HPP_
+#define SRC_APPLICATION_LIBEVENTARGS_HPP_
+#include "src/application/QueryResponder.hpp"
 
 struct LibeventArgs {
     QueryResponder *responder;
     std::function <void(void)> stop_callback;
 };
-#endif //YAD_LIBEVENTARGS_HPP
+#endif  // SRC_APPLICATION_LIBEVENTARGS_HPP_
