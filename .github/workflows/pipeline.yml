@@ -9,7 +9,7 @@ jobs:
       - name: clone
         uses: actions/checkout@v1
       - name: install pip
-        run: apt-get update && install python3-pip
+        run: apt-get update && install python3-pip -y
       - name: install lint
         run: pip install cpplint
       - name: run lint
