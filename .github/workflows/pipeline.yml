@@ -13,6 +13,6 @@ jobs:
       - name: test
         run: valgrind --leak-check=full -s src/bin/runTests test
       - name: run lint
-        run: cpplint --recursive --exclude=cmake-build-debug/* --exclude=src/cmake-build-debug/* --exclude=_deps/* --output=emacs . > analyze.txt 2> analyze.txt
+        run: echo "$(cpplint --recursive --exclude=cmake-build-debug/* --exclude=src/cmake-build-debug/* --exclude=_deps/* --output=emacs . > analyze.txt 2> analyze.txt)"
       - name: show lint analyze
         run: echo "$(cat analyze.txt)"
