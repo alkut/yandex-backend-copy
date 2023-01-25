@@ -12,3 +12,7 @@ jobs:
         run: cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S . -B ./cmake-build-debug && cmake . && cmake --build .
       - name: test
         run: valgrind --leak-check=full -s src/bin/runTests test
+      - name: run lint
+        run: echo "$(cpplint --recursive --exclude=cmake-build-debug/* --exclude=src/cmake-build-debug/* --exclude=_deps/* --output=emacs . > analyze.txt 2> analyze.txt)"
+      - name: show lint analyze
+        run: echo "$(cat analyze.txt)"

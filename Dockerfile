@@ -11,7 +11,8 @@ RUN \
         libgtest-dev \
         libcurl4-gnutls-dev \
         git \
-        valgrind
+        valgrind \
+        python3-pip
 
 RUN git clone https://github.com/google/glog.git
 WORKDIR glog
@@ -21,7 +22,10 @@ RUN \
     && cmake --build build \
     && cmake --build build --target test \
     && cmake --build build --target install
+
 WORKDIR ./..
+
+RUN pip install cpplint
 
 
 
