@@ -76,8 +76,7 @@ if(APPLE)
 endif()
 
 if(DOCKER)
-        #stupid docker can't find odbc directly obtained from $PATH env val
-#                                                       - use cmake -DDOCKER=on
+        #stupid docker can't find odbc directly - use cmake -DDOCKER=on
         link_directories(/usr/local/unixODBC/lib)
         INCLUDE_DIRECTORIES(/usr/local/unixODBC/include)
 else()
