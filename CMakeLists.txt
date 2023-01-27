@@ -62,7 +62,7 @@ set(BENCH_HEADERS bench/validation/validation_bench.hpp)
 
 list(APPEND LINK_DEP ${Boost_LIBRARIES} ${EVENT_LIBRARIES}
         ${ODBC_LIBRARIES} nlohmann_json::nlohmann_json glog::glog)
-list(APPEND INCLUDE_DEP ${EVENT_INCLUDE_DIRS} . ${SOME_DEP_DIR}/include)
+list(APPEND INCLUDE_DEP ${EVENT_INCLUDE_DIRS} . ${SOME_DEP_DIR}/include ${ODBC_INCLUDE_DIRS})
 
 add_library(lib ${SOURCES} ${HEADERS})
 

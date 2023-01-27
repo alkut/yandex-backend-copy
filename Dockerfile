@@ -49,4 +49,5 @@ RUN \
     ./configure --prefix=/usr/local/unixODBC \
     && make \
     && make install \
-    pip install cpplint
+    && export PATH=$PATH:/usr/local/unixODBC/bin \
+    && pip install cpplint
