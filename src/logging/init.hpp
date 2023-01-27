@@ -2,7 +2,7 @@
 #define LIB_INIT_HPP
 
 #include <glog/logging.h>
-
-void InitLogging(char **argv);
-
+namespace yad_server::logging {
+    void InitLogging(char **argv);
+}
 #endif //LIB_INIT_HPP

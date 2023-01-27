@@ -8,11 +8,11 @@
 #include <cstring>
 #include <nlohmann/json.hpp>
 #include <stddef.h>
-using json = nlohmann::json;
+namespace yad_server::tests {
+    std::string ExecuteCurl(std::string url, std::unordered_map<std::string,
+            std::string> params, std::string body);
 
-std::string ExecuteCurl(std::string url, std::unordered_map <std::string,
-                           std::string> params,std::string body);
-
-static size_t
-WriteMemoryCallback(void *contents, size_t size, size_t nmemb, std::string& data);
+    static size_t
+    WriteMemoryCallback(void *contents, size_t size, size_t nmemb, std::string &data);
+}
 #endif //LIB_EXECUTECURL_HPP
