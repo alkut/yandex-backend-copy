@@ -10,17 +10,11 @@ jobs:
         uses: actions/checkout@v1
       - name: add env
         run: export PATH=$PATH:/usr/local/unixODBC/bin && echo $PATH
-      - name: move to build folder
+      - name: add build folder
         run: mkdir -p build
-      - name: debug
-        working-directory: ./build
-        run: ls ..
       - name: build
         working-directory: ./build
-        run: cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" ..
-      - name: build2
-        working-directory: ./build
-        run: cmake --build .
+        run: cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" .. && cmake --build .
       - name: test
         run: valgrind --leak-check=full -s src/bin/runTests test
       - name: run lint
