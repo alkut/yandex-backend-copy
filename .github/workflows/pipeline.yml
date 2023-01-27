@@ -12,8 +12,10 @@ jobs:
         run: export PATH=$PATH:/usr/local/unixODBC/bin && echo $PATH
       - name: move to build folder
         run: mkdir -p build && cd build
+      - name: debug
+        run: ls && ls ..
       - name: build
-        run: ls .. && cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S .. -B .
+        run: cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S .. -B .
       - name: build2
         run: cmake --build .
       - name: test
