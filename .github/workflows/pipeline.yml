@@ -13,7 +13,9 @@ jobs:
       - name: move to build folder
         run: mkdir -p build && cd build
       - name: build
-        run: cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S .. -B . && cmake --build ..
+        run: ls .. && cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S .. -B .
+      - name: build2
+        run: cmake --build .
       - name: test
         run: valgrind --leak-check=full -s src/bin/runTests test
       - name: run lint
