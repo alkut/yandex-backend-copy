@@ -12,7 +12,9 @@ RUN \
         libcurl4-gnutls-dev \
         git \
         valgrind \
-        python3-pip
+        python3-pip \
+        wget \
+        tar
 
 RUN git clone https://github.com/google/glog.git
 WORKDIR glog
@@ -36,6 +38,17 @@ RUN \
     && cmake --build "build" --config Release --target install
 
 WORKDIR ./..
+
+RUN \
+    wget ftp://ftp.unixodbc.org/pub/unixODBC/unixODBC-2.3.9.tar.gz \
+    && tar xvzf unixODBC-2.3.9.tar.gz
+
+WORKDIR unixODBC-2.3.9/
+
+RUN \
+    ./configure --prefix=/usr/local/unixODBC \
+    && make \
+    && make install
 
 RUN pip install cpplint
 

@@ -30,6 +30,7 @@ find_package(PkgConfig REQUIRED)
 find_package(GTest REQUIRED)
 find_package(CURL REQUIRED)
 find_package(benchmark REQUIRED)
+find_package(ODBC REQUIRED)
 pkg_search_module(EVENT REQUIRED libevent)
 
 set(dir src)
@@ -59,7 +60,8 @@ set(BENCH_SOURCES bench/validation/validation_bench.cpp)
 set(BENCH_HEADERS bench/validation/validation_bench.hpp)
 
 
-list(APPEND LINK_DEP ${Boost_LIBRARIES} ${EVENT_LIBRARIES} nlohmann_json::nlohmann_json glog::glog)
+list(APPEND LINK_DEP ${Boost_LIBRARIES} ${EVENT_LIBRARIES}
+        ${ODBC_LIBRARIES} nlohmann_json::nlohmann_json glog::glog)
 list(APPEND INCLUDE_DEP ${EVENT_INCLUDE_DIRS} . ${SOME_DEP_DIR}/include)
 
 add_library(lib ${SOURCES} ${HEADERS})
