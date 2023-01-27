@@ -48,9 +48,5 @@ WORKDIR unixODBC-2.3.9/
 RUN \
     ./configure --prefix=/usr/local/unixODBC \
     && make \
-    && make install
-
-RUN pip install cpplint
-
-
-
+    && make install \
+    pip install cpplint
