@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.18)
 
 project(main)
 project(runTests)
+project(bench)
 project(lib)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -27,7 +28,8 @@ find_package(Boost 1.40 REQUIRED)
 find_package(glog 0.6.0 REQUIRED)
 find_package(PkgConfig REQUIRED)
 find_package(GTest REQUIRED)
-find_package(CURL)
+find_package(CURL REQUIRED)
+find_package(benchmark REQUIRED)
 pkg_search_module(EVENT REQUIRED libevent)
 
 set(dir src)
@@ -53,6 +55,9 @@ set(HEADERS
 set(TEST_SOURCES tests/EchoServer.cpp tests/ExecuteCurl.cpp)
 set(TEST_HEADERS tests/EchoServer.hpp tests/ExecuteCurl.hpp)
 
+set(BENCH_SOURCES bench/validation/validation_bench.cpp)
+set(BENCH_HEADERS bench/validation/validation_bench.hpp)
+
 
 list(APPEND LINK_DEP ${Boost_LIBRARIES} ${EVENT_LIBRARIES} nlohmann_json::nlohmann_json glog::glog)
 list(APPEND INCLUDE_DEP ${EVENT_INCLUDE_DIRS} . ${SOME_DEP_DIR}/include)
@@ -61,9 +66,11 @@ add_library(lib ${SOURCES} ${HEADERS})
 
 add_executable(main src/main.cpp)
 add_executable(runTests tests/test.cpp ${TEST_SOURCES} ${TEST_HEADERS})
+add_executable(bench bench/main.cpp ${BENCH_SOURCES} ${BENCH_HEADERS})
 
 target_link_libraries(lib ${LINK_DEP})
 target_include_directories(lib PUBLIC ${INCLUDE_DEP})
 
 target_link_libraries(runTests ${CURL_LIBRARIES} ${GTEST_LIBRARIES} pthread lib)
 target_link_libraries(main lib)
+target_link_libraries(bench benchmark::benchmark lib)
