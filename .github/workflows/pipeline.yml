@@ -9,7 +9,7 @@ jobs:
       - name: clone
         uses: actions/checkout@v1
       - name: add env
-        run: export PATH=$PATH:/usr/local/unixODBC/bin && echo $PATH
+        run: export PATH=$PATH:/usr/local/unixODBC/bin && echo $PATH && ls /usr/local/unixODBC/bin
       - name: add build folder
         run: mkdir -p build
       - name: build
