@@ -23,6 +23,7 @@ endif()
 
 if(DOCKER)
         link_directories(/usr/local/unixODBC/lib)
+        INCLUDE_DIRECTORIES(/usr/local/unixODBC/include)
 endif()
 
 FetchContent_Declare(json DOWNLOAD_EXTRACT_TIMESTAMP URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz)
