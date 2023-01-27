@@ -35,4 +35,3 @@ namespace yad_server::model {
             Remove(item.id);
         }
     }
-}
