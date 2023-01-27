@@ -13,9 +13,9 @@ jobs:
       - name: move to build folder
         run: mkdir -p build && cd build
       - name: debug
-        run: ls && ls ..
+        run: ls ..
       - name: build
-        run: cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S .. -B .
+        run: cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" ..
       - name: build2
         run: cmake --build .
       - name: test
