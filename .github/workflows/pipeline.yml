@@ -8,6 +8,8 @@ jobs:
     steps:
       - name: clone
         uses: actions/checkout@v1
+      - name: add env
+        run: export PATH=$PATH:/usr/local/unixODBC/bin
       - name: build
         run: cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S . -B ./cmake-build-debug && cmake . && cmake --build .
       - name: test
