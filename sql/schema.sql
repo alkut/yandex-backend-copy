@@ -25,6 +25,7 @@ CREATE TABLE parent (
 
 CREATE INDEX parent_id_index ON parent using hash (id);
 
+
 CREATE TABLE children_folders (
     id SERIAL CONSTRAINT foreign_key_folder REFERENCES id(id),
     folder_id SERIAL CONSTRAINT foreign_key_sub_folder REFERENCES id(id),
@@ -40,3 +41,10 @@ CREATE TABLE children_files (
 );
 
 CREATE INDEX children_files_index ON children_files using hash (id);
+
+CREATE TABLE update_history (
+    id SERIAL CONSTRAINT foreign_key_history REFERENCES id(id),
+    update DATE NOT NULL
+);
+
+CREATE INDEX update_history_index ON update_history using hash (id);
