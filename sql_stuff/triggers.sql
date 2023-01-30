@@ -18,9 +18,21 @@ BEGIN
         from existent_items_from_import
         where connection.id = existent_items_from_import.id;
 
-	    -- existent items and parents update
-	    -- insert new items
-	    -- delete outdated items
+	    delete from parents;
+	    insert into parents
+	    select id from get_all_first_level_parents;
+
+	    -- update date
+	    update item
+        set update = (select update from import limit 1)
+        from get_parents
+        where item.id = get_parents.id;
+
+	    -- update url
+	    update item
+	    set url = import.url
+	    from existent_items_from_import join import on existent_items_from_import.id = import.id
+	    where item.id = existent_items_from_import.id;
 
 
 
@@ -31,6 +43,6 @@ END;
 $$;
 
 CREATE TRIGGER on_import_changed
-after insert
-ON import
-execute procedure validate_and_import();
+    after insert
+    ON import
+    execute procedure validate_and_import();

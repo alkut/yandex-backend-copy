@@ -1,3 +1,22 @@
+create view get_all_first_level_parents as
+(
+select id
+from new_items_from_import
+union
+select id
+from import
+union
+select id
+from old_parents
+    );
+
+
+create view old_parents as
+(
+select connection.parent_id id
+from existent_items_from_import
+         join connection on existent_items_from_import.id = connection.id
+);
 -- replace inner query with join
 create view get_parents as
 (
