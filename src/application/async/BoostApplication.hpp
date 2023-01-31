@@ -33,13 +33,14 @@ public:
 template<class Responder>
 class BoostApplication: public std::enable_shared_from_this<BoostApplication<Responder>> {
 public:
+    const static inline std::string host = "127.0.0.1";
+    const static unsigned int port = 8080;
+
     explicit BoostApplication(boost::asio::ip::tcp::socket socket): socket_(std::move(socket)) {}
     void start();
     ~BoostApplication();
 private:
     Responder* responder = new Responder();
-    const static inline std::string host = "127.0.0.1";
-    const unsigned int port = 8080;
     boost::asio::ip::tcp::socket socket_;
     boost::beast::flat_buffer buffer_{8192};
     boost::beast::http::request<boost::beast::http::string_body> request_;
@@ -88,7 +89,7 @@ void BoostApplication<Responder>::create_response() {
     std::string url(request_.target());
     //auto method = request_.method();
     auto query = MakeQuery(url, body);
-    auto respond = reinterpret_cast<QueryResponder>(responder).Response(query);
+    auto respond = reinterpret_cast<QueryResponder*>(responder)->Response(query);
     response_.set(boost::beast::http::field::content_type, "text/html");
     ///TODO change type of respond.code
     response_.result(respond.code);
