@@ -1,6 +1,6 @@
 #include "HttpServer.hpp"
 
-Respond HttpServer::Response(const query::Query &query) {
+Respond HttpServer::Response(const query_namespace::Query &query) {
     auto queryExt = QueryExt(query);
     Validator::QueryTypes type;
     try {
@@ -110,7 +110,7 @@ void HttpServer::ValidateImportItem(ImportBodyMessage::ImportBodyItem &item, con
     auto id = item.id;
     auto parent = item.parentId;
     if (id == parent) {
-        throw std::invalid_argument("self loop");
+        throw std::invalid_argument("self event_loop");
     }
     if (!parent.empty()) {
         if (file_system.position.find(parent) == file_system.position.end()) {
@@ -137,7 +137,7 @@ void HttpServer::ValidateExistingItem(ImportBodyMessage::ImportBodyItem &item) c
     if (item._systemItemType != file_system.position.find(item.id)->second->item._systemItemType)
         throw std::invalid_argument("try to change type of element");
     if (file_system.IsParent(item.parentId, item.id))
-        throw std::invalid_argument("try to make a loop");
+        throw std::invalid_argument("try to make a event_loop");
 }
 
 void HttpServer::TopologySort(vector<ImportBodyMessage::ImportBodyItem> &items) {

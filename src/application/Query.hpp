@@ -6,7 +6,7 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
-namespace query {
+namespace query_namespace {
     struct Query {
         std::string url;
         std::unordered_map<std::string, std::string> params;
