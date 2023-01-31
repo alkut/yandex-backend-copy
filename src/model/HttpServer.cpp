@@ -1,6 +1,6 @@
 #include "HttpServer.hpp"
 
-Respond HttpServer::Response(const query::Query &query) {
+Respond HttpServer::Response(const query_namespace::Query &query) {
     auto queryExt = QueryExt(query);
     Validator::QueryTypes type;
     try {
