@@ -1,9 +1,9 @@
 #include "src/application/Application.hpp"
-#include "src/model/HttpServer.hpp"
+#include "src/application/async/BoostApplication.hpp"
 
 int main(int argc, char **argv) {
     InitLogging(argv);
-    Application<HttpServer> app;
-    app.run();
+    Application2 app;
+    Application2::run();
     return 0;
 }
