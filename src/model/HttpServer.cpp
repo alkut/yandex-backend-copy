@@ -1,4 +1,5 @@
 #include "HttpServer.hpp"
+
 namespace yad_server::model {
         application::Respond yad_server::model::HttpServer::Response(const application::query::Query &query) {
             auto queryExt = validation::QueryExt(query);
