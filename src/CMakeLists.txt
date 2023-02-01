@@ -4,6 +4,7 @@ add_subdirectory(application)
 add_subdirectory(model)
 add_subdirectory(validation)
 add_subdirectory(view)
+add_subdirectory(logging)
 
 add_executable(main main.cpp)
 

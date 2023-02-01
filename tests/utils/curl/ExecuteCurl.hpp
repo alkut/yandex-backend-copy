@@ -8,6 +8,7 @@
 #include <cstring>
 #include <nlohmann/json.hpp>
 #include <stddef.h>
+
 namespace yad_server::tests {
     std::string ExecuteCurl(std::string url, std::unordered_map<std::string,
             std::string> params, std::string body);
