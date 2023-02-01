@@ -1,9 +1,10 @@
 #include <gtest/gtest.h>
-#include "src/application/BoostApplication.hpp"
-#include "tests/utils/echo/EchoServer.hpp"
-#include "tests/utils/curl/ExecuteCurl.hpp"
 #include <mutex>
 #include <thread>
+
+#include "../../../src/application/BoostApplication.hpp"
+#include "../../utils/curl/ExecuteCurl.hpp"
+#include "../../utils/echo/EchoServer.hpp"
 
 TEST(Test, Positive) {
     ASSERT_EQ(0, 0);
