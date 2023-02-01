@@ -7,6 +7,6 @@ set(SOURCES
 set(HEADERS
         FileSystemTree.hpp HistoryStorage.hpp HttpServer.hpp)
 
-add_library(model_lib ${SOURCES} ${HEADERS})
+add_library(model_lib STATIC ${SOURCES} ${HEADERS})
 
 target_link_libraries(model_lib ${Boost_LIBRARIES})

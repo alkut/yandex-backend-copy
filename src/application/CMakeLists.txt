@@ -7,6 +7,6 @@ set(SOURCES
 set(HEADERS
         Respond.hpp QueryResponder.hpp Query.hpp BoostApplication.hpp)
 
-add_library(application_lib ${SOURCES} ${HEADERS})
+add_library(application_lib STATIC ${SOURCES} ${HEADERS})
 
-target_link_libraries(application_lib ${Boost_LIBRARIES})
+target_link_libraries(application_lib PUBLIC ${Boost_LIBRARIES})

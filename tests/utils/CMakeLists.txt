@@ -8,4 +8,4 @@ set(HEADERS
         curl/ExecuteCurl.hpp
         echo/EchoServer.hpp)
 
-add_library(test_util_lib ${SOURCES} ${HEADERS})
+add_library(test_util_lib STATIC ${SOURCES} ${HEADERS})

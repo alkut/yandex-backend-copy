@@ -7,6 +7,6 @@ set(SOURCES
 set(HEADERS
         init.hpp)
 
-add_library(logging_lib ${SOURCES} ${HEADERS})
+add_library(logging_lib STATIC ${SOURCES} ${HEADERS})
 
 target_link_libraries(logging_lib glog::glog)

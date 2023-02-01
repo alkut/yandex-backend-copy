@@ -5,10 +5,10 @@
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/adjacency_list.hpp>
 
-#include "src/view/ImportBody.hpp"
-#include "src/model/FileSystemTree.hpp"
-#include "src/validation/Validator.hpp"
-#include "src/application/QueryResponder.hpp"
+#include "view/ImportBody.hpp"
+#include "model/FileSystemTree.hpp"
+#include "validation/Validator.hpp"
+#include "application/QueryResponder.hpp"
 
 namespace yad_server::model {
     class NotFoundException : std::exception {

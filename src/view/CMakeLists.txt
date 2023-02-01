@@ -4,11 +4,11 @@ FetchContent_Declare(json DOWNLOAD_EXTRACT_TIMESTAMP URL https://github.com/nloh
 FetchContent_MakeAvailable(json)
 
 set(SOURCES
-        Query.cpp BoostApplication.cpp)
+        GetNodesBody.cpp ImportBody.cpp)
 set(HEADERS
-        Respond.hpp QueryResponder.hpp Query.hpp BoostApplication.hpp)
+        GetNodesBody.hpp ImportBody.hpp)
 
-add_library(view_lib ${SOURCES} ${HEADERS})
+add_library(view_lib STATIC ${SOURCES} ${HEADERS})
 
-target_link_libraries(view_lib nlohmann_json::nlohmann_json)
+target_link_libraries(view_lib PUBLIC nlohmann_json::nlohmann_json)
 target_include_directories(view_lib PUBLIC ${SOME_DEP_DIR}/include)

@@ -8,9 +8,9 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
 
-#include "src/logging/init.hpp"
-#include "src/application/Query.hpp"
-#include "src/application/QueryResponder.hpp"
+#include "logging/init.hpp"
+#include "application/Query.hpp"
+#include "application/QueryResponder.hpp"
 
 namespace yad_server::application {
 

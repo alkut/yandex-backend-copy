@@ -7,6 +7,6 @@ set(SOURCES
 set(HEADERS
         DeleteItem.hpp QueryExt.hpp Validator.hpp)
 
-add_library(validation_lib ${SOURCES} ${HEADERS})
+add_library(validation_lib STATIC ${SOURCES} ${HEADERS})
 
 target_link_libraries(application_lib ${Boost_LIBRARIES})
