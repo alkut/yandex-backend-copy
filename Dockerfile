@@ -13,8 +13,7 @@ RUN \
         git \
         valgrind \
         python3-pip \
-        wget \
-        tar
+        libpqxx-dev
 
 RUN git clone https://github.com/google/glog.git
 WORKDIR glog
@@ -40,14 +39,4 @@ RUN \
 WORKDIR ./..
 
 RUN \
-    wget ftp://ftp.unixodbc.org/pub/unixODBC/unixODBC-2.3.9.tar.gz \
-    && tar xvzf unixODBC-2.3.9.tar.gz
-
-WORKDIR unixODBC-2.3.9/
-
-RUN \
-    ./configure --prefix=/usr/local/unixODBC \
-    && make \
-    && make install \
-    && export PATH=$PATH:/usr/local/unixODBC/bin \
-    && pip install cpplint
+    pip install cpplint

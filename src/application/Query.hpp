@@ -13,5 +13,5 @@ namespace yad_server::application::query {
             [[maybe_unused]] void to_json(nlohmann::json &j, const Query &query);
 
             [[maybe_unused]] void from_json(const nlohmann::json &j, Query &query);
-        }
+} // end namespace yad_server::application::query
 #endif // SERVER_QUERY
