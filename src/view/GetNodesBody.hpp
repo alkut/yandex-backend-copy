@@ -8,7 +8,7 @@ namespace yad_server::view {
 
         [[nodiscard]] std::string Serialize() const;
 
-        ImportBodyMessage::ImportBodyItem body;
+        import_body_message::ImportBodyMessage::ImportBodyItem body;
         std::vector<GetNodesBodyMessage> children;
     };
 }

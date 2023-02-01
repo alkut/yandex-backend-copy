@@ -33,7 +33,7 @@ namespace yad_server::model {
         validation::Validator validator;
         long long max_date = LLONG_MIN;
 
-        void ValidateImport(view::ImportBodyMessage &msg);
+        void ValidateImport(view::import_body_message::ImportBodyMessage &msg);
 
         FileSystemTree::Node *ValidateDelete(const std::string &id) const;
 
@@ -41,12 +41,12 @@ namespace yad_server::model {
 
         static long long ValidateUpdate(const std::string &date);
 
-        void ValidateImportItem(view::ImportBodyMessage::ImportBodyItem &item,
-                                const std::unordered_map<std::string, view::ImportBodyMessage::ImportBodyItem> &ids) const;
+        void ValidateImportItem(view::import_body_message::ImportBodyMessage::ImportBodyItem &item,
+                                const std::unordered_map<std::string, view::import_body_message::ImportBodyMessage::ImportBodyItem> &ids) const;
 
-        void ValidateExistingItem(view::ImportBodyMessage::ImportBodyItem &item) const;
+        void ValidateExistingItem(view::import_body_message::ImportBodyMessage::ImportBodyItem &item) const;
 
-        static void TopologySort(std::vector<view::ImportBodyMessage::ImportBodyItem> &items);
+        static void TopologySort(std::vector<view::import_body_message::ImportBodyMessage::ImportBodyItem> &items);
 
         const application::Respond OK = {HTTP_OK, ""};
         const application::Respond NotFound = {HTTP_NOTFOUND, "item not found"};

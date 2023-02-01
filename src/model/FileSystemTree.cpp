@@ -1,6 +1,6 @@
 #include "FileSystemTree.hpp"
 namespace yad_server::model {
-        void FileSystemTree::Import(view::ImportBodyMessage &msg) {
+        void FileSystemTree::Import(view::import_body_message::ImportBodyMessage &msg) {
             for (const auto &item: msg.Items)
                 AddItem(item);
         }
@@ -22,12 +22,12 @@ namespace yad_server::model {
             DestroyNode(node);
         }
 
-        std::vector<view::ImportBodyMessage::ImportBodyItem> FileSystemTree::Update(long long ms) {
+        std::vector<view::import_body_message::ImportBodyMessage::ImportBodyItem> FileSystemTree::Update(long long ms) {
             history.DeleteOld(ms);
             return history.GetAll();
         }
 
-        void FileSystemTree::AddItem(const view::ImportBodyMessage::ImportBodyItem &item) {
+        void FileSystemTree::AddItem(const view::import_body_message::ImportBodyMessage::ImportBodyItem &item) {
             if (position.find(item.id) != position.end()) {
                 Override(item);
                 LOG(INFO) << "Item added with id: " << item.id;
@@ -42,7 +42,7 @@ namespace yad_server::model {
             LOG(INFO) << "Item added with id: " << item.id;
         }
 
-        void FileSystemTree::Override(const view::ImportBodyMessage::ImportBodyItem &item) {
+        void FileSystemTree::Override(const view::import_body_message::ImportBodyMessage::ImportBodyItem &item) {
             history.Add(item);
             Node *Node = position[item.id];
             auto it = position.find(item.id);
@@ -164,7 +164,7 @@ namespace yad_server::model {
             return false;
         }
 
-        FileSystemTree::Node::Node(const view::ImportBodyMessage::ImportBodyItem &item) : item(item) {}
+        FileSystemTree::Node::Node(const view::import_body_message::ImportBodyMessage::ImportBodyItem &item) : item(item) {}
 
         std::string &FileSystemTree::Node::id() {
             return item.id;

@@ -16,7 +16,7 @@ public:
     enum class QueryTypes {IMPORT, DELETE, GET_NODES, UPDATE};
     QueryTypes GetType(const QueryExt& query) const ;
     void Validate(QueryExt& query, QueryTypes type) const ;
-    static view::ImportBodyMessage GetImport(const QueryExt& query);
+    static view::import_body_message::ImportBodyMessage GetImport(const QueryExt& query);
     static DeleteItem GetDelete(const QueryExt& query);
     static std::string GetNodes(const QueryExt& query);
     static std::string GetUpdate(const QueryExt& query);

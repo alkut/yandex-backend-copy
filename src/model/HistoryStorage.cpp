@@ -1,6 +1,6 @@
 #include "HistoryStorage.hpp"
 namespace yad_server::model {
-        void HistoryStorage::Add(const view::ImportBodyMessage::ImportBodyItem &item) {
+        void HistoryStorage::Add(const view::import_body_message::ImportBodyMessage::ImportBodyItem &item) {
             if (item._systemItemType == view::SystemItemType::FOLDER)
                 return;
             (*this)[item.id] = item;
@@ -22,14 +22,14 @@ namespace yad_server::model {
             erase(id);
         }
 
-        std::vector<view::ImportBodyMessage::ImportBodyItem> HistoryStorage::GetAll() const {
-            auto ans = std::vector<view::ImportBodyMessage::ImportBodyItem>();
+        std::vector<view::import_body_message::ImportBodyMessage::ImportBodyItem> HistoryStorage::GetAll() const {
+            auto ans = std::vector<view::import_body_message::ImportBodyMessage::ImportBodyItem>();
             for (const auto&[id, item]: *this)
                 ans.push_back(item);
             return ans;
         }
 
-        void HistoryStorage::Remove(const view::ImportBodyMessage::ImportBodyItem &item) {
+        void HistoryStorage::Remove(const view::import_body_message::ImportBodyMessage::ImportBodyItem &item) {
             if (item._systemItemType == view::SystemItemType::FOLDER)
                 return;
             Remove(item.id);

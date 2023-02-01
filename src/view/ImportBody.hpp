@@ -10,51 +10,47 @@ namespace yad_server::view {
     const nlohmann::json NullJson;
 
     const nlohmann::json EmptyJson(nlohmann::json::value_t::array);
+    namespace import_body_message {
+        struct ImportBodyMessage {
+            ImportBodyMessage() = default;
 
-    struct ImportBodyMessage {
-        ImportBodyMessage() = default;
+            struct ImportBodyItem {
+                ImportBodyItem() = default;
 
-        struct ImportBodyItem {
-            ImportBodyItem() = default;
+                explicit ImportBodyItem(const nlohmann::json &j);
 
-            explicit ImportBodyItem(const nlohmann::json &j);
+                //Serializable fields
+                std::string id;
+                std::string url;
+                std::string parentId;
+                std::string type;
+                int64_t size = 0;
+                //Expanded fields
+                long long date_ms = 0ll;
+                std::string date;
+                SystemItemType _systemItemType = SystemItemType::FILE;
 
-            //Serializable fields
-            std::string id;
-            std::string url;
-            std::string parentId;
-            std::string type;
-            int64_t size = 0;
-            //Expanded fields
-            long long date_ms = 0ll;
-            std::string date;
-            SystemItemType _systemItemType = SystemItemType::FILE;
+                template<typename T>
+                static void
+                GetAttribute(const nlohmann::json &j, const std::string &fieldName, T &field, T defaultValue = T());
 
-            void Deserialize(const nlohmann::json &j);
+                static void AddAttribute(nlohmann::json &j, const std::string &fieldName, const std::string &value,
+                                         const std::string &defaultValue = "");
 
-            void DeserializeExpanded(const nlohmann::json &j);
+            private:
+                std::string _s_size;
+            };
 
-            [[nodiscard]] nlohmann::json SerializeDump() const;
 
-            [[nodiscard]] std::string Serialize() const;
+            std::vector<ImportBodyItem> Items;
+            std::string updateDate;
 
-            [[nodiscard]] std::string SerializeExpanded() const;
-
-        private:
-            std::string _s_size;
-
-            template<typename T>
-            static void
-            GetAttribute(const nlohmann::json &j, const std::string &fieldName, T &field, T defaultValue = T());
-
-            static void AddAttribute(nlohmann::json &j, const std::string &fieldName, const std::string &value,
-                                     const std::string &defaultValue = "");
         };
+    }
+    [[maybe_unused]] void from_json(const nlohmann::json &j, import_body_message::ImportBodyMessage &item);
 
-        std::vector<ImportBodyItem> Items;
-        std::string updateDate;
+    [[maybe_unused]] void to_json(nlohmann::json &j, const import_body_message::ImportBodyMessage::ImportBodyItem &item);
 
-        void Deserialize(const nlohmann::json &j);
-    };
+    [[maybe_unused]] void from_json(const nlohmann::json &j, import_body_message::ImportBodyMessage::ImportBodyItem &item);
 }
 #endif //SERVER_IMPORT_BODY_H

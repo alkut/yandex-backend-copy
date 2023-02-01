@@ -1,6 +1,5 @@
 #include "Query.hpp"
-namespace yad_server::application {
-        namespace query {
+namespace yad_server::application::query {
             [[maybe_unused]] void to_json(nlohmann::json &j, const query::Query &query) {
                 j = nlohmann::json{{"url",    query.url},
                                    {"params", query.params},
@@ -13,4 +12,3 @@ namespace yad_server::application {
                 j.at("body").get_to(query.body);
             }
         }
-}

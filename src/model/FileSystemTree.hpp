@@ -11,10 +11,10 @@ namespace yad_server::model {
         struct FileSystemTree {
             struct Node {
                 Node *parent = nullptr;
-                view::ImportBodyMessage::ImportBodyItem item;
+                view::import_body_message::ImportBodyMessage::ImportBodyItem item;
                 std::unordered_map<std::string, Node *> childrenFiles, childrenFolders;
 
-                explicit Node(const view::ImportBodyMessage::ImportBodyItem &item);
+                explicit Node(const view::import_body_message::ImportBodyMessage::ImportBodyItem &item);
 
                 std::string &id();
 
@@ -35,20 +35,20 @@ namespace yad_server::model {
 
             FileSystemTree() = default;
 
-            void Import(view::ImportBodyMessage &msg);
+            void Import(view::import_body_message::ImportBodyMessage &msg);
 
             view::GetNodesBodyMessage GetNodes(Node *node) const;
 
             void Delete(Node *node, const std::string &date, long long ms);
 
-            std::vector<view::ImportBodyMessage::ImportBodyItem> Update(long long ms);
+            std::vector<view::import_body_message::ImportBodyMessage::ImportBodyItem> Update(long long ms);
 
             ~FileSystemTree();
 
         private:
-            void AddItem(const view::ImportBodyMessage::ImportBodyItem &item);
+            void AddItem(const view::import_body_message::ImportBodyMessage::ImportBodyItem &item);
 
-            void Override(const view::ImportBodyMessage::ImportBodyItem &item);
+            void Override(const view::import_body_message::ImportBodyMessage::ImportBodyItem &item);
 
             static std::vector<Node *> getParents(Node *root);
 

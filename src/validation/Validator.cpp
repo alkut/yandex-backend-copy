@@ -28,9 +28,9 @@ namespace yad_server::validation {
         }
     }
 
-    view::ImportBodyMessage Validator::GetImport(const QueryExt &query) {
-        auto body = view::ImportBodyMessage();
-        body.Deserialize(nlohmann::json::parse(query.body));
+    view::import_body_message::ImportBodyMessage Validator::GetImport(const QueryExt &query) {
+        auto body = view::import_body_message::ImportBodyMessage();
+        view::from_json(nlohmann::json::parse(query.body),body);
         for (const auto &item: body.Items) {
             if (item._systemItemType == view::SystemItemType::FILE && item.size <= 0)
                 throw std::invalid_argument("empty file");

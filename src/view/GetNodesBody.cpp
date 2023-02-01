@@ -6,7 +6,8 @@ namespace yad_server::view {
     }
 
     nlohmann::json GetNodesBodyMessage::SerializeDump() const {
-        nlohmann::json j = body.SerializeDump();
+        nlohmann::json j;
+        to_json(j, body);
         if (!children.empty()) {
             nlohmann::json arr;
             for (const auto &it: children)

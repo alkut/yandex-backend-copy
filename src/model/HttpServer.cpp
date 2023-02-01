@@ -84,7 +84,7 @@ namespace yad_server::model {
             return ValidateDelete(id);
         }
 
-        void HttpServer::ValidateImport(view::ImportBodyMessage &msg) {
+        void HttpServer::ValidateImport(view::import_body_message::ImportBodyMessage &msg) {
             auto date_ms = validation::Validator::check_datetime(msg.updateDate);
             if (date_ms < max_date) {
                 throw std::invalid_argument("incorrect date");
@@ -94,7 +94,7 @@ namespace yad_server::model {
                 item.date = msg.updateDate;
                 item.date_ms = date_ms;
             }
-            std::unordered_map<std::string, view::ImportBodyMessage::ImportBodyItem> items_from_query;
+            std::unordered_map<std::string, view::import_body_message::ImportBodyMessage::ImportBodyItem> items_from_query;
             for (const auto &item: msg.Items)
                 items_from_query[item.id] = item;
             if (items_from_query.size() < msg.Items.size()) {
@@ -106,8 +106,8 @@ namespace yad_server::model {
             TopologySort(msg.Items);
         }
 
-        void HttpServer::ValidateImportItem(view::ImportBodyMessage::ImportBodyItem &item,
-                                            const std::unordered_map<std::string, view::ImportBodyMessage::ImportBodyItem> &ids) const {
+        void HttpServer::ValidateImportItem(view::import_body_message::ImportBodyMessage::ImportBodyItem &item,
+                                            const std::unordered_map<std::string, view::import_body_message::ImportBodyMessage::ImportBodyItem> &ids) const {
             auto id = item.id;
             auto parent = item.parentId;
             if (id == parent) {
@@ -133,14 +133,14 @@ namespace yad_server::model {
                 ValidateExistingItem(item);
         }
 
-        void HttpServer::ValidateExistingItem(view::ImportBodyMessage::ImportBodyItem &item) const {
+        void HttpServer::ValidateExistingItem(view::import_body_message::ImportBodyMessage::ImportBodyItem &item) const {
             if (item._systemItemType != file_system.position.find(item.id)->second->item._systemItemType)
                 throw std::invalid_argument("try to change type of element");
             if (file_system.IsParent(item.parentId, item.id))
                 throw std::invalid_argument("try to make a loop");
         }
 
-        void HttpServer::TopologySort(std::vector<view::ImportBodyMessage::ImportBodyItem> &items) {
+        void HttpServer::TopologySort(std::vector<view::import_body_message::ImportBodyMessage::ImportBodyItem> &items) {
             boost::adjacency_list<> G;
             auto CopyItems = items;
             std::unordered_map<std::string, int> IdToIndex;
