@@ -5,7 +5,8 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string.hpp>
 
-#include "src/application/Query.hpp"
+#include "../application/Query.hpp"
+
 namespace yad_server::validation {
     struct QueryExt : application::query::Query {
         std::vector<std::string> parsed_url;

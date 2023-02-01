@@ -5,8 +5,9 @@
 
 #include "QueryExt.hpp"
 #include "DeleteItem.hpp"
-#include "src/view/ImportBody.hpp"
-#include "src/logging/init.hpp"
+#include "../view/ImportBody.hpp"
+#include "../logging/init.hpp"
+
 namespace yad_server::validation {
 const boost::posix_time::ptime origin = boost::posix_time::time_from_string("2000-01-01 00:00:00.000");
 

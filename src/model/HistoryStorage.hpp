@@ -3,8 +3,10 @@
 
 #include <unordered_map>
 #include <vector>
+#include <string>
 
-#include "src/view/ImportBody.hpp"
+#include "../view/ImportBody.hpp"
+
 namespace yad_server::model {
 struct HistoryStorage : std::unordered_map<std::string, view::import_body_message::ImportBodyMessage::ImportBodyItem> {
         void Add(const view::import_body_message::ImportBodyMessage::ImportBodyItem &item);

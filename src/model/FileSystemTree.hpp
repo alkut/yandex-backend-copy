@@ -4,9 +4,10 @@
 #include <utility>
 #include <queue>
 
-#include "src/view/GetNodesBody.hpp"
-#include "src/logging/init.hpp"
+#include "../view/GetNodesBody.hpp"
+#include "../logging/init.hpp"
 #include "HistoryStorage.hpp"
+
 namespace yad_server::model {
         struct FileSystemTree {
             struct Node {
