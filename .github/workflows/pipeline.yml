@@ -20,4 +20,4 @@ jobs:
       - name: show lint analyze
         run: echo "$(cat analyze.txt)"
       - name: benchmark tests
-        run: build/tests/unit/bench/bin/unit_tests
+        run: build/tests/unit/bench/bin/bench_unit
