@@ -9,7 +9,6 @@
 namespace yad_server::validation {
     struct QueryExt : application::query::Query {
         std::vector<std::string> parsed_url;
-
         explicit QueryExt(const Query &query);
     };
 }

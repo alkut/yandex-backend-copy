@@ -138,6 +138,7 @@ namespace yad_server::model {
                 throw std::invalid_argument("try to change type of element");
             if (file_system.IsParent(item.parentId, item.id))
                 throw std::invalid_argument("try to make a loop");
+
         }
 
         void HttpServer::TopologySort(std::vector<view::import_body_message::ImportBodyMessage::ImportBodyItem> &items) {

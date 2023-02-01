@@ -10,7 +10,6 @@ namespace yad_server::application::query {
                 std::unordered_map<std::string, std::string> params;
                 std::string body;
             };
-
             [[maybe_unused]] void to_json(nlohmann::json &j, const Query &query);
 
             [[maybe_unused]] void from_json(const nlohmann::json &j, Query &query);

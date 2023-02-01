@@ -31,7 +31,6 @@ namespace yad_server::application {
                 if (key_value.size() != 2) {
                     LOG(ERROR) << "invalid pair of parameters in query: " << params;
                     throw std::invalid_argument("invalid pair of parameters in query.");
-
                 }
                 params_um[key_value[0]] = key_value[1];
             }
@@ -50,7 +49,6 @@ namespace yad_server::application {
 
             std::vector<char> body = ReadBody(req);
             std::string Uri(req->uri);
-
             if (Uri == "/shutdown") {
                 PrintRespond(req, {HTTP_OK, "stop server\n"});
                 reinterpret_cast <LibeventArgs *>(args)->stop_callback();

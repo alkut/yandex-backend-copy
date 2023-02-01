@@ -11,4 +11,4 @@ namespace yad_server::application::query {
                 j.at("params").get_to(query.params);
                 j.at("body").get_to(query.body);
             }
-        }
+}

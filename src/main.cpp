@@ -1,4 +1,4 @@
-#include "src/application/Application.hpp"
+#include "src/application/async/BoostApplication.hpp"
 #include "src/model/HttpServer.hpp"
 int main(int argc, char **argv) {
     yad_server::logging::InitLogging(argv);

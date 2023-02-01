@@ -15,7 +15,6 @@ namespace yad_server::model {
     public:
         explicit NotFoundException(const std::string &msg);
     };
-
     class HttpServer : application::QueryResponder {
     public:
         application::Respond Response(const application::query::Query &query) override;
