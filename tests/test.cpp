@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../src/application/Application.hpp"
+#include "src/application/BoostApplication.hpp"
 #include "EchoServer.hpp"
 #include "ExecuteCurl.hpp"
 #include <mutex>
@@ -59,25 +59,22 @@
         ASSERT_EQ(query_body, res_body);
     }
 
-    void runserver(std::binary_semaphore &bs) {
+    void runserver() {
         yad_server::application::Application<yad_server::tests::EchoServer> app;
-        app.run([&bs]() { bs.release(); });
+        app.run();
     }
 
-    void runtests(int args, char **argv, int &code, std::binary_semaphore &bs) {
+    void runtests(int args, char **argv, int &code) {
         yad_server::logging::InitLogging(argv);
         testing::InitGoogleTest(&args, argv);
-        bs.acquire();
         code = RUN_ALL_TESTS();
         yad_server::tests::ExecuteCurl("http://localhost:8080/shutdown", {}, "");
     }
 
     int main(int argc, char **argv) {
         int code;
-        std::binary_semaphore bs{0};
-//    bs.acquire();
-        std::thread first([&bs]() { runserver(bs); });
-        runtests(argc, argv, code, bs);
-        first.join();
+        std::thread first([]() { runserver(); });
+        runtests(argc, argv, code);
+        first.detach();
         return code;
     }
