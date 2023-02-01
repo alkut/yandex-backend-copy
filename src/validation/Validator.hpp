@@ -7,7 +7,7 @@
 #include "DeleteItem.hpp"
 #include "src/view/ImportBody.hpp"
 #include "src/logging/init.hpp"
-
+namespace yad_server::validation {
 const boost::posix_time::ptime origin = boost::posix_time::time_from_string("2000-01-01 00:00:00.000");
 
 class Validator {
@@ -16,11 +16,11 @@ public:
     enum class QueryTypes {IMPORT, DELETE, GET_NODES, UPDATE};
     QueryTypes GetType(const QueryExt& query) const ;
     void Validate(QueryExt& query, QueryTypes type) const ;
-    static ImportBodyMessage GetImport(const QueryExt& query);
+    static view::import_body_message::ImportBodyMessage GetImport(const QueryExt& query);
     static DeleteItem GetDelete(const QueryExt& query);
-    static string GetNodes(const QueryExt& query);
-    static string GetUpdate(const QueryExt& query);
-    static long long check_datetime(const string& date);
+    static std::string GetNodes(const QueryExt& query);
+    static std::string GetUpdate(const QueryExt& query);
+    static long long check_datetime(const std::string& date);
 private:
     const std::unordered_map<std::string, QueryTypes> types =
             {
@@ -57,4 +57,5 @@ private:
             };
     static void check_count_sub_url(const QueryExt& query, size_t count);
 };
+    }
 #endif //LIB_VALIDATOR_HPP

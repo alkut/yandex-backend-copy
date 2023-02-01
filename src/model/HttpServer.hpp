@@ -10,37 +10,46 @@
 #include "src/validation/Validator.hpp"
 #include "src/application/QueryResponder.hpp"
 
-typedef boost::adjacency_list<> Graph;
-typedef boost::graph_traits<Graph>::vertex_descriptor Vertex;
-typedef std::vector<Vertex> container;
+namespace yad_server::model {
+    class NotFoundException : std::exception {
+    public:
+        explicit NotFoundException(const std::string &msg);
+    };
+    class HttpServer : application::QueryResponder {
+    public:
+        application::Respond Response(const application::query::Query &query) override;
 
-class NotFoundException: std::exception {
-public:
-    explicit NotFoundException(const string& msg);
-};
+        HttpServer() = default;
 
-class HttpServer: QueryResponder {
-public:
-    Respond Response(const query_namespace::Query& query) override;
-    HttpServer() = default;
-    HttpServer(const HttpServer&) = delete;
-    HttpServer& operator = (const HttpServer&) = delete;
-    ~HttpServer() = default;
-private:
-    FileSystemTree file_system;
-    Validator validator;
-    long long max_date = LLONG_MIN;
-    void ValidateImport(ImportBodyMessage &msg);
-    FileSystemTree::Node *ValidateDelete(const string& id) const;
-    FileSystemTree::Node *ValidateGetNodes(const string& id) const;
-    static long long ValidateUpdate(const std::string& date);
-    void ValidateImportItem(ImportBodyMessage::ImportBodyItem &item, const std::unordered_map<std::string, ImportBodyMessage::ImportBodyItem> &ids) const;
-    void ValidateExistingItem(ImportBodyMessage::ImportBodyItem &item) const;
-    static void TopologySort(vector<ImportBodyMessage::ImportBodyItem>& items);
+        HttpServer(const HttpServer &) = delete;
 
-    const Respond OK = {HTTP_OK, ""};
-    const Respond NotFound = {HTTP_NOTFOUND, "item not found"};
-    const Respond BadRequest = {HTTP_BADREQUEST, "validation failed"};
-};
+        HttpServer &operator=(const HttpServer &) = delete;
 
+        ~HttpServer() = default;
+
+    private:
+        FileSystemTree file_system;
+        validation::Validator validator;
+        long long max_date = LLONG_MIN;
+
+        void ValidateImport(view::import_body_message::ImportBodyMessage &msg);
+
+        FileSystemTree::Node *ValidateDelete(const std::string &id) const;
+
+        FileSystemTree::Node *ValidateGetNodes(const std::string &id) const;
+
+        static long long ValidateUpdate(const std::string &date);
+
+        void ValidateImportItem(view::import_body_message::ImportBodyMessage::ImportBodyItem &item,
+                                const std::unordered_map<std::string, view::import_body_message::ImportBodyMessage::ImportBodyItem> &ids) const;
+
+        void ValidateExistingItem(view::import_body_message::ImportBodyMessage::ImportBodyItem &item) const;
+
+        static void TopologySort(std::vector<view::import_body_message::ImportBodyMessage::ImportBodyItem> &items);
+
+        const application::Respond OK = {HTTP_OK, ""};
+        const application::Respond NotFound = {HTTP_NOTFOUND, "item not found"};
+        const application::Respond BadRequest = {HTTP_BADREQUEST, "validation failed"};
+    };
+}
 #endif //SERVER_HTTPSERVER_H

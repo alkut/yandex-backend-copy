@@ -35,7 +35,7 @@ set(SOURCES
         src/view/GetNodesBody.cpp src/view/ImportBody.cpp)
 
 set(HEADERS
-        src/view/ImportBody.hpp src/view/GetNodesBody.h
+        src/view/ImportBody.hpp src/view/GetNodesBody.hpp
         src/model/HttpServer.hpp src/model/FileSystemTree.hpp
         src/application/Respond.hpp src/application/QueryResponder.hpp src/application/Application.hpp src/application/LibeventArgs.hpp src/application/Query.hpp src/application/async/BoostApplication.hpp
         src/validation/QueryExt.hpp src/validation/Validator.hpp src/validation/DeleteItem.hpp

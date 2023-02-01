@@ -6,10 +6,10 @@
 #include <boost/algorithm/string.hpp>
 
 #include "src/application/Query.hpp"
-
-struct QueryExt : query_namespace::Query {
-    std::vector<std::string> parsed_url;
-    explicit QueryExt(const Query& query);
-};
-
+namespace yad_server::validation {
+    struct QueryExt : application::query::Query {
+        std::vector<std::string> parsed_url;
+        explicit QueryExt(const Query &query);
+    };
+}
 #endif //LIB_QUERYEXT_HPP
