@@ -81,7 +81,6 @@ if(DOCKER)
         INCLUDE_DIRECTORIES(/usr/local/unixODBC/include)
 else()
         #gigachad way to link odbc - by default
-        find_package(ODBC REQUIRED)
         target_include_directories(lib PUBLIC ${ODBC_INCLUDE_DIRS})
         target_link_libraries(lib ${ODBC_LIBRARIES})
 endif()
