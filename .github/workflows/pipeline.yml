@@ -14,10 +14,10 @@ jobs:
         working-directory: ./build
         run: cmake -DDOCKER=on -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S .. -B . && cmake --build .
       - name: test
-        run: valgrind --leak-check=full -s build/src/bin/runTests test
+        run: valgrind --leak-check=full -s build/bin/runTests test
       - name: run lint
         run: echo "$(cpplint --recursive --exclude=build/* --output=emacs . > analyze.txt 2> analyze.txt)"
       - name: show lint analyze
         run: echo "$(cat analyze.txt)"
       - name: benchmark tests
-        run: build/src/bin/bench
+        run: build/bin/bench
