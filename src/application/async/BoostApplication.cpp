@@ -1,6 +1,6 @@
 #include "src/application/async/BoostApplication.hpp"
 
-query_namespace::Query MakeQuery(const std::string& Uri, const std::string& body) {
+yad_server::application::query::Query MakeQuery(const std::string& Uri, const std::string& body) {
     std::vector<std::string> splittedUri;
     boost::split(splittedUri, Uri, boost::is_any_of("?"));
     if (splittedUri.size() == 1) {

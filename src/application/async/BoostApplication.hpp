@@ -12,7 +12,7 @@
 #include "src/application/Query.hpp"
 #include "src/application/QueryResponder.hpp"
 
-query_namespace::Query MakeQuery(const std::string& Uri, const std::string& body);
+yad_server::application::query::Query MakeQuery(const std::string& Uri, const std::string& body);
 
 template<class Responder>
 void event_loop(boost::asio::ip::tcp::acceptor& acceptor,
@@ -89,7 +89,7 @@ void BoostApplication<Responder>::create_response() {
     std::string url(request_.target());
     //auto method = request_.method();
     auto query = MakeQuery(url, body);
-    auto respond = reinterpret_cast<QueryResponder*>(responder)->Response(query);
+    auto respond = reinterpret_cast<yad_server::application::QueryResponder*>(responder)->Response(query);
     response_.set(boost::beast::http::field::content_type, "text/html");
     ///TODO change type of respond.code
     response_.result(respond.code);
