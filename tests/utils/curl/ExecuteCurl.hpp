@@ -6,7 +6,7 @@
 #include <thread>
 #include <curl/curl.h>
 #include <cstring>
-#include <nlohmann/json.hpp>
+#include "cmake-build-debug/_deps/json-src/include/nlohmann/json.hpp"
 #include <stddef.h>
 namespace yad_server::tests {
     std::string ExecuteCurl(std::string url, std::unordered_map<std::string,
