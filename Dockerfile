@@ -38,5 +38,15 @@ RUN \
 
 WORKDIR ./..
 
+RUN git clone https://github.com/jtv/libpqxx
+WORKDIR libpqxx
+
+RUN \
+    cmake -G "Unix Makefiles" -S . -B build -DCMAKE_PREFIX_PATH=usr/lib/cmake \
+    && cmake --build build --config Release \
+    && cmake --build build --config Release --target install
+
+WORKDIR ./..
+
 RUN \
     pip install cpplint
