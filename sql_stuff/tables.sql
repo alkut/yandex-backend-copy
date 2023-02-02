@@ -31,7 +31,16 @@ CREATE TABLE import (
 CREATE INDEX string_id_index ON import using hash (id);
 
 CREATE table parents (
-    id varchar(50) unique not null constraint paforeign_key_id references item(id)
+    id varchar(50) unique not null constraint parent_foreign_key_id references item(id)
 );
-
 CREATE INDEX parents_id_index ON parents using hash (id);
+
+create table children (
+    id varchar(50) unique not null constraint child_foreign_key_id references item(id)
+);
+CREATE INDEX children_id_index ON children using hash (id);
+
+create table delete (
+    id varchar(50) constraint foreign_delete_key_id references item(id),
+    update date not null
+);

@@ -35,9 +35,8 @@ WITH recursive parent_of (id, parent_id)
                                            ON connection.id = parent_of.parent_id
                                                and connection.id != 'nullptr')
 -- Statement that executes the CTE
-SELECT parent_of.id
+SELECT parent_of.id as id
 FROM parent_of
-         join item on parent_of.id = item.id
 );
 
 create view invalid_parent_count as
@@ -78,3 +77,26 @@ select import.id as id, import.parent_id as parent_id
 from import
          join item on import.id = item.id
     );
+
+
+-- replace inner query with join
+create view get_children as
+(
+WITH recursive children_of (id, parent_id)
+                   AS
+                   (
+-- Anchor query
+                       SELECT connection.id, connection.parent_id
+                       FROM connection
+                       WHERE connection.id in (select id from children)
+                       UNION ALL
+-- Recursive query
+                       SELECT connection.id, connection.parent_id
+                       FROM connection
+                                INNER JOIN children_of
+                                           ON connection.parent_id = children_of.id
+                       )
+-- Statement that executes the CTE
+SELECT children_of.id as id
+from children_of
+);

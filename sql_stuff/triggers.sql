@@ -53,3 +53,36 @@ CREATE TRIGGER on_import_changed
     execute procedure validate_and_import();
 
 
+
+CREATE OR REPLACE FUNCTION validate_and_delete()
+    RETURNS TRIGGER
+    LANGUAGE PLPGSQL
+    AS
+$$
+BEGIN
+
+    delete from parents;
+    insert into parents
+    select id from delete;
+
+    -- update date of parents
+    update item
+    set update = (select update from import limit 1)
+    from get_parents
+    where item.id = get_parents.id;
+
+    -- delete children
+    delete from connection
+    where connection.id in (select * from get_children);
+
+    delete from item
+    where item.id in (select * from get_children);
+    delete from delete;
+	return new;
+END;
+$$;
+
+CREATE TRIGGER on_delete_changed
+    after insert
+    ON delete
+    execute procedure validate_and_delete();
