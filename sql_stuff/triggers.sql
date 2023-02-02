@@ -29,13 +29,18 @@ BEGIN
         where item.id = get_parents.id;
 
 	    -- update url
+	    -- update size
 	    update item
-	    set url = import.url
+	    set url = import.url,
+	        size = import.size
 	    from existent_items_from_import join import on existent_items_from_import.id = import.id
 	    where item.id = existent_items_from_import.id;
-
-
-
+	    
+	    -- insert new items
+	    insert into item(id, url, size, type, update)
+	    select import.id as id, import.url as url, import.size as size,
+	           import.type as type, import.update_date as update
+	    from new_items_from_import join import on new_items_from_import.id = import.id;
 	    delete from import;
 	END IF;
 	return new;
@@ -46,3 +51,5 @@ CREATE TRIGGER on_import_changed
     after insert
     ON import
     execute procedure validate_and_import();
+
+
