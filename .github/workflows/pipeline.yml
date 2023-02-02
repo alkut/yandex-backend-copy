@@ -12,7 +12,7 @@ jobs:
         run: mkdir -p build
       - name: build
         working-directory: ./build
-        run: cmake -DDOCKER=on -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S .. -B . && cmake --build .
+        run: cmake -Wno-dev -DDOCKER=on -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -S .. -B . && cmake --build .
       - name: unit tests
         run: valgrind --leak-check=full -s build/tests/unit/common/bin/unit_tests
       - name: run lint
