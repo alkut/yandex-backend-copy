@@ -39,7 +39,7 @@ namespace yad_server::repository {
         }
         catch (const pqxx::sql_error &e) {
             LOG(ERROR) << e.what() << std::endl;
-            throw std::invalid_argument("error in delete validation");
+            throw std::out_of_range("error in delete validation");
         }
     }
 
