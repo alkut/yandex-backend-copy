@@ -1,7 +1,7 @@
 #ifndef SERVER_HTTPSERVER_H
 #define SERVER_HTTPSERVER_H
 
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 #include "../view/ImportBody.hpp"
 #include "../repository/FileSystemRepository.hpp"
@@ -23,9 +23,9 @@ namespace yad_server::model {
 
         const std::unordered_map<std::string,
         std::function<application::Respond(const validation::QueryExt&)>>
-        actions = {{"/import", boost::bind(&HttpServer::HandleImport, this, _1)},
-                   {"/delete", boost::bind(&HttpServer::HandleDelete, this, _1)},
-                   {"/nodes", boost::bind(&HttpServer::HandleGetNodes, this, _1)}};
+        actions = {{"/import", boost::bind(&HttpServer::HandleImport, this, boost::placeholders::_1)},
+                   {"/delete", boost::bind(&HttpServer::HandleDelete, this, boost::placeholders::_1)},
+                   {"/nodes", boost::bind(&HttpServer::HandleGetNodes, this, boost::placeholders::_1)}};
 
         application::Respond HandleImport(const validation::QueryExt&);
         application::Respond HandleDelete(const validation::QueryExt&);
