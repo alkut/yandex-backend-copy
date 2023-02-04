@@ -10,7 +10,7 @@
 #include "TreeBuilder.hpp"
 
 namespace yad_server::model {
-    class HttpServer : application::QueryResponder {
+    class HttpServer: application::QueryResponder {
     public:
         application::Respond Response(const application::query::Query &query) override;
         HttpServer() = default;

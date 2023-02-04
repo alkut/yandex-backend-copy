@@ -2,8 +2,14 @@
 
 namespace yad_server::model {
     application::Respond HttpServer::Response(const application::query::Query &query) {
-        auto ext = validation::QueryExt(query);
-        return actions.find(ext.parsed_url[0])->second(ext);
+        try {
+            auto ext = validation::QueryExt(query);
+            return actions.find(ext.parsed_url[0])->second(ext);
+        }
+        catch (const std::exception& ex) {
+            LOG(ERROR) << ex.what();
+            return BadRequest;
+        }
     }
 
     application::Respond HttpServer::HandleImport(const validation::QueryExt &query) {
@@ -30,6 +36,10 @@ namespace yad_server::model {
             LOG(ERROR) << ex.what();
             return BadRequest;
         }
+        catch (const std::exception& ex) {
+            LOG(ERROR) << ex.what();
+            return BadRequest;
+        }
         return OK;
     }
 
@@ -43,6 +53,10 @@ namespace yad_server::model {
             return NotFound;
         }
         catch (const std::invalid_argument& ex) {
+            LOG(ERROR) << ex.what();
+            return BadRequest;
+        }
+        catch (const std::exception& ex) {
             LOG(ERROR) << ex.what();
             return BadRequest;
         }
