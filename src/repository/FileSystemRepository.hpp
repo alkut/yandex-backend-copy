@@ -16,7 +16,7 @@ namespace yad_server::repository {
     public:
         explicit FileSystemRepository(const std::string& connection_string = s);
         void Import(const yad_server::view::import_body_message::ImportBodyMessage &msg);
-        void Delete(const std::string &id);
+        void Delete(const std::string &id, const std::string& date);
         std::vector<yad_server::view::import_body_message::ImportBodyMessage::ImportBodyItem>
         GetNodes(const std::string &id);
     private:
