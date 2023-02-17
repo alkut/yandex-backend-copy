@@ -1,8 +1,35 @@
 #include "FileSystemRepository.hpp"
 
 namespace yad_server::repository {
-    FileSystemRepository::FileSystemRepository(const std::string &connection_string) {
-        c = pqxx::connection(connection_string);
+    FileSystemRepository::FileSystemRepository(const std::string &connection_string) : c(connection_string) {
+        c.prepare(
+                "get_nodes",
+                "    WITH RECURSIVE children_of (id, parent_id) AS (\n"
+                "        SELECT\n"
+                "            connection.id AS id, connection.parent_id AS parent_id\n"
+                "        FROM\n"
+                "            connection\n"
+                "        WHERE\n"
+                "            connection.id = $1\n"
+                "        UNION\n"
+                "        SELECT\n"
+                "            connection.id AS id, connection.parent_id AS parent_id\n"
+                "        FROM\n"
+                "            connection\n"
+                "        INNER JOIN\n"
+                "            children_of\n"
+                "        ON\n"
+                "            connection.parent_id = children_of.id\n"
+                "    )\n"
+                "    SELECT\n"
+                "        item.id AS id, item.url AS url, item.size AS size,\n"
+                "        item.type AS type, item.update AS update, children_of.parent_id AS parent_id\n"
+                "    FROM\n"
+                "        children_of\n"
+                "    JOIN\n"
+                "        item\n"
+                "    ON\n"
+                "        item.id = children_of.id\n");
     }
 
     void FileSystemRepository::Import(const yad_server::view::import_body_message::ImportBodyMessage &msg) {
@@ -45,8 +72,14 @@ namespace yad_server::repository {
 
     std::vector<yad_server::view::import_body_message::ImportBodyMessage::ImportBodyItem>
     FileSystemRepository::GetNodes(const std::string &id) {
-        ///TODO
-        return {};
+        pqxx::work txn(c);
+        auto res = txn.exec_prepared("get_nodes", id);
+        txn.commit();
+        std::vector<yad_server::view::import_body_message::ImportBodyMessage::ImportBodyItem> ans;
+        for (const auto & x : res)
+            ans.emplace_back(to_string(x.at("id")), to_string(x.at("url")), to_string(x.at("parent_id")),
+                             to_string(x.at("type")), x.at("size").as<int64_t>(), to_string(x.at("update")));
+        return ans;
     }
 
     std::string FileSystemRepository::create_type(const yad_server::view::SystemItemType &type) {

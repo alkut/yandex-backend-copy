@@ -18,6 +18,10 @@ namespace yad_server::view {
                 ImportBodyItem() = default;
 
                 explicit ImportBodyItem(const nlohmann::json &j);
+                explicit ImportBodyItem(std::string && id, std::string && url,
+                                        std::string && parentId, std::string && type,
+                                        int64_t && size, std::string && date) :
+                                        id(id), url(url), parentId(parentId), type(type), size(size), date(date) {}
 
                 //Serializable fields
                 std::string id;
