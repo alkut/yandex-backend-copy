@@ -46,6 +46,30 @@ CREATE TABLE delete (
     update DATE NOT NULL
 );
 
+CREATE VIEW new_items_from_import AS (
+    SELECT
+        import.id AS id, import.parent_id AS parent_id
+    FROM
+        import
+    LEFT JOIN
+        item
+    ON
+        import.id = item.id
+    WHERE
+        item.id IS NULL
+);
+
+CREATE VIEW existent_items_from_import AS (
+    SELECT
+        import.id AS id, import.parent_id AS parent_id
+    FROM
+        import
+    JOIN
+        item
+    ON
+        import.id = item.id
+);
+
 CREATE VIEW get_all_first_level_parents AS (
     SELECT
         id
@@ -63,7 +87,6 @@ CREATE VIEW get_all_first_level_parents AS (
         old_parents
 );
 
-
 CREATE VIEW old_parents AS (
     SELECT
         connection.parent_id AS id
@@ -78,14 +101,14 @@ CREATE VIEW old_parents AS (
 CREATE VIEW get_parents AS (
     WITH RECURSIVE parent_of (id, parent_id) AS (
        SELECT
-           connection.id AS id, connection.parent_id AS parent.id
+           connection.id AS id, connection.parent_id AS parent_id
        FROM
            connection
        WHERE
            connection.id IN (SELECT id FROM parents)
        UNION
        SELECT
-           connection.id AS id, connection.parent_id AS parent.id
+           connection.id AS id, connection.parent_id AS parent_id
        FROM
            connection
        INNER JOIN
@@ -118,7 +141,7 @@ CREATE VIEW invalid_parent_count AS (
     FROM
         import
     LEFT JOIN
-            all_id
+        all_id
     ON
         import.parent_id = all_id.child_id
     WHERE
@@ -138,30 +161,6 @@ CREATE VIEW change_type_count AS (
         import.id = item.id
     WHERE
         import.type != item.type
-);
-
-CREATE VIEW new_items_from_import AS (
-    SELECT
-        import.id AS id, import.parent_id AS parent_id
-    FROM
-        import
-    LEFT JOIN
-        item
-    ON
-        import.id = item.id
-    WHERE
-        item.id IS NULL
-);
-
-CREATE VIEW existent_items_from_import AS (
-    SELECT
-        import.id AS id, import.parent_id AS parent_id
-    FROM
-        import
-    JOIN
-        item
-    ON
-        import.id = item.id
 );
 
 CREATE VIEW get_children AS (
