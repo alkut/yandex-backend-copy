@@ -1,7 +1,11 @@
 #ifndef YAD_RESPOND_HPP
 #define YAD_RESPOND_HPP
 #include <string>
-#include <event2/http.h>
+
+#define HTTP_OK 200
+#define HTTP_NOTFOUND 404
+#define HTTP_BADREQUEST 400
+
 namespace yad_server::application{
     struct Respond {
         int code = HTTP_OK;

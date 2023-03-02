@@ -12,6 +12,8 @@ if(APPLE)
         )
 endif()
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+
 set(dir .)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${dir}/bin")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${dir}/bin")
