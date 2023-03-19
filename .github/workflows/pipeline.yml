@@ -12,7 +12,7 @@ jobs:
         run: mkdir -p build
       - name: build
         working-directory: ./build
-        run: cmake -Wno-dev -DCMAKE_BUILD_TYPE=Release -DENABLE_TEST=on -G "Ninja" -S .. -B . && cmake --build .
+        run: cmake -Wno-dev -DCMAKE_BUILD_TYPE=Release -DENABLE_TEST=on -G "Ninja" -S .. -B . && cmake --build . -j8
       - name: tests
         working-directory: ./build
         run: ctest
