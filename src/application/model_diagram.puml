@@ -5,10 +5,11 @@ class Query
 class QueryResponder
 class Respond
 
+
 Application : void run()
 Application : Responder* responder
 
-EchoServer : Response(Query query)
+EchoServer : Response(Query query_namespace)
 
 LibeventArgs : QueryResponder responder;
 LibeventArgs : function <void(void)> stop_callback;
@@ -17,7 +18,7 @@ Query : string url
 Query : unordered_map <string : string> params
 Query : string body
 
-QueryResponder : Response(Query query)
+QueryResponder : Response(Query query_namespace)
 
 Respond : int code
 Respond : string message
