@@ -1,7 +1,5 @@
 project(application_lib)
 
-find_package(Boost 1.40 REQUIRED)
-
 set(SOURCES
         Query.cpp BoostApplication.cpp)
 set(HEADERS
@@ -9,4 +7,4 @@ set(HEADERS
 
 add_library(application_lib STATIC ${SOURCES} ${HEADERS})
 
-target_link_libraries(application_lib PUBLIC ${Boost_LIBRARIES})
+target_link_libraries(application_lib PUBLIC Boost::system)

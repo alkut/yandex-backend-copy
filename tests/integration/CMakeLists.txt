@@ -1,5 +1,3 @@
-find_package(CURL REQUIRED)
-
 add_subdirectory(bench)
 add_subdirectory(common)
 

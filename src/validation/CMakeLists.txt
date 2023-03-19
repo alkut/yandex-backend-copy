@@ -1,7 +1,5 @@
 project(validation_lib)
 
-find_package(Boost 1.40 REQUIRED)
-
 set(SOURCES
         QueryExt.cpp Validator.cpp)
 set(HEADERS
@@ -9,4 +7,4 @@ set(HEADERS
 
 add_library(validation_lib STATIC ${SOURCES} ${HEADERS})
 
-target_link_libraries(application_lib ${Boost_LIBRARIES})
+target_link_libraries(application_lib PUBLIC Boost::system)

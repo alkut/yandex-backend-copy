@@ -1,7 +1,5 @@
 project(logging_lib)
 
-find_package(glog 0.6.0 REQUIRED)
-
 set(SOURCES
         init.cpp)
 set(HEADERS
