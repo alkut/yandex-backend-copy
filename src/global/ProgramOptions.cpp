@@ -19,7 +19,7 @@ namespace yad_server::global {
     ProgramOptions::ProgramOptions(int argc, char **argv) {
         boost::program_options::options_description desc ("Allowed options");
         std::string profile_str, logs, host;
-        uint port;
+        short unsigned int port;
         desc.add_options ()
                 ("profile", boost::program_options::value(&profile_str), "profile (PROD/TEST/DEV)")
                 ("logPath", boost::program_options::value(&logs), "Path for logs")
@@ -42,7 +42,7 @@ namespace yad_server::global {
         }
 
         if (vm.contains("port")) {
-            portNumber = vm["port"].as<uint>();
+            portNumber = vm["port"].as<short unsigned int>();
         }
 
         programName = argv[0];

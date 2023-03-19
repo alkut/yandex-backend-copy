@@ -17,7 +17,7 @@ namespace yad_server::global {
         std::string logPath = "../logs";
         std::string hostAddress = "0.0.0.0";
         std::string programName = "main";
-        uint portNumber = 8080;
+        short unsigned int portNumber = 8080;
 
         static ProgramOptions& getInstance();
 
