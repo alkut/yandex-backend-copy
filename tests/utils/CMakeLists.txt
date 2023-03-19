@@ -1,7 +1,5 @@
 project(test_util_lib)
 
-find_package(CURL REQUIRED)
-
 set(SOURCES
         curl/ExecuteCurl.cpp
         echo/EchoServer.cpp)

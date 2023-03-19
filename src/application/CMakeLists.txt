@@ -1,7 +1,5 @@
 project(application_lib)
 
-find_package(Boost 1.40 REQUIRED)
-
 set(SOURCES
         Query.cpp BoostApplication.cpp)
 set(HEADERS
