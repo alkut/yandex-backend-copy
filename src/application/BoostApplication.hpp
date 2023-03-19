@@ -36,10 +36,10 @@ namespace yad_server::application {
     template<class Responder>
     class BoostApplication : public std::enable_shared_from_this<BoostApplication<Responder>> {
     public:
-        const static inline std::string host = "127.0.0.1";
-        const static unsigned int port = 8080;
+        static std::string host;
+        static unsigned int port;
 
-        explicit BoostApplication(boost::asio::ip::tcp::socket socket) : socket_(std::move(socket)) {}
+        explicit BoostApplication(boost::asio::ip::tcp::socket socket);
 
         void start();
 
@@ -60,6 +60,18 @@ namespace yad_server::application {
 
         void write_response();
     };
+
+    template<class Responder>
+    std::string BoostApplication<Responder>::host = "0.0.0.0";
+    template<class Responder>
+    unsigned int BoostApplication<Responder>::port = 8080;
+
+    template<class Responder>
+    BoostApplication<Responder>::BoostApplication(boost::asio::ip::tcp::socket socket) : socket_(std::move(socket)) {
+        const auto& options = global::ProgramOptions::getInstance();
+        host = options.hostAddress;
+        port = options.portNumber;
+    }
 
     template<class Responder>
     void BoostApplication<Responder>::start() {
