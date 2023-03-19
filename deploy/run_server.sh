@@ -1,13 +1,9 @@
 #! usr/bin/bash
 
-cd app/
-mkdir -p build
-rm -rf build
-mkdir build
-cd build
-cmake ..
-cmake --build .
-hostname -i > temp.txt
-hostname -i >> temp.txt
+mkdir -p /app/build && rm -rf /app/build
+
+cmake -DCMAKE_BUILD_TYPE=Release -S /app -B /app/build
+cmake --build /app/build -j4
 echo "finish build"
-./asioserver
+
+/app/build/main

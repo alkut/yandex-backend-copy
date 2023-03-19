@@ -23,7 +23,7 @@ endif()
 
 
 set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost 1.81 COMPONENTS unit_test_framework system REQUIRED)
+find_package(Boost 1.81 COMPONENTS unit_test_framework system program_options REQUIRED)
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
     message(STATUS "Using Boost Version ${Boost_VERSION}")

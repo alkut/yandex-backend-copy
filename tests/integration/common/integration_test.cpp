@@ -66,14 +66,15 @@ void runserver() {
 }
 
 void runtests(int args, char **argv, int &code) {
-    yad_server::logging::InitLogging(argv);
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    yad_server::logging::InitLogging();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     testing::InitGoogleTest(&args, argv);
     code = RUN_ALL_TESTS();
     yad_server::tests::ExecuteCurl("http://localhost:8080/shutdown", {}, "");
 }
 
 int main(int argc, char **argv) {
+    yad_server::global::ProgramOptions::setInstance(argc, argv);
     int code;
     std::thread first([]() { runserver(); });
     runtests(argc, argv, code);
