@@ -1,14 +1,11 @@
 cmake_minimum_required(VERSION 3.22)
 set(CMAKE_CXX_STANDARD 20)
 
-project(main)
+project(main
+        VERSION 0.0
+        LANGUAGES CXX)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
-
-set(dir .)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${dir}/bin")
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${dir}/bin")
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${dir}/bin")
 
 if (SANITIZE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize-address-use-after-scope -fsanitize=undefined -fno-omit-frame-pointer -g")
@@ -105,15 +102,23 @@ include_directories(src)
 add_executable(main src/main.cpp)
 
 add_subdirectory(src)
-add_subdirectory(tests)
 
 set(LIBS
         application_lib logging_lib model_lib validation_lib view_lib)
 
-target_link_libraries(unit_tests PUBLIC ${LIBS})
-target_link_libraries(integration_tests PUBLIC ${LIBS})
-target_link_libraries(bench_unit PUBLIC ${LIBS})
-target_link_libraries(bench_integration PUBLIC ${LIBS})
-target_link_libraries(test_util_lib PUBLIC ${LIBS})
 
 target_link_libraries(main PUBLIC ${LIBS})
+
+
+
+
+if (ENABLE_TEST)
+    enable_testing()
+    add_subdirectory(tests)
+
+    target_link_libraries(unit_tests PUBLIC ${LIBS})
+    target_link_libraries(integration_tests PUBLIC ${LIBS})
+    target_link_libraries(bench_unit PUBLIC ${LIBS})
+    target_link_libraries(bench_integration PUBLIC ${LIBS})
+    target_link_libraries(test_util_lib PUBLIC ${LIBS})
+endif()
