@@ -7,4 +7,4 @@ set(HEADERS
 
 add_library(application_lib STATIC ${SOURCES} ${HEADERS})
 
-target_link_libraries(application_lib PUBLIC ${Boost_LIBRARIES})
+target_link_libraries(application_lib PUBLIC Boost::system)

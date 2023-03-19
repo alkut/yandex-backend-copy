@@ -7,4 +7,4 @@ set(HEADERS
 
 add_library(model_lib STATIC ${SOURCES} ${HEADERS})
 
-target_link_libraries(model_lib PUBLIC ${Boost_LIBRARIES})
+target_link_libraries(model_lib PUBLIC Boost::system)

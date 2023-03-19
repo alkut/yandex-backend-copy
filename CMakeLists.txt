@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 set(CMAKE_CXX_STANDARD 20)
 
+project(main)
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 set(dir .)
@@ -88,10 +90,19 @@ else()
     message(FATAL_ERROR "Appropriate Version of GTest haven't been found")
 endif()
 
+find_package(libpqxx 7.7.4 REQUIRED)
+if (libpqxx_FOUND)
+    include_directories(${libpqxx_INCLUDE_DIR})
+    message(STATUS "Using libpqxx Version ${libpqxx_VERSION}")
+else()
+    message(FATAL_ERROR "Appropriate Version of libpqxx haven't been found")
+endif()
 
 
 
 include_directories(src)
+
+add_executable(main src/main.cpp)
 
 add_subdirectory(src)
 add_subdirectory(tests)
