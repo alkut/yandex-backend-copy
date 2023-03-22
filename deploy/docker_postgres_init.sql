@@ -70,6 +70,17 @@ CREATE VIEW existent_items_from_import AS (
                                                       import.id = item.id
                                               );
 
+CREATE VIEW old_parents AS (
+                           SELECT
+                               connection.parent_id AS id
+                           FROM
+                               existent_items_from_import
+                                   JOIN
+                               connection
+                               ON
+                                       existent_items_from_import.id = connection.id
+                               );
+
 CREATE VIEW get_all_first_level_parents AS (
                                            SELECT
                                                id
@@ -86,17 +97,6 @@ CREATE VIEW get_all_first_level_parents AS (
                                            FROM
                                                old_parents
                                                );
-
-CREATE VIEW old_parents AS (
-                           SELECT
-                               connection.parent_id AS id
-                           FROM
-                               existent_items_from_import
-                                   JOIN
-                               connection
-                               ON
-                                       existent_items_from_import.id = connection.id
-                               );
 
 CREATE VIEW get_parents AS (
                            WITH RECURSIVE parent_of (id, parent_id) AS (

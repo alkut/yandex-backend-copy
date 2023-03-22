@@ -4,7 +4,11 @@ namespace yad_server::model {
     application::Respond HttpServer::Response(const application::query::Query &query) {
         try {
             auto ext = validation::QueryExt(query);
-            return actions.find(ext.parsed_url[0])->second(ext);
+            auto action = actions.find(ext.parsed_url[1]);
+            if (action == actions.end()) {
+                throw std::invalid_argument("wrong target");
+            }
+            return action->second(ext);
         }
         catch (const std::exception& ex) {
             LOG(ERROR) << ex.what();

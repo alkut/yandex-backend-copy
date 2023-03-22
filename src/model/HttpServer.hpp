@@ -23,9 +23,9 @@ namespace yad_server::model {
 
         const std::unordered_map<std::string,
         std::function<application::Respond(const validation::QueryExt&)>>
-        actions = {{"/import", boost::bind(&HttpServer::HandleImport, this, boost::placeholders::_1)},
-                   {"/delete", boost::bind(&HttpServer::HandleDelete, this, boost::placeholders::_1)},
-                   {"/nodes", boost::bind(&HttpServer::HandleGetNodes, this, boost::placeholders::_1)}};
+        actions = {{"imports", boost::bind(&HttpServer::HandleImport, this, boost::placeholders::_1)},
+                   {"delete", boost::bind(&HttpServer::HandleDelete, this, boost::placeholders::_1)},
+                   {"nodes", boost::bind(&HttpServer::HandleGetNodes, this, boost::placeholders::_1)}};
 
         application::Respond HandleImport(const validation::QueryExt&);
         application::Respond HandleDelete(const validation::QueryExt&);

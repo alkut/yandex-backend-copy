@@ -6,6 +6,8 @@
 
 #include "global/ProgramOptions.h"
 
+const std::string logName = "/yandex-task.log";
+
 namespace yad_server::logging {
     void InitLogging();
 }

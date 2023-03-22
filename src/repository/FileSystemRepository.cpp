@@ -1,8 +1,7 @@
 #include "FileSystemRepository.hpp"
 
 namespace yad_server::repository {
-    FileSystemRepository::FileSystemRepository(const std::string &connection_string) {
-        c = pqxx::connection(connection_string);
+    FileSystemRepository::FileSystemRepository(const std::string &connection_string): c(connection_string) {
     }
 
     void FileSystemRepository::Import(const yad_server::view::import_body_message::ImportBodyMessage &msg) {

@@ -20,7 +20,7 @@ namespace yad_server::repository {
         std::vector<yad_server::view::import_body_message::ImportBodyMessage::ImportBodyItem>
         GetNodes(const std::string &id);
     private:
-        const static inline std::string s = "dbname=yashkadb user=alex password=Cc327020 hostaddr=127.0.0.1 port=5432";
+        const static inline std::string s = "dbname=yashkadb user=alex password=password hostaddr=127.0.0.1 port=5432";
         pqxx::connection c;
 
         static std::string create_type(const yad_server::view::SystemItemType &type);

@@ -52,7 +52,7 @@ if (PostgreSQL_FOUND)
     include_directories(${PostgreSQL_INCLUDE_DIR})
     message(STATUS "Using PostgreSQL Version ${PostgreSQL_VERSION_STRING}")
 else()
-    message(FATAL_ERROR "Appropriate Version of Poco haven't been found")
+    message(FATAL_ERROR "Appropriate Version of PostgreSQL haven't been found")
 endif()
 
 find_package(nlohmann_json 3.11 REQUIRED)
